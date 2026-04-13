@@ -1,15 +1,12 @@
 Write-Host "🚀 Starting RecipeHunter setup..." -ForegroundColor Green
 
 # 1. Check Node.js
-if (!(Get-Command node -ErrorAction SilentlyContinue)) {
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     Write-Host "❌ Node.js not found. Installing via winget..." -ForegroundColor Yellow
     winget install OpenJS.NodeJS.LTS -e --silent
 } else {
     Write-Host "✅ Node.js already installed" -ForegroundColor Green
 }
-
-# Refresh PATH (sometimes needed)
-$env:Path += ";C:\Program Files\nodejs"
 
 # Check versions
 node -v
@@ -17,16 +14,16 @@ npm -v
 
 # 2. Install backend dependencies
 Write-Host "`n📦 Installing backend dependencies..." -ForegroundColor Cyan
-cd backend
+Set-Location backend
 npm install
 
-# Install nodemon if missing
+# Install nodemon globally
 npm install -g nodemon
 
 # 3. Create .env if not exists
-if (!(Test-Path ".env")) {
+if (-not (Test-Path ".env")) {
     Write-Host "📝 Creating .env file..." -ForegroundColor Yellow
-    New-Item .env -ItemType File
+    New-Item .env -ItemType File | Out-Null
 
     Add-Content .env "PORT=5001"
     Add-Content .env "MONGO_URI=PASTE_YOUR_MONGO_URI_HERE"
@@ -36,10 +33,10 @@ if (!(Test-Path ".env")) {
 
 # 4. Install frontend dependencies
 Write-Host "`n📦 Installing frontend dependencies..." -ForegroundColor Cyan
-cd ../frontend
+Set-Location ../frontend
 npm install
 
-# Install required packages
+# Install required frontend packages
 npm install axios react-router-dom
 
 # 5. Install VS Code extensions
@@ -49,7 +46,7 @@ code --install-extension esbenp.prettier-vscode
 code --install-extension dbaeumer.vscode-eslint
 
 # 6. Go back to root
-cd ..
+Set-Location ..
 
 # 7. Open project in VS Code
 Write-Host "`n🧠 Opening project in VS Code..." -ForegroundColor Green
