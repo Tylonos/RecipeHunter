@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-function AddRecipePage() {
+function EditRecipePage() {
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -12,12 +13,35 @@ function AddRecipePage() {
   const [image, setImage] = useState('');
   const [diet, setDiet] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/recipes/${id}`);
+        const recipe = response.data;
+        setTitle(recipe.title || '');
+        setDescription(recipe.description || '');
+        setIngredients(Array.isArray(recipe.ingredients) ? recipe.ingredients.join(', ') : '');
+        setCookingTime(recipe.cooking_time ?? '');
+        setImage(recipe.image || '');
+        setDiet(recipe.diet || '');
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load recipe');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipe();
+  }, [id]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     try {
-      await axios.post('http://localhost:5001/api/recipes', {
+      await axios.put(`http://localhost:5001/api/recipes/${id}`, {
         title,
         description,
         ingredients: ingredients
@@ -25,22 +49,26 @@ function AddRecipePage() {
           .map((item) => item.trim())
           .filter((item) => item !== ''),
         cooking_time: Number(cookingTime),
-        diet,
-        image
+        image,
+        diet
       });
 
-      navigate('/recipes');
+      navigate(`/recipes/${id}`);
     } catch (err) {
       console.error(err);
-      setError('Failed to create recipe');
+      setError('Failed to update recipe');
     }
   };
+
+  if (loading) {
+    return <h2>Loading recipe...</h2>;
+  }
 
   return (
     <div className="add-page">
       <header className="detail-topbar">
         <div className="detail-topbar-left">
-          <Link className="subtle-back" to="/recipes">← Back</Link>
+          <Link className="subtle-back" to={`/recipes/${id}`}>← Back</Link>
         </div>
 
         <div className="detail-topbar-center">
@@ -54,7 +82,7 @@ function AddRecipePage() {
 
       <div className="add-form-wrapper">
         <form className="add-form" onSubmit={handleSubmit}>
-          <h2>Add Recipe</h2>
+          <h2>Edit Recipe</h2>
 
           {error && <p>{error}</p>}
 
@@ -62,7 +90,7 @@ function AddRecipePage() {
           <input
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(event) => setTitle(event.target.value)}
             required
           />
 
@@ -70,7 +98,7 @@ function AddRecipePage() {
           <textarea
             rows="5"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(event) => setDescription(event.target.value)}
             required
           />
 
@@ -78,7 +106,7 @@ function AddRecipePage() {
           <input
             type="text"
             value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
+            onChange={(event) => setIngredients(event.target.value)}
             required
           />
 
@@ -86,12 +114,12 @@ function AddRecipePage() {
           <input
             type="number"
             value={cookingTime}
-            onChange={(e) => setCookingTime(e.target.value)}
+            onChange={(event) => setCookingTime(event.target.value)}
             required
           />
 
           <label>Diet</label>
-          <select value={diet} onChange={(e) => setDiet(e.target.value)}>
+          <select value={diet} onChange={(event) => setDiet(event.target.value)}>
             <option value="">None</option>
             <option value="vegetarian">Vegetarian</option>
             <option value="vegan">Vegan</option>
@@ -101,14 +129,14 @@ function AddRecipePage() {
           <input
             type="text"
             value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(event) => setImage(event.target.value)}
           />
 
-          <button type="submit" className="small-btn">Save Recipe</button>
+          <button type="submit" className="small-btn">Save Changes</button>
         </form>
       </div>
     </div>
   );
 }
 
-export default AddRecipePage;
+export default EditRecipePage;

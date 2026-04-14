@@ -28,13 +28,14 @@ const getRecipeById = async (req, res) => {
 // Create recipe
 const createRecipe = async (req, res) => {
   try {
-    const { title, description, ingredients, cooking_time, image } = req.body;
+    const { title, description, ingredients, cooking_time, image, diet } = req.body;
 
     const recipe = new Recipe({
       title,
       description,
       ingredients,
       cooking_time,
+      diet,
       image
     });
 
@@ -45,8 +46,29 @@ const createRecipe = async (req, res) => {
   }
 };
 
+// Update recipe
+const updateRecipe = async (req, res) => {
+  try {
+    const { title, description, ingredients, cooking_time, image, diet } = req.body;
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
+      req.params.id,
+      { title, description, ingredients, cooking_time, image, diet },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedRecipe) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
+    res.status(200).json(updatedRecipe);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getRecipes,
   getRecipeById,
-  createRecipe
+  createRecipe,
+  updateRecipe
 };

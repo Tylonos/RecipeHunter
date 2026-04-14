@@ -42,6 +42,7 @@ function RecipeDetailPage() {
 
         <div className="detail-topbar-right">
           <Link to="/add-recipe" className="small-btn add-link">Add Recipe</Link>
+          <Link to={`/recipes/${id}/edit`} className="small-btn">Edit</Link>
           <button className="small-btn">Language</button>
           <button className="small-btn">Light/Dark</button>
           <div className="profile-circle"></div>

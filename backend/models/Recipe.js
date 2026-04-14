@@ -21,6 +21,11 @@ const recipeSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
+    diet: {
+      type: String,
+      enum: ['vegetarian', 'vegan', ''],
+      default: ''
+    },
     image: {
       type: String,
       default: ''

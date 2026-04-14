@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import RecipeListPage from './pages/RecipeListPage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
 import AddRecipePage from './pages/AddRecipePage';
+import EditRecipePage from './pages/EditRecipePage';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/recipes" element={<RecipeListPage />} />
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
         <Route path="/add-recipe" element={<AddRecipePage />} />
+        <Route path="/recipes/:id/edit" element={<EditRecipePage />} />
       </Routes>
     </BrowserRouter>
   );
