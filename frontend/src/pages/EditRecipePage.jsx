@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function EditRecipePage() {
   const { id } = useParams();
@@ -66,19 +67,7 @@ function EditRecipePage() {
 
   return (
     <div className="add-page">
-      <header className="detail-topbar">
-        <div className="detail-topbar-left">
-          <Link className="subtle-back" to={`/recipes/${id}`}>← Back</Link>
-        </div>
-
-        <div className="detail-topbar-center">
-          <h1>RECIPE HUNTER</h1>
-        </div>
-
-        <div className="detail-topbar-right">
-          <div className="profile-circle"></div>
-        </div>
-      </header>
+      <Navbar />
 
       <div className="add-form-wrapper">
         <form className="add-form" onSubmit={handleSubmit}>

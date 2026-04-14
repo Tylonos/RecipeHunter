@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function RecipeDetailPage() {
   const { id } = useParams();
@@ -31,23 +32,7 @@ function RecipeDetailPage() {
 
   return (
     <div className="detail-page">
-      <header className="detail-topbar">
-        <div className="detail-topbar-left">
-          <Link className="subtle-back" to="/recipes">← Back</Link>
-        </div>
-
-        <div className="detail-topbar-center">
-          <h1>RECIPE HUNTER</h1>
-        </div>
-
-        <div className="detail-topbar-right">
-          <Link to="/add-recipe" className="small-btn add-link">Add Recipe</Link>
-          <Link to={`/recipes/${id}/edit`} className="small-btn">Edit</Link>
-          <button className="small-btn">Language</button>
-          <button className="small-btn">Light/Dark</button>
-          <div className="profile-circle"></div>
-        </div>
-      </header>
+      <Navbar />
 
       <section className="detail-hero">
         <h2 className="detail-title">{recipe.title}</h2>
