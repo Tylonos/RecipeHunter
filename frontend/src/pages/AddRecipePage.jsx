@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { splitIngredientEntries } from '../utils/ingredients';
 
 function AddRecipePage() {
   const navigate = useNavigate();
@@ -20,10 +21,7 @@ function AddRecipePage() {
       await axios.post('http://localhost:5001/api/recipes', {
         title,
         description,
-        ingredients: ingredients
-          .split(',')
-          .map((item) => item.trim())
-          .filter((item) => item !== ''),
+        ingredients: splitIngredientEntries(ingredients),
         cooking_time: Number(cookingTime),
         diet,
         image

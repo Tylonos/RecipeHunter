@@ -1,4 +1,5 @@
 const Recipe = require('../models/Recipe');
+const { normalizeIngredientsInput } = require('../utils/ingredients');
 
 // Get all recipes
 const getRecipes = async (req, res) => {
@@ -33,7 +34,7 @@ const createRecipe = async (req, res) => {
     const recipe = new Recipe({
       title,
       description,
-      ingredients,
+      ingredients: normalizeIngredientsInput(ingredients),
       cooking_time,
       diet,
       image
@@ -52,7 +53,14 @@ const updateRecipe = async (req, res) => {
     const { title, description, ingredients, cooking_time, image, diet } = req.body;
     const updatedRecipe = await Recipe.findByIdAndUpdate(
       req.params.id,
-      { title, description, ingredients, cooking_time, image, diet },
+      {
+        title,
+        description,
+        ingredients: normalizeIngredientsInput(ingredients),
+        cooking_time,
+        image,
+        diet
+      },
       { new: true, runValidators: true }
     );
 

@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 
 function RecipeListPage() {
   const [recipes, setRecipes] = useState([]);
@@ -12,32 +13,78 @@ function RecipeListPage() {
   const [addedIngredientSearch, setAddedIngredientSearch] = useState('');
   const [addedIngredients, setAddedIngredients] = useState([]);
 
-  const allIngredients = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    .split('')
-    .map((letter) => `${letter} ingredient`);
+  const getRecipeIngredientKeySet = useCallback((recipe) => {
+    const keys = new Set();
+    const ingredientList = Array.isArray(recipe?.ingredients) ? recipe.ingredients : [];
+
+    ingredientList.forEach((entry) => {
+      splitIngredientEntries(entry).forEach((item) => {
+        const { key } = normalizeIngredient(item);
+        if (key) {
+          keys.add(key);
+        }
+      });
+    });
+
+    return keys;
+  }, []);
+
+  const allIngredients = useMemo(() => {
+    const ingredientByKey = new Map();
+
+    recipes.forEach((recipe) => {
+      const ingredientList = Array.isArray(recipe?.ingredients) ? recipe.ingredients : [];
+
+      ingredientList.forEach((entry) => {
+        if (typeof entry !== 'string') {
+          return;
+        }
+
+        splitIngredientEntries(entry).forEach((ingredient) => {
+          const { key, label } = normalizeIngredient(ingredient);
+          if (!key) {
+            return;
+          }
+
+          if (!ingredientByKey.has(key)) {
+            ingredientByKey.set(key, label);
+          }
+        });
+      });
+    });
+
+    return Array.from(ingredientByKey.entries())
+      .map(([key, label]) => ({ key, label }))
+      .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }));
+  }, [recipes]);
 
   const handleAddIngredient = (ingredientName) => {
+    const { key, label } = normalizeIngredient(ingredientName);
+    if (!key) {
+      return;
+    }
+
     setAddedIngredients((prevIngredients) => {
-      const existing = prevIngredients.find((item) => item.name === ingredientName);
+      const existing = prevIngredients.find((item) => item.key === key);
       if (existing) {
         if (existing.count >= 10) {
           return prevIngredients;
         }
 
         return prevIngredients.map((item) =>
-          item.name === ingredientName ? { ...item, count: item.count + 1 } : item
+          item.key === key ? { ...item, count: item.count + 1 } : item
         );
       }
 
-      return [...prevIngredients, { name: ingredientName, count: 1 }];
+      return [...prevIngredients, { key, name: label, count: 1 }];
     });
   };
 
-  const handleRemoveIngredient = (ingredientName) => {
+  const handleRemoveIngredient = (ingredientKey) => {
     setAddedIngredients((prevIngredients) =>
       prevIngredients
         .map((item) =>
-          item.name === ingredientName ? { ...item, count: item.count - 1 } : item
+          item.key === ingredientKey ? { ...item, count: item.count - 1 } : item
         )
         .filter((item) => item.count > 0)
     );
@@ -60,6 +107,53 @@ function RecipeListPage() {
 
     fetchRecipes();
   }, []);
+
+  const filteredRecipes = useMemo(() => {
+    let list = recipes;
+
+    const pantryKeys = addedIngredients.map((item) => item.key).filter(Boolean);
+    if (recipeFilter === 'pantry-all' && pantryKeys.length > 0) {
+      const pantryKeySet = new Set(pantryKeys);
+      list = list.filter((recipe) => {
+        const recipeKeys = getRecipeIngredientKeySet(recipe);
+        for (const key of recipeKeys) {
+          if (!pantryKeySet.has(key)) {
+            return false;
+          }
+        }
+        return true;
+      });
+    }
+
+    const needle = searchTerm.trim().toLowerCase();
+    if (needle) {
+      list = list.filter((recipe) => {
+        const title = recipe.title?.toLowerCase() ?? '';
+        const description = recipe.description?.toLowerCase() ?? '';
+        const ingredients = Array.isArray(recipe.ingredients)
+          ? recipe.ingredients.join(' ').toLowerCase()
+          : '';
+
+        return (
+          title.includes(needle) ||
+          description.includes(needle) ||
+          ingredients.includes(needle)
+        );
+      });
+    }
+
+    if (recipeFilter && recipeFilter !== 'pantry-all') {
+      list = list.filter((recipe) => recipe.diet === recipeFilter);
+    }
+
+    if (recipeSort === 'time-asc') {
+      list = [...list].sort((a, b) => (a.cooking_time || 0) - (b.cooking_time || 0));
+    } else if (recipeSort === 'time-desc') {
+      list = [...list].sort((a, b) => (b.cooking_time || 0) - (a.cooking_time || 0));
+    }
+
+    return list;
+  }, [recipes, addedIngredients, searchTerm, recipeFilter, recipeSort, getRecipeIngredientKeySet]);
 
   return (
     <div className="page-layout">
@@ -88,31 +182,37 @@ function RecipeListPage() {
         <div className="sidebar-section">
           <h3>All ingredients</h3>
           <ul className="ingredient-list ingredient-list-scroll ingredient-list-selectable">
-            {allIngredients
-              .filter((ingredient) => {
-                const needle = ingredientSearch.trim().toLowerCase();
-                if (!needle) {
-                  return true;
-                }
+            {allIngredients.length === 0 ? (
+              <li>
+                <span>No ingredients found yet.</span>
+              </li>
+            ) : (
+              allIngredients
+                .filter((ingredient) => {
+                  const needle = ingredientSearch.trim().toLowerCase();
+                  if (!needle) {
+                    return true;
+                  }
 
-                return ingredient.toLowerCase().includes(needle);
-              })
-              .map((ingredient) => (
-                <li
-                  key={ingredient}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => handleAddIngredient(ingredient)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      handleAddIngredient(ingredient);
-                    }
-                  }}
-                >
-                  {ingredient}
-                </li>
-              ))}
+                  return ingredient.label.toLowerCase().includes(needle);
+                })
+                .map((ingredient) => (
+                  <li
+                    key={ingredient.key}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleAddIngredient(ingredient.label)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        handleAddIngredient(ingredient.label);
+                      }
+                    }}
+                  >
+                    {ingredient.label}
+                  </li>
+                ))
+            )}
           </ul>
         </div>
 
@@ -143,7 +243,7 @@ function RecipeListPage() {
                 return item.name.toLowerCase().includes(needle);
               })
               .map((item) => (
-                <li key={item.name}>
+                <li key={item.key}>
                   <span>{item.name}</span>
                   <span className="ingredient-actions">
                     <span>x{item.count}</span>
@@ -151,7 +251,7 @@ function RecipeListPage() {
                       type="button"
                       className="ingredient-remove-btn"
                       aria-label={`Remove ${item.name}`}
-                      onClick={() => handleRemoveIngredient(item.name)}
+                      onClick={() => handleRemoveIngredient(item.key)}
                     >
                       Remove
                     </button>
@@ -192,8 +292,13 @@ function RecipeListPage() {
             onChange={(event) => setRecipeFilter(event.target.value)}
           >
             <option value="">Filter by...</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
+            <optgroup label="Diet">
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+            </optgroup>
+            <optgroup label="Ingredients">
+              <option value="pantry-all">Matches added ingredients</option>
+            </optgroup>
           </select>
           <select
             value={recipeSort}
@@ -208,78 +313,12 @@ function RecipeListPage() {
         {error && <p className="empty-message">{error}</p>}
 
         <section className="recipe-grid">
-          {recipes.filter((recipe) => {
-            const needle = searchTerm.trim().toLowerCase();
-            if (!needle) {
-              return true;
-            }
-
-            const title = recipe.title?.toLowerCase() ?? '';
-            const description = recipe.description?.toLowerCase() ?? '';
-            const ingredients = Array.isArray(recipe.ingredients)
-              ? recipe.ingredients.join(' ').toLowerCase()
-              : '';
-
-            return (
-              title.includes(needle) ||
-              description.includes(needle) ||
-              ingredients.includes(needle)
-            );
-          }).filter((recipe) => {
-            if (!recipeFilter) {
-              return true;
-            }
-
-            return recipe.diet === recipeFilter;
-          }).sort((a, b) => {
-            if (recipeSort === 'time-asc') {
-              return (a.cooking_time || 0) - (b.cooking_time || 0);
-            }
-
-            if (recipeSort === 'time-desc') {
-              return (b.cooking_time || 0) - (a.cooking_time || 0);
-            }
-
-            return 0;
-          }).length === 0 ? (
+          {filteredRecipes.length === 0 ? (
             <div className="empty-message">
               <p>No recipes found.</p>
             </div>
           ) : (
-            recipes.filter((recipe) => {
-              const needle = searchTerm.trim().toLowerCase();
-              if (!needle) {
-                return true;
-              }
-
-              const title = recipe.title?.toLowerCase() ?? '';
-              const description = recipe.description?.toLowerCase() ?? '';
-              const ingredients = Array.isArray(recipe.ingredients)
-                ? recipe.ingredients.join(' ').toLowerCase()
-                : '';
-
-              return (
-                title.includes(needle) ||
-                description.includes(needle) ||
-                ingredients.includes(needle)
-              );
-            }).filter((recipe) => {
-              if (!recipeFilter) {
-                return true;
-              }
-
-              return recipe.diet === recipeFilter;
-            }).sort((a, b) => {
-              if (recipeSort === 'time-asc') {
-                return (a.cooking_time || 0) - (b.cooking_time || 0);
-              }
-
-              if (recipeSort === 'time-desc') {
-                return (b.cooking_time || 0) - (a.cooking_time || 0);
-              }
-
-              return 0;
-            }).map((recipe) => (
+            filteredRecipes.map((recipe) => (
               <div className="recipe-card" key={recipe._id}>
                 <div className="recipe-card-image">
                   {recipe.image ? (

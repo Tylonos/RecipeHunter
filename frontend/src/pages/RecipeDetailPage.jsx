@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 
 function RecipeDetailPage() {
   const { id } = useParams();
@@ -66,9 +67,20 @@ function RecipeDetailPage() {
           <h3>Ingredients</h3>
           <ul className="detail-list">
             {recipe.ingredients && recipe.ingredients.length > 0 ? (
-              recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))
+              recipe.ingredients.flatMap((ingredient, index) =>
+                splitIngredientEntries(ingredient).map((entry, subIndex) => {
+                  const normalized = normalizeIngredient(entry);
+                  if (!normalized.key) {
+                    return null;
+                  }
+
+                  return (
+                    <li key={`${index}-${subIndex}-${normalized.key}`}>
+                      {normalized.label}
+                    </li>
+                  );
+                })
+              )
             ) : (
               <li>No ingredients added yet.</li>
             )}

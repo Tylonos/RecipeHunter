@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { splitIngredientEntries } from '../utils/ingredients';
 
 function EditRecipePage() {
   const { id } = useParams();
@@ -44,10 +45,7 @@ function EditRecipePage() {
       await axios.put(`http://localhost:5001/api/recipes/${id}`, {
         title,
         description,
-        ingredients: ingredients
-          .split(',')
-          .map((item) => item.trim())
-          .filter((item) => item !== ''),
+        ingredients: splitIngredientEntries(ingredients),
         cooking_time: Number(cookingTime),
         image,
         diet
