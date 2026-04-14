@@ -17,14 +17,27 @@ app.get('/', (req, res) => {
 
 app.use('/api/recipes', recipeRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB Atlas');
+console.log('MONGO_URI:', process.env.MONGO_URI ? '[provided]' : '[not set]');
 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error(error);
+const startServer = () => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
+};
+
+const mongoUri = process.env.MONGO_URI;
+if (mongoUri) {
+  mongoose.connect(mongoUri)
+    .then(() => {
+      console.log('Connected to MongoDB Atlas');
+      startServer();
+    })
+    .catch((error) => {
+      console.error('MongoDB connection error:', error.message || error);
+      console.warn('Starting server without a MongoDB connection (read-only mode)');
+      startServer();
+    });
+} else {
+  console.warn('No MONGO_URI provided — starting server without MongoDB (read-only mode)');
+  startServer();
+}
