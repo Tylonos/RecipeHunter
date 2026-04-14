@@ -10,10 +10,42 @@ function RecipeListPage() {
   const [recipeSort, setRecipeSort] = useState('');
   const [ingredientSearch, setIngredientSearch] = useState('');
   const [addedIngredientSearch, setAddedIngredientSearch] = useState('');
+  const [addedIngredients, setAddedIngredients] = useState([]);
 
   const allIngredients = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     .split('')
     .map((letter) => `${letter} ingredient`);
+
+  const handleAddIngredient = (ingredientName) => {
+    setAddedIngredients((prevIngredients) => {
+      const existing = prevIngredients.find((item) => item.name === ingredientName);
+      if (existing) {
+        if (existing.count >= 10) {
+          return prevIngredients;
+        }
+
+        return prevIngredients.map((item) =>
+          item.name === ingredientName ? { ...item, count: item.count + 1 } : item
+        );
+      }
+
+      return [...prevIngredients, { name: ingredientName, count: 1 }];
+    });
+  };
+
+  const handleRemoveIngredient = (ingredientName) => {
+    setAddedIngredients((prevIngredients) =>
+      prevIngredients
+        .map((item) =>
+          item.name === ingredientName ? { ...item, count: item.count - 1 } : item
+        )
+        .filter((item) => item.count > 0)
+    );
+  };
+
+  const handleClearAddedIngredients = () => {
+    setAddedIngredients([]);
+  };
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -55,10 +87,7 @@ function RecipeListPage() {
 
         <div className="sidebar-section">
           <h3>All ingredients</h3>
-          <ul
-            className="ingredient-list"
-            style={{ maxHeight: '220px', overflowY: 'auto' }}
-          >
+          <ul className="ingredient-list ingredient-list-scroll ingredient-list-selectable">
             {allIngredients
               .filter((ingredient) => {
                 const needle = ingredientSearch.trim().toLowerCase();
@@ -69,7 +98,20 @@ function RecipeListPage() {
                 return ingredient.toLowerCase().includes(needle);
               })
               .map((ingredient) => (
-                <li key={ingredient}>{ingredient}</li>
+                <li
+                  key={ingredient}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleAddIngredient(ingredient)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      handleAddIngredient(ingredient);
+                    }
+                  }}
+                >
+                  {ingredient}
+                </li>
               ))}
           </ul>
         </div>
@@ -82,12 +124,16 @@ function RecipeListPage() {
             value={addedIngredientSearch}
             onChange={(event) => setAddedIngredientSearch(event.target.value)}
           />
-          <ul className="ingredient-list">
-            {[
-              { name: 'Tomato', amount: 'x4' },
-              { name: 'Beef', amount: '350g' },
-              { name: 'Sunflower oil', amount: '2 t.s.' }
-            ]
+          <button
+            type="button"
+            className="small-btn sidebar-btn"
+            onClick={handleClearAddedIngredients}
+            disabled={addedIngredients.length === 0}
+          >
+            Clear all
+          </button>
+          <ul className="ingredient-list ingredient-list-scroll">
+            {addedIngredients
               .filter((item) => {
                 const needle = addedIngredientSearch.trim().toLowerCase();
                 if (!needle) {
@@ -99,7 +145,17 @@ function RecipeListPage() {
               .map((item) => (
                 <li key={item.name}>
                   <span>{item.name}</span>
-                  <span>{item.amount}</span>
+                  <span className="ingredient-actions">
+                    <span>x{item.count}</span>
+                    <button
+                      type="button"
+                      className="ingredient-remove-btn"
+                      aria-label={`Remove ${item.name}`}
+                      onClick={() => handleRemoveIngredient(item.name)}
+                    >
+                      Remove
+                    </button>
+                  </span>
                 </li>
               ))}
           </ul>
