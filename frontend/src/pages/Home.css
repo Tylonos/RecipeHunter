@@ -1,0 +1,62 @@
+.home-container {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.btn {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.main-btn {
+  background: black;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.main-btn:hover {
+  background: #333;
+}
+
+.or-text {
+  margin: 20px 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.green {
+  background: #4caf50;
+  color: white;
+}
+
+.green:hover {
+  background: #449b48;
+}
+
+.orange {
+  background: #ff9800;
+  color: white;
+}
+
+.orange:hover {
+  background: #e68900;
+}

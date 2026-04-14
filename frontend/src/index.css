@@ -518,7 +518,6 @@ a {
 }
 
 
-/* Making sure form text is visible */
 .dark-text-input {
   color: #000 !important;
   background-color: #fff !important;
@@ -527,7 +526,6 @@ a {
   font-size: 16px;
 }
 
-/*main title more visible */
 .main-title {
   font-size: 2.5rem;
   letter-spacing: 2px;
@@ -542,7 +540,7 @@ a {
   margin-top: 10px;
 }
 
-/* Fix visibility  */
+
 .auth-page input, 
 .auth-page select, 
 .auth-page textarea {
@@ -556,7 +554,6 @@ a {
   border-radius: 4px;
 }
 
-/* profile pic */
 input[type="file"] {
   padding: 10px;
   background: #f9f9f9;
@@ -573,7 +570,6 @@ input[type="file"] {
   text-align: center;
 }
 
-/*Styling for the regex hints */
 .input-hint {
   display: block;
   font-size: 12px;
@@ -582,7 +578,6 @@ input[type="file"] {
   font-style: italic;
 }
 
-/*footer link is visible */
 .auth-footer {
   margin-top: 20px;
   color: #444;
@@ -595,7 +590,6 @@ input[type="file"] {
   text-decoration: none;
 }
 
-/* fixing an error */
 .auth-error {
   color: white;
   background-color: #ff4d4d;
@@ -615,9 +609,14 @@ input[type="file"] {
   margin-top: 5px;
 }
 
-/* Ensure the profile circle in navbar responds to hover */
 .profile-circle:hover {
   transform: scale(1.05);
   transition: transform 0.2s;
   cursor: pointer;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;   
 }
