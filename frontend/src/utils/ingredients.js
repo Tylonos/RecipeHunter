@@ -82,7 +82,6 @@ export function splitIngredientEntries(entry) {
 
   const flattened = [];
   parts.forEach((part) => {
-    // Split simple "x or y" into two separate ingredients (and drop "or")
     if (/\s+\bor\b\s+/i.test(part)) {
       part
         .split(/\s+\bor\b\s+/i)

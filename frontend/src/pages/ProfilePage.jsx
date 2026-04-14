@@ -75,7 +75,6 @@ function ProfilePage() {
               <button onClick={() => setIsEditing(true)} className="small-btn">Edit Profile</button>
             )}
             
-            {/* Logout button placed below the edit button */}
             {!isEditing && (
               <button 
                 onClick={handleLogoutClick} 

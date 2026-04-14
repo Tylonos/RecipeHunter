@@ -589,7 +589,6 @@ input[type="file"] {
   text-decoration: none;
 }
 
-/* fixing an error */
 .auth-error {
   color: white;
   background-color: #ff4d4d;
