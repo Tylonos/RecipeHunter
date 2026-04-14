@@ -27,7 +27,7 @@ function ProfilePage() {
 
   const handleLogoutClick = () => {
     logout();
-    navigate('/login'); // Redirect to login page after logout
+    navigate('/login'); 
   };
 
   return (

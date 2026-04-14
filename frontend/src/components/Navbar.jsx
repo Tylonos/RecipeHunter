@@ -13,12 +13,10 @@ function Navbar() {
   return (
     <header className="topbar">
       <div className="topbar-left">
-        {/* Login button (only when logged out and not on login/register pages) */}
         {!user && !isAuthPage && (
           <Link to="/login" className="small-btn">Login</Link>
         )}
 
-        {/* Home button (always visible) */}
         <Link to="/" className="small-btn">Home</Link>
       </div>
 

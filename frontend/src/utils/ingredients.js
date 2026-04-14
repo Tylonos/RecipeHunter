@@ -13,7 +13,7 @@ function singularizeWord(word) {
     return w;
   }
 
-  // Avoid breaking common words that end with "s" but aren't simple plurals.
+
   if (w.endsWith('ss') || w.endsWith('us') || w.endsWith('is')) {
     return w;
   }
@@ -23,7 +23,7 @@ function singularizeWord(word) {
   }
 
   if (w.endsWith('oes') && w.length > 3) {
-    return w.slice(0, -2); // tomatoes -> tomato
+    return w.slice(0, -2); 
   }
 
   if (
@@ -34,7 +34,7 @@ function singularizeWord(word) {
     (w.endsWith('zes') && w.length > 3) ||
     (w.endsWith('ses') && w.length > 3)
   ) {
-    return w.slice(0, -2); // dishes -> dish, classes -> class, sauces -> sauce
+    return w.slice(0, -2); 
   }
 
   if (w.endsWith('s')) {

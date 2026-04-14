@@ -11,10 +11,10 @@ function RegisterPage() {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     
-    // Safety Check: Limit to 5MB on the frontend
+    
     if (file.size > 5 * 1024 * 1024) {
         alert("File is too large! Please choose an image under 5MB.");
-        e.target.value = null; // Clear the input
+        e.target.value = null; 
         return;
     }
 
