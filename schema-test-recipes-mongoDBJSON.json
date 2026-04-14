@@ -1,0 +1,61 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": [
+      "_id",
+      "__v",
+      "cooking_time",
+      "createdAt",
+      "description",
+      "diet",
+      "image",
+      "ingredients",
+      "title",
+      "updatedAt"
+    ],
+    "properties": {
+      "_id": {
+        "bsonType": "objectId"
+      },
+      "__v": {
+        "bsonType": "int"
+      },
+      "cooking_time": {
+        "bsonType": "int"
+      },
+      "cookingTime": {
+        "bsonType": "int"
+      },
+      "createdAt": {
+        "bsonType": "date"
+      },
+      "description": {
+        "bsonType": "string"
+      },
+      "diet": {
+        "bsonType": "string"
+      },
+      "image": {
+        "bsonType": "string"
+      },
+      "ingredients": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        }
+      },
+      "instructions": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        }
+      },
+      "title": {
+        "bsonType": "string"
+      },
+      "updatedAt": {
+        "bsonType": "date"
+      }
+    }
+  }
+}
