@@ -620,3 +620,9 @@ input[type="file"] {
   transition: transform 0.2s;
   cursor: pointer;
 }
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;   /* ← same spacing as the right side */
+}
