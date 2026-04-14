@@ -1,11 +1,13 @@
+
 const mongoose = require('mongoose');
 
+// Same as the User model, but this outlines how a Recipe is structured
 const recipeSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
-      trim: true
+      trim: true // Cuts off any accidental spaces at the start or end
     },
     description: {
       type: String,
@@ -13,7 +15,7 @@ const recipeSchema = new mongoose.Schema(
       trim: true
     },
     ingredients: {
-      type: [String],
+      type: [String], //An array of text strings
       required: true,
       default: []
     },
@@ -23,7 +25,7 @@ const recipeSchema = new mongoose.Schema(
     },
     diet: {
       type: String,
-      enum: ['vegetarian', 'vegan', ''],
+      enum: ['vegetarian', 'vegan', ''], // Only allows these exact words
       default: ''
     },
     image: {
@@ -32,7 +34,7 @@ const recipeSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true 
   }
 );
 
