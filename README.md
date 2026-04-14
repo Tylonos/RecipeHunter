@@ -20,10 +20,11 @@ Recipe Hunter is a full-stack web application designed to help users discover, c
 
 * **Ivan Novik** - Project Manager (almost)
   * set up the project.
+   (AI was used to make a setup script for my teammates windows mahines)
   * Created intial recipe list and recipe details pages.
   * Created and set up the database.
   * Implemented ingredient normalization and pantry-driven recipe filtering.
-   (AI was used to make the script which extracts ingredients from the new recipes)
+   (Also AI was used to make the script which extracts ingredients from the new recipes)
   * Improved recipe card layout and recipe detail page UX.
   * Added backend helpers for consistent ingredient storage and cleanup.
   * Added addition/editing of the recipies on the site.
