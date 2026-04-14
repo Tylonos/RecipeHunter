@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 import { splitIngredientEntries } from '../utils/ingredients';
 
 function AddRecipePage() {
@@ -36,19 +37,7 @@ function AddRecipePage() {
 
   return (
     <div className="add-page">
-      <header className="detail-topbar">
-        <div className="detail-topbar-left">
-          <Link className="subtle-back" to="/recipes">← Back</Link>
-        </div>
-
-        <div className="detail-topbar-center">
-          <h1>RECIPE HUNTER</h1>
-        </div>
-
-        <div className="detail-topbar-right">
-          <div className="profile-circle"></div>
-        </div>
-      </header>
+      <Navbar />
 
       <div className="add-form-wrapper">
         <form className="add-form" onSubmit={handleSubmit}>

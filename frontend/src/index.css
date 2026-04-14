@@ -515,3 +515,108 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Making sure form text is visible */
+.dark-text-input {
+  color: #000 !important;
+  background-color: #fff !important;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/*main title more visible */
+.main-title {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: #222;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.auth-form label {
+  color: #333;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Fix visibility  */
+.auth-page input, 
+.auth-page select, 
+.auth-page textarea {
+  color: #222 !important;
+  background-color: #fff !important;
+  border: 1px solid #aaa;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+/* profile pic */
+input[type="file"] {
+  padding: 10px;
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+.auth-error {
+  color: #d93025;
+  background: #fbe9e7;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/*Styling for the regex hints */
+.input-hint {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+/*footer link is visible */
+.auth-footer {
+  margin-top: 20px;
+  color: #444;
+  text-align: center;
+}
+
+.auth-footer a {
+  color: #ff7f7f;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* fixing an error */
+.auth-error {
+  color: white;
+  background-color: #ff4d4d;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.profile-data-box {
+  color: #222;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 40px;
+  border: 1px solid #eee;
+  margin-top: 5px;
+}
+
+/* Ensure the profile circle in navbar responds to hover */
+.profile-circle:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+  cursor: pointer;
+}

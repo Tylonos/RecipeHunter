@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
+import Navbar from '../components/Navbar';
 
 function RecipeListPage() {
   const [recipes, setRecipes] = useState([]);
@@ -263,22 +264,7 @@ function RecipeListPage() {
       </aside>
 
       <main className="main-content">
-        <header className="topbar">
-          <div className="topbar-left">
-            <button className="small-btn">Login</button>
-          </div>
-
-          <div className="topbar-center">
-            <h1>RECIPE HUNTER</h1>
-          </div>
-
-          <div className="topbar-right">
-            <Link to="/add-recipe" className="small-btn add-link">Add Recipe</Link>
-            <button className="small-btn">Language</button>
-            <button className="small-btn">Light/Dark</button>
-            <div className="profile-circle"></div>
-          </div>
-        </header>
+        <Navbar />
 
         <section className="controls">
           <input
