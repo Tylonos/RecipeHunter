@@ -320,11 +320,11 @@ a {
 
 .recipe-card {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 35% 65%;
   background-color: #d9d9d9;
   border-radius: 28px;
   overflow: hidden;
-  min-height: 210px;
+  min-height: 235px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
@@ -379,8 +379,11 @@ a {
   border-radius: 16px;
   line-height: 1.4;
   margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

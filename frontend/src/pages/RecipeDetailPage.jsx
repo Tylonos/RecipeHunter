@@ -88,11 +88,27 @@ function RecipeDetailPage() {
         </aside>
 
         <main className="detail-panel instructions-panel">
-          <h3>Description</h3>
+          <h3>Instructions</h3>
 
           <div className="instruction-step">
-            <span className="step-number">About</span>
-            <p>{recipe.description}</p>
+            <span className="step-number">Step 1</span>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+
+          <div className="instruction-step">
+            <span className="step-number">Step 2</span>
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+
+          <div className="instruction-step">
+            <span className="step-number">Step 3</span>
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            </p>
           </div>
         </main>
 

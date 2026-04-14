@@ -340,9 +340,6 @@ function RecipeListPage() {
 
                   <p className="recipe-status">Recipe available</p>
                   <p className="recipe-description">{recipe.description}</p>
-                  <Link className="small-btn" to={`/recipes/${recipe._id}/edit`}>
-                    Edit
-                  </Link>
                 </div>
               </div>
             ))
