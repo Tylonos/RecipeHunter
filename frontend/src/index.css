@@ -153,6 +153,7 @@ a {
 .controls input,
 .controls select,
 .add-form input,
+.add-form select,
 .add-form textarea {
   width: 100%;
   padding: 14px 16px;
@@ -613,6 +614,7 @@ input[type="file"] {
   transition: transform 0.2s;
   cursor: pointer;
 }
+
 
 .topbar-left {
   display: flex;
