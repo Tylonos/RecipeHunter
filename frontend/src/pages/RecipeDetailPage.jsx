@@ -12,7 +12,9 @@ function RecipeDetailPage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/recipes/${id}`);
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+        const response = await axios.get(`${API_URL}/api/recipes/${id}`);
+        
         setRecipe(response.data);
       } catch (err) {
         console.error(err);
