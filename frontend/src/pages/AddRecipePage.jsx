@@ -16,24 +16,25 @@ function AddRecipePage() {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
-    try {
-      await api.post('/api/recipes', {
-        title,
-        description,
-        ingredients: splitIngredientEntries(ingredients),
-        cooking_time: Number(cookingTime),
-        diet,
-        image
-      });
+  try {
+    await axios.post(`${API_URL}/api/recipes`, {
+      title,
+      description,
+      ingredients: splitIngredientEntries(ingredients),
+      cooking_time: Number(cookingTime),
+      diet,
+      image
+    });
 
-      navigate('/recipes');
-    } catch (err) {
-      console.error(err);
-      setError('Failed to create recipe');
-    }
-  };
+    navigate('/recipes');
+  } catch (err) {
+    console.error(err);
+    setError('Failed to create recipe');
+  }
+};
 
   return (
     <div className="add-page">

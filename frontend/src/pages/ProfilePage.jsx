@@ -16,7 +16,8 @@ function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      const res = await api.put(`/api/users/update/${user.id || user._id}`, formData);
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+      const res = await axios.put(`${API_URL}/api/users/update/${user.id || user._id}`, formData);
       login(res.data); 
       setIsEditing(false);
       alert("Profile Updated!");

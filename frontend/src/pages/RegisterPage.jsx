@@ -36,7 +36,8 @@ function RegisterPage() {
     if (vError) return setError(vError);
 
     try {
-      await api.post('/api/users/register', formData);
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+      const res = await axios.post(`${API_URL}/api/users/register`, formData);
       alert("Registration successful!");
       navigate('/login');
     } catch (err) {

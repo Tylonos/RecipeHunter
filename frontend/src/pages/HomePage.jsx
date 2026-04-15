@@ -8,7 +8,8 @@ export default function Home() {
 
   const goToRandomRecipe = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/recipes`);
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+      const res = await fetch(`${API_URL}/api/recipes`);
       const data = await res.json();
 
       if (data.length === 0) return;

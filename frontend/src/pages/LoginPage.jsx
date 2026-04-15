@@ -13,8 +13,10 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
     try {
       const res = await api.post('/api/users/login', { email, password });
+      const res = await axios.post(`${API_URL}/api/users/login`, { email, password });
       login(res.data.user);
       localStorage.setItem('token', res.data.token);
       navigate('/recipes');

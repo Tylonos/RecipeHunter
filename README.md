@@ -1,4 +1,4 @@
-# 🍲 Recipe Hunter
+# 🍲 Recipe Hunter <small>— (Press Ctrl + Shift + V to Preview)</small>
 
 ## 📝 Project Description
 Recipe Hunter is a full-stack web application designed to help users discover, create, and manage their favorite recipes. The platform features a robust authentication system, a detailed user profile management suite, and an interactive recipe "Pantry" for filtering dishes based on available ingredients.
@@ -20,11 +20,10 @@ Recipe Hunter is a full-stack web application designed to help users discover, c
 
 * **Ivan Novik** - Project Manager (almost)
   * set up the project.
-   (AI was used to make a setup script for my teammates windows mahines)
   * Created intial recipe list and recipe details pages.
   * Created and set up the database.
   * Implemented ingredient normalization and pantry-driven recipe filtering.
-   (Also AI was used to make the script which extracts ingredients from the new recipes)
+   (AI was used to make the script which extracts ingredients from the new recipes)
   * Improved recipe card layout and recipe detail page UX.
   * Added backend helpers for consistent ingredient storage and cleanup.
   * Added addition/editing of the recipies on the site.
@@ -46,13 +45,6 @@ Recipe Hunter is a full-stack web application designed to help users discover, c
 * Developed RESTful API endpoints for user updates and recipe management.
 * Structured **Mongoose Models** to support complex user metadata and dietary filters.
 
-## 🌐 References & Resources
-* [React Documentation](https://react.dev/) - For building the component-based UI.
-* [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/) - For cloud database configuration.
-* [MDN Web Docs: FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) - For handling the local profile picture uploads.
-* [JWT.io](https://jwt.io/introduction) - For understanding secure token-based authentication.
-* [Axios Cheat Sheet](https://axios-http.com/docs/intro) - For managing API requests between Frontend and Backend.
-
 ## 🛠️ Silviu's Technical Contributions
 
 ### ⚙️ Worked with the DataBase
@@ -63,15 +55,6 @@ Recipe Hunter is a full-stack web application designed to help users discover, c
 * Developed the Homepage and reworked the NavBar
 * Added new functions to the Homepage: Randome Recipe and Todays Dish
 * Small Bug Fixes
-
-## 🌐 References & Resources
-* [React Documentation](https://react.dev/) - For building the component-based UI.
-* [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/) - For cloud database configuration.
-* [MDN Web Docs: FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) - For handling the local profile picture uploads.
-* [JWT.io](https://jwt.io/introduction) - For understanding secure token-based authentication.
-* [Axios Cheat Sheet](https://axios-http.com/docs/intro) - For managing API requests between Frontend and Backend.
-* [MongoDB II](https://ocw.cs.pub.ro/courses/bdd/laboratoare/12) - For learning about MongoDB
-* [TechBit](https://teachbit.ro/blog/tutorial-javascript-pentru-incepatori/) - For refreshing what we learned about JavaScript
 
 ## 🛠️ Ivan's Technical Contributions
 
@@ -103,3 +86,10 @@ Recipe Hunter is a full-stack web application designed to help users discover, c
 * [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/) - For understanding how to create DB and set it up inside IDE across all the members.
 * [Mongoose Documentation](https://mongoosejs.com/docs/guide.html) - For schema design and MongoDB data modeling in the backend.
 * [React Router - Complete Tutorial](https://www.youtube.com/watch?v=oTIJunBa6MA) - For client-side routing between recipe pages.
+* [React Documentation](https://react.dev/) - For building the component-based UI.
+* [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/) - For cloud database configuration.
+* [MDN Web Docs: FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) - For handling the local profile picture uploads.
+* [JWT.io](https://jwt.io/introduction) - For understanding secure token-based authentication.
+* [Axios Cheat Sheet](https://axios-http.com/docs/intro) - For managing API requests between Frontend and Backend.
+* [MongoDB II](https://ocw.cs.pub.ro/courses/bdd/laboratoare/12) - For learning about MongoDB
+* [TechBit](https://teachbit.ro/blog/tutorial-javascript-pentru-incepatori/) - For refreshing what we learned about JavaScript
