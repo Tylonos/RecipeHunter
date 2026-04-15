@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { api } from '../api';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', profilePicture: '' });
@@ -36,7 +36,7 @@ function RegisterPage() {
     if (vError) return setError(vError);
 
     try {
-      await axios.post('http://localhost:5001/api/users/register', formData);
+      await api.post('/api/users/register', formData);
       alert("Registration successful!");
       navigate('/login');
     } catch (err) {

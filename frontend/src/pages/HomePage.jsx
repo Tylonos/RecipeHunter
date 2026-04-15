@@ -1,13 +1,14 @@
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import { API_BASE_URL } from "../api";
 
 export default function Home() {
   const navigate = useNavigate();
 
   const goToRandomRecipe = async () => {
     try {
-      const res = await fetch("http://localhost:5001/api/recipes");
+      const res = await fetch(`${API_BASE_URL}/api/recipes`);
       const data = await res.json();
 
       if (data.length === 0) return;

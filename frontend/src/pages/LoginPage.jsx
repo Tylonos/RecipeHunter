@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
+import { api } from '../api';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/users/login', { email, password });
+      const res = await api.post('/api/users/login', { email, password });
       login(res.data.user);
       localStorage.setItem('token', res.data.token);
       navigate('/recipes');

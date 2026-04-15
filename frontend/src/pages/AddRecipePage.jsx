@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { splitIngredientEntries } from '../utils/ingredients';
+import { api } from '../api';
 
 function AddRecipePage() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function AddRecipePage() {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:5001/api/recipes', {
+      await api.post('/api/recipes', {
         title,
         description,
         ingredients: splitIngredientEntries(ingredients),

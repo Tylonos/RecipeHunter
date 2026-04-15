@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
+import { api } from '../api';
 
 function RecipeDetailPage() {
   const { id } = useParams();
@@ -12,7 +12,7 @@ function RecipeDetailPage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/recipes/${id}`);
+        const response = await api.get(`/api/recipes/${id}`);
         setRecipe(response.data);
       } catch (err) {
         console.error(err);

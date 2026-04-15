@@ -2,7 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 // Pulling in our route files so the server knows where to send traffic
 const recipeRoutes = require('./routes/recipeRoutes');
@@ -10,6 +11,9 @@ const recipeRoutes = require('./routes/recipeRoutes');
 //Firing up the Express app
 const app = express();
 const PORT = process.env.PORT || 5001;
+
+// Avoid Mongoose buffering queries when the DB isn't connected (fail fast instead of timing out).
+mongoose.set('bufferCommands', false);
 
 //CORS lets our frontend talk to the backend
 // the express.json/urlencoded limits are bumped to 10mb so big profile pictures don't crash the server.

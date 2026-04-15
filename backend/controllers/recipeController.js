@@ -1,9 +1,20 @@
 const Recipe = require('../models/Recipe');
 const { normalizeIngredientsInput } = require('../utils/ingredients');
+const mongoose = require('mongoose');
+
+const ensureDbConnected = (res) => {
+  if (mongoose.connection.readyState !== 1) {
+    res.status(503).json({ message: 'Database not connected' });
+    return false;
+  }
+
+  return true;
+};
 
 // Fetch all recipes from the database, newest ones first
 const getRecipes = async (req, res) => {
   try {
+    if (!ensureDbConnected(res)) return;
     const recipes = await Recipe.find().sort({ createdAt: -1 });
     res.status(200).json(recipes);
   } catch (error) {
@@ -14,6 +25,7 @@ const getRecipes = async (req, res) => {
 // Fetch just ONE specific recipe based on its unique ID
 const getRecipeById = async (req, res) => {
   try {
+    if (!ensureDbConnected(res)) return;
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
     res.status(200).json(recipe);
@@ -25,6 +37,7 @@ const getRecipeById = async (req, res) => {
 // Create a brand new recipe
 const createRecipe = async (req, res) => {
   try {
+    if (!ensureDbConnected(res)) return;
     const { title, description, ingredients, cooking_time, image, diet } = req.body;
 
     const recipe = new Recipe({
@@ -47,6 +60,7 @@ const createRecipe = async (req, res) => {
 // Update an existing recipe
 const updateRecipe = async (req, res) => {
   try {
+    if (!ensureDbConnected(res)) return;
     const { title, description, ingredients, cooking_time, image, diet } = req.body;
     
     // Find it by ID and replace its data with the newly typed stuff

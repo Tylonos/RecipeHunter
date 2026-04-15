@@ -43,7 +43,12 @@ exports.login = async (req, res) => {
     }
 
     //3. Create a digital "VIP pass" (token) that proves they are logged in for the next 24 hours
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1d' });
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      return res.status(500).json({ message: 'JWT_SECRET is not configured on the server' });
+    }
+
+    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1d' });
     
     //4. Send the token and their profile info back to the frontend
     res.json({ 

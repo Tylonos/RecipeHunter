@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Navbar from '../components/Navbar';
+import { api } from '../api';
 
 function ProfilePage() {
   const { user, login, logout } = useContext(AuthContext); 
@@ -16,7 +16,7 @@ function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      const res = await axios.put(`http://localhost:5001/api/users/update/${user.id || user._id}`, formData);
+      const res = await api.put(`/api/users/update/${user.id || user._id}`, formData);
       login(res.data); 
       setIsEditing(false);
       alert("Profile Updated!");

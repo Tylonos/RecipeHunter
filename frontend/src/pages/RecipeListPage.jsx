@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
+import { api } from '../api';
 import Navbar from '../components/Navbar';
 
 function RecipeListPage() {
@@ -98,7 +98,7 @@ function RecipeListPage() {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/recipes');
+        const response = await api.get('/api/recipes');
         setRecipes(response.data);
       } catch (err) {
         console.error(err);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
+import { api } from '../api';
 
 function EditRecipePage() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ function EditRecipePage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/recipes/${id}`);
+        const response = await api.get(`/api/recipes/${id}`);
         const recipe = response.data;
         setTitle(recipe.title || '');
         setDescription(recipe.description || '');
@@ -43,7 +43,7 @@ function EditRecipePage() {
     event.preventDefault();
 
     try {
-      await axios.put(`http://localhost:5001/api/recipes/${id}`, {
+      await api.put(`/api/recipes/${id}`, {
         title,
         description,
         ingredients: splitIngredientEntries(ingredients),
