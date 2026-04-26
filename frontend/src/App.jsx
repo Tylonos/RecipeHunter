@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 import RecipeListPage from './pages/RecipeListPage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
@@ -9,10 +9,12 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 
-function App() {
+function AnimatedRoutes() {
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
-      <Routes>
+    <div className="page-fade" key={location.pathname}>
+      <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/recipes" element={<RecipeListPage />} />
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
@@ -22,6 +24,14 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AnimatedRoutes />
     </BrowserRouter>
   );
 }

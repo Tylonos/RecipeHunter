@@ -28,7 +28,7 @@ function LoginPage() {
       <Navbar />
       <div className="add-form-wrapper">
         <form className="add-form auth-form" onSubmit={handleLogin}>
-          <h2 style={{color: '#333'}}>Login</h2>
+          <h2 style={{ color: 'var(--text-h)' }}>Login</h2>
           {error && <div className="auth-error">{error}</div>}
           
           <label>Email</label>
@@ -38,8 +38,11 @@ function LoginPage() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           
           <button type="submit" className="small-btn">Sign In</button>
-          <p style={{marginTop: '15px', color: '#555'}}>
-            New here? <Link to="/register" style={{color: '#ff7f7f', fontWeight: 'bold'}}>Create an account</Link>
+          <p style={{ marginTop: '15px', color: 'var(--muted)' }}>
+            New here?{' '}
+            <Link to="/register" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>
+              Create an account
+            </Link>
           </p>
         </form>
       </div>

@@ -30,6 +30,27 @@
   background: #333;
 }
 
+/* Dark mode: invert the primary CTA */
+:root[data-theme='dark'] .main-btn {
+  background: #fff;
+  color: #111;
+}
+
+:root[data-theme='dark'] .main-btn:hover {
+  background: #f1f1f1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .main-btn {
+    background: #fff;
+    color: #111;
+  }
+
+  :root:not([data-theme]) .main-btn:hover {
+    background: #f1f1f1;
+  }
+}
+
 .or-text {
   margin: 20px 0;
   font-size: 1.1rem;

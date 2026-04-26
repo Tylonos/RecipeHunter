@@ -108,7 +108,7 @@ function RecipeDetailPage() {
           </div>
 
           <div className="history-box">
-            <p>This dish has a classic homemade style and is a great base for a richer recipe story later on.</p>
+            <p><strong>Description:</strong> {recipe.description}</p>
           </div>
         </aside>
       </section>

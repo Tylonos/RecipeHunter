@@ -156,6 +156,22 @@ function RecipeListPage() {
     return list;
   }, [recipes, addedIngredients, searchTerm, recipeFilter, recipeSort, getRecipeIngredientKeySet]);
 
+  const getRecipeIngredientPreview = useCallback((recipe) => {
+    const ingredientList = Array.isArray(recipe?.ingredients) ? recipe.ingredients : [];
+    const labels = ingredientList
+      .filter((entry) => typeof entry === 'string')
+      .flatMap((entry) => splitIngredientEntries(entry))
+      .map((entry) => normalizeIngredient(entry).label)
+      .filter(Boolean);
+
+    const uniqueLabels = Array.from(new Set(labels));
+    if (uniqueLabels.length === 0) {
+      return 'No ingredients listed.';
+    }
+
+    return uniqueLabels.slice(0, 10).join(', ');
+  }, []);
+
   return (
     <div className="page-layout">
       <aside className="sidebar">
@@ -325,7 +341,7 @@ function RecipeListPage() {
                   </div>
 
                   <p className="recipe-status">Recipe available</p>
-                  <p className="recipe-description">{recipe.description}</p>
+                  <p className="recipe-description">{getRecipeIngredientPreview(recipe)}</p>
                 </div>
               </div>
             ))
