@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
+import { useTranslation } from "react-i18next";
+
 
 function RecipeDetailPage() {
   const { id } = useParams();

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
+import { useTranslation } from "react-i18next";
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');

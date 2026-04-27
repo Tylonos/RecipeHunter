@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { useTranslation } from "react-i18next";
+
 
 function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', profilePicture: '' });

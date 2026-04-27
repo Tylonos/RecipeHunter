@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
+import { useTranslation } from "react-i18next";
+
 
 function EditRecipePage() {
   const { t } = useTranslation();

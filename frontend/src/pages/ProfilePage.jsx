@@ -3,6 +3,8 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import { useTranslation } from "react-i18next";
+
 
 function ProfilePage() {
   const { user, login, logout } = useContext(AuthContext); 
