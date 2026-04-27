@@ -13,6 +13,7 @@ function RecipeListPage() {
   const [ingredientSearch, setIngredientSearch] = useState('');
   const [addedIngredientSearch, setAddedIngredientSearch] = useState('');
   const [addedIngredients, setAddedIngredients] = useState([]);
+  const { t } = useTranslation();
 
   const getRecipeIngredientKeySet = useCallback((recipe) => {
     const keys = new Set();
@@ -175,7 +176,7 @@ function RecipeListPage() {
     <div className="page-layout">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h2>Pantry</h2>
+          <h2>{t("pantry")}</h2>
         </div>
 
         <div className="sidebar-section">
@@ -186,21 +187,21 @@ function RecipeListPage() {
             onChange={(event) => setIngredientSearch(event.target.value)}
           />
           <select>
-            <option>Filter by...</option>
-            <option>Fruits</option>
-            <option>Vegetables</option>
-            <option>Meat</option>
-            <option>Nuts</option>
-            <option>Oils</option>
+            <option>{t("filterBy...")}</option>
+            <option>{t("fruits")}</option>
+            <option>{t("vegetables")}</option>
+            <option>{t("meat")}</option>
+            <option>{t("nuts")}</option>
+            <option>{t("oils")}</option>
           </select>
         </div>
 
         <div className="sidebar-section">
-          <h3>All ingredients</h3>
+          <h3>{t("allIngredients")}</h3>
           <ul className="ingredient-list ingredient-list-scroll ingredient-list-selectable">
             {allIngredients.length === 0 ? (
               <li>
-                <span>No ingredients found yet.</span>
+                <span>{t("noIngredientsFound")}</span>
               </li>
             ) : (
               allIngredients
@@ -233,7 +234,7 @@ function RecipeListPage() {
         </div>
 
         <div className="sidebar-section">
-          <h3>Added ingredients</h3>
+          <h3>{t("addedIngredients")}</h3>
           <input
             type="text"
             placeholder="Search for ingredients..."
@@ -246,7 +247,7 @@ function RecipeListPage() {
             onClick={handleClearAddedIngredients}
             disabled={addedIngredients.length === 0}
           >
-            Clear all
+            {t("clearAll")}
           </button>
           <ul className="ingredient-list ingredient-list-scroll">
             {addedIngredients
@@ -269,7 +270,7 @@ function RecipeListPage() {
                       aria-label={`Remove ${item.name}`}
                       onClick={() => handleRemoveIngredient(item.key)}
                     >
-                      Remove
+                      {t("remove")}
                     </button>
                   </span>
                 </li>
@@ -292,22 +293,22 @@ function RecipeListPage() {
             value={recipeFilter}
             onChange={(event) => setRecipeFilter(event.target.value)}
           >
-            <option value="">Filter by...</option>
+            <option value="">{t("filterBy...")}</option>
             <optgroup label="Diet">
-              <option value="vegetarian">Vegetarian</option>
-              <option value="vegan">Vegan</option>
+              <option value="vegetarian">{t("vegetarian")}</option>
+              <option value="vegan">{t("vegan")}</option>
             </optgroup>
             <optgroup label="Ingredients">
-              <option value="pantry-all">Matches added ingredients</option>
+              <option value="pantry-all">{t("matchesAddedIngredients")}</option>
             </optgroup>
           </select>
           <select
             value={recipeSort}
             onChange={(event) => setRecipeSort(event.target.value)}
           >
-            <option value="">Sort by...</option>
-            <option value="time-asc">Cooking time (asc)</option>
-            <option value="time-desc">Cooking time (desc)</option>
+            <option value="">{t("sortBy...")}</option>
+            <option value="time-asc">{t("cookingTimeAsc")}</option>
+            <option value="time-desc">{t("cookingTimeDesc")}</option>
           </select>
         </section>
 
@@ -316,7 +317,7 @@ function RecipeListPage() {
         <section className="recipe-grid">
           {filteredRecipes.length === 0 ? (
             <div className="empty-message">
-              <p>No recipes found.</p>
+              <p>{t("noRecipesFound")}</p>
             </div>
           ) : (
             filteredRecipes.map((recipe) => (
@@ -339,7 +340,7 @@ function RecipeListPage() {
                     </div>
                   </div>
 
-                  <p className="recipe-status">Recipe available</p>
+                  <p className="recipe-status">{t("recipeAvailable")}</p>
                   <p className="recipe-description">{getRecipeIngredientPreview(recipe)}</p>
                 </div>
               </div>

@@ -9,6 +9,7 @@ function ProfilePage() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ ...user });
+  const { t } = useTranslation();
 
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
@@ -84,17 +85,17 @@ function ProfilePage() {
           <div style={{ marginTop: '30px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             {isEditing ? (
               <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={handleSave} className="small-btn">Save Changes</button>
+                <button onClick={handleSave} className="small-btn">{t("saveChanges")}</button>
                 <button
                   onClick={() => setIsEditing(false)}
                   className="small-btn"
                   style={{ backgroundColor: 'var(--surface)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
               </div>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="small-btn">Edit Profile</button>
+              <button onClick={() => setIsEditing(true)} className="small-btn">{t("editProfile")}</button>
             )}
             
             {!isEditing && (
@@ -103,7 +104,7 @@ function ProfilePage() {
                 className="small-btn" 
                 style={{ backgroundColor: 'var(--danger)', marginTop: '10px' }}
               >
-                Log Out
+                {t("logout")}
               </button>
             )}
           </div>

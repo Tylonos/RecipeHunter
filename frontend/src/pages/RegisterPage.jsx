@@ -7,6 +7,7 @@ function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', profilePicture: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -50,28 +51,28 @@ function RegisterPage() {
       <Navbar />
       <div className="add-form-wrapper">
         <form className="add-form auth-form" onSubmit={handleSubmit}>
-          <h2>Create Account</h2>
+          <h2>{t("createAccount")}</h2>
           {error && <div className="auth-error">{error}</div>}
           
-          <label>Username</label>
-          <span className="input-hint">3-15 characters, no spaces allowed.</span>
+          <label>{t("username")}</label>
+          <span className="input-hint">3-15 characters, no spaces allowed.{t("usernameHint")}</span>
           <input type="text" onChange={(e) => setFormData({...formData, username: e.target.value})} required />
           
-          <label>Email</label>
-          <span className="input-hint">Must be a valid email address (e.g. name@mail.com).</span>
+          <label>{t("email")}</label>
+          <span className="input-hint">Must be a valid email address (e.g. name@mail.com).{t("emailHint")}</span>
           <input type="email" onChange={(e) => setFormData({...formData, email: e.target.value})} required />
           
-          <label>Password</label>
-          <span className="input-hint">Min. 8 characters, must include at least one letter and one number.</span>
+          <label>{t("password")}</label>
+          <span className="input-hint">Min. 8 characters, must include at least one letter and one number.{t("passwordHint")}</span>
           <input type="password" onChange={(e) => setFormData({...formData, password: e.target.value})} required />
 
-          <label>Profile Picture</label>
-          <span className="input-hint">Select a square image for best results.</span>
+          <label>{t("profilePicture")}</label>
+          <span className="input-hint">Select a square image for best results.{t("selectImage")}</span>
           <input type="file" accept="image/*" onChange={handleFileUpload} />
 
-          <button type="submit" className="small-btn">Register</button>
+          <button type="submit" className="small-btn">{t("register")}</button>
           <p className="auth-footer">
-            Already have an account? <Link to="/login">Login here</Link>
+            {t("allreadyHaveAnAccount")} <Link to="/login">{t("login")}</Link>
           </p>
         </form>
       </div>

@@ -8,6 +8,7 @@ function RecipeDetailPage() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -30,7 +31,7 @@ function RecipeDetailPage() {
   }
 
   if (!recipe) {
-    return <h2>Loading recipe...</h2>;
+    return <h2>{t("loadingRecipe")}</h2>;
   }
 
   return (
@@ -51,7 +52,7 @@ function RecipeDetailPage() {
 
       <section className="detail-content-grid">
         <aside className="detail-panel ingredients-panel">
-          <h3>Ingredients</h3>
+          <h3>{t("ingredients")}</h3>
           <ul className="detail-list">
             {recipe.ingredients && recipe.ingredients.length > 0 ? (
               recipe.ingredients.flatMap((ingredient, index) =>
@@ -69,48 +70,48 @@ function RecipeDetailPage() {
                 })
               )
             ) : (
-              <li>No ingredients added yet.</li>
+              <li>{t("noIngredientsYet")}</li>
             )}
           </ul>
         </aside>
 
         <main className="detail-panel instructions-panel">
-          <h3>Instructions</h3>
+          <h3>{t("instructions")}</h3>
 
           <div className="instruction-step">
             <span className="step-number">Step 1</span>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {t("loremIpsum")}
             </p>
           </div>
 
           <div className="instruction-step">
             <span className="step-number">Step 2</span>
             <p>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              {t("loremIpsum")}
             </p>
           </div>
 
           <div className="instruction-step">
             <span className="step-number">Step 3</span>
             <p>
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              {t("loremIpsum")}
             </p>
           </div>
         </main>
 
         <aside className="detail-panel info-panel">
-          <h3>Recipe Info</h3>
+          <h3>{t("recipeInfo")}</h3>
 
           <div className="info-box">
-            <p><strong>Cooking time:</strong> {recipe.cooking_time} minutes</p>
-            <p><strong>Created at:</strong> {new Date(recipe.createdAt).toLocaleString()}</p>
-            <p><strong>Difficulty:</strong> Medium</p>
-            <p><strong>Servings:</strong> 4</p>
+            <p><strong>{t("cookingTime")}:</strong> {recipe.cooking_time} minutes</p>
+            <p><strong>{t("created_at")}:</strong> {new Date(recipe.createdAt).toLocaleString()}</p>
+            <p><strong>{t("difficulty")}:</strong> Medium</p>
+            <p><strong>{t("servings")}:</strong> 4</p>
           </div>
 
           <div className="history-box">
-            <p><strong>Description:</strong> {recipe.description}</p>
+            <p><strong>{t("description")}:</strong> {recipe.description}</p>
           </div>
         </aside>
       </section>

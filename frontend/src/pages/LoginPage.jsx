@@ -10,6 +10,7 @@ function LoginPage() {
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,16 +30,16 @@ function LoginPage() {
       <Navbar />
       <div className="add-form-wrapper">
         <form className="add-form auth-form" onSubmit={handleLogin}>
-          <h2 style={{ color: 'var(--text-h)' }}>Login</h2>
+          <h2 style={{ color: 'var(--text-h)' }}>{t("login")}</h2>
           {error && <div className="auth-error">{error}</div>}
           
-          <label>Email</label>
+          <label>{t("email")}</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           
-          <label>Password</label>
+          <label>{t("password")}</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           
-          <button type="submit" className="small-btn">Sign In</button>
+          <button type="submit" className="small-btn">{t("signIn")}</button>
           <p style={{ marginTop: '15px', color: 'var(--muted)' }}>
             New here?{' '}
             <Link to="/register" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>
