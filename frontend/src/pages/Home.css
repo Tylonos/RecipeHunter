@@ -9,6 +9,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 40px;
+  line-height: 1;
 }
 
 .btn {
@@ -30,7 +31,6 @@
   background: #333;
 }
 
-/* Dark mode: invert the primary CTA */
 :root[data-theme='dark'] .main-btn {
   background: #fff;
   color: #111;
