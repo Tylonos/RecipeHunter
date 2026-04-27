@@ -2,14 +2,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { applyTheme, getEffectiveTheme, getStoredTheme, setStoredTheme } from '../utils/theme';
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
   const { user } = useContext(AuthContext);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
   const [storedTheme, setStoredThemeState] = useState(null);
 
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-  
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   useEffect(() => {
@@ -26,17 +27,25 @@ function Navbar() {
     applyTheme(next);
   };
 
+  const cycleLanguage = () => {
+    const order = ["en", "ro", "ua"];
+    const current = i18n.language;
+    const next = order[(order.indexOf(current) + 1) % order.length];
+    i18n.changeLanguage(next);
+    localStorage.setItem("language", next);
+  };
+
   return (
     <header className="topbar">
       <div className="topbar-left">
         {!user && !isAuthPage && (
-          <Link to="/login" className="small-btn">Login</Link>
+          <Link to="/login" className="small-btn">{t("login")}</Link>
         )}
 
-        <Link to="/" className="small-btn">Home</Link>
+        <Link to="/" className="small-btn">{t("home")}</Link>
 
         {!isAuthPage && (
-          <Link to="/add-recipe" className="small-btn add-link">Add Recipe</Link>
+          <Link to="/add-recipe" className="small-btn add-link">{t("addRecipe")}</Link>
         )}
       </div>
 
@@ -49,13 +58,16 @@ function Navbar() {
       </div>
 
       <div className="topbar-right">
-        <button className="small-btn">Language</button>
-        <button className="small-btn" type="button" onClick={handleThemeToggle}>
-          Light/Dark
+        <button className="small-btn" onClick={cycleLanguage}>
+          {t("language")}
         </button>
-        
+
+        <button className="small-btn" type="button" onClick={handleThemeToggle}>
+          {t("themeToggle")}
+        </button>
+
         {user && (
-          <Link to="/profile" title="Go to Profile">
+          <Link to="/profile" title={t("goToProfile")}>
             <div className="profile-circle" style={{ 
                 width: '40px', 
                 height: '40px', 
