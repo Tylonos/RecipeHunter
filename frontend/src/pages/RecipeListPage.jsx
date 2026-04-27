@@ -96,18 +96,17 @@ function RecipeListPage() {
   };
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/api/recipes');
-        setRecipes(response.data);
-      } catch (err) {
-        console.error(err);
-        setError('Failed to load recipes');
-      }
-    };
-
-    fetchRecipes();
-  }, []);
+  const fetchRecipes = async () => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+    try {
+      const res = await axios.get(`${API_URL}/api/recipes`);
+      setRecipes(res.data);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to fetch recipes');
+    }
+  };
+  fetchRecipes();}, []);
 
   const filteredRecipes = useMemo(() => {
     let list = recipes;
