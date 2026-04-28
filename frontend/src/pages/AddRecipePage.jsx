@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { splitIngredientEntries } from '../utils/ingredients';
-import { api } from '../api';
+import { useTranslation } from "react-i18next";
+
 
 function AddRecipePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -42,11 +44,11 @@ function AddRecipePage() {
 
       <div className="add-form-wrapper">
         <form className="add-form" onSubmit={handleSubmit}>
-          <h2>Add Recipe</h2>
+          <h2>{t("addRecipe")}</h2>
 
           {error && <p>{error}</p>}
 
-          <label>Title</label>
+          <label>{t("title")}</label>
           <input
             type="text"
             value={title}
@@ -54,7 +56,7 @@ function AddRecipePage() {
             required
           />
 
-          <label>Description</label>
+          <label>{t("description")}</label>
           <textarea
             rows="5"
             value={description}
@@ -62,7 +64,7 @@ function AddRecipePage() {
             required
           />
 
-          <label>Ingredients (comma separated)</label>
+          <label>(comma separated){t("ingredients")}</label>
           <input
             type="text"
             value={ingredients}
@@ -70,7 +72,7 @@ function AddRecipePage() {
             required
           />
 
-          <label>Cooking Time</label>
+          <label>{t("cookingTime")}</label>
           <input
             type="number"
             value={cookingTime}
@@ -78,21 +80,21 @@ function AddRecipePage() {
             required
           />
 
-          <label>Diet</label>
+          <label>{t("diet")}</label>
           <select value={diet} onChange={(e) => setDiet(e.target.value)}>
-            <option value="">None</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
+            <option value="">{t("none")}</option>
+            <option value="vegetarian">{t("vegetarian")}</option>
+            <option value="vegan">{t("vegan")}</option>
           </select>
 
-          <label>Image URL</label>
+          <label>{t("image")}</label>
           <input
             type="text"
             value={image}
             onChange={(e) => setImage(e.target.value)}
           />
 
-          <button type="submit" className="small-btn">Save Recipe</button>
+          <button type="submit" className="small-btn">{t("saveRecipe")}</button>
         </form>
       </div>
     </div>

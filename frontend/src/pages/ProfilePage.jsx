@@ -2,13 +2,15 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { api } from '../api';
+import { useTranslation } from "react-i18next";
+
 
 function ProfilePage() {
   const { user, login, logout } = useContext(AuthContext); 
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ ...user });
+  const { t } = useTranslation();
 
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
@@ -35,21 +37,36 @@ function ProfilePage() {
     <div className="profile-page">
       <Navbar />
       <div className="profile-container" style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-        <div className="profile-card" style={{ background: '#fff', padding: '30px', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+        <div
+          className="profile-card"
+          style={{
+            background: 'var(--surface)',
+            padding: '30px',
+            borderRadius: '15px',
+            boxShadow: 'var(--shadow)',
+            border: '1px solid var(--border)',
+          }}
+        >
           
           <div style={{ textAlign: 'center', marginBottom: '30px' }}>
             <img 
               src={user.profilePicture || DEFAULT_AVATAR} 
               alt="Profile" 
-              style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', border: '5px solid #ff7f7f' }}
+              style={{
+                width: '150px',
+                height: '150px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '5px solid var(--accent)',
+              }}
             />
-            <h2 style={{ color: '#333', marginTop: '10px' }}>{user.username}</h2>
+            <h2 style={{ color: 'var(--text-h)', marginTop: '10px' }}>{user.username}</h2>
           </div>
 
           <div className="profile-info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             {['email', 'age', 'occupation', 'cookingExp', 'allergies', 'appliances'].map((field) => (
               <div key={field}>
-                <label style={{ fontWeight: 'bold', textTransform: 'capitalize', color: '#555' }}>{field.replace(/([A-Z])/g, ' $1')}:</label>
+                <label style={{ fontWeight: 'bold', textTransform: 'capitalize', color: 'var(--muted)' }}>{field.replace(/([A-Z])/g, ' $1')}:</label>
                 {isEditing ? (
                   <input 
                     className="dark-text-input"
@@ -59,7 +76,7 @@ function ProfilePage() {
                   />
                 ) : (
                   <p className="profile-data-box">
-                    {user[field] || <span style={{ color: '#999', fontStyle: 'italic' }}>Not specified</span>}
+                    {user[field] || <span style={{ color: 'var(--muted)', fontStyle: 'italic' }}>Not specified</span>}
                   </p>
                 )}
               </div>
@@ -69,20 +86,26 @@ function ProfilePage() {
           <div style={{ marginTop: '30px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             {isEditing ? (
               <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={handleSave} className="small-btn" style={{ backgroundColor: '#4CAF50' }}>Save Changes</button>
-                <button onClick={() => setIsEditing(false)} className="small-btn" style={{ backgroundColor: '#aaa' }}>Cancel</button>
+                <button onClick={handleSave} className="small-btn">{t("saveChanges")}</button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="small-btn"
+                  style={{ backgroundColor: 'var(--surface)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
+                >
+                  {t("cancel")}
+                </button>
               </div>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="small-btn">Edit Profile</button>
+              <button onClick={() => setIsEditing(true)} className="small-btn">{t("editProfile")}</button>
             )}
             
             {!isEditing && (
               <button 
                 onClick={handleLogoutClick} 
                 className="small-btn" 
-                style={{ backgroundColor: '#ff4d4d', marginTop: '10px' }}
+                style={{ backgroundColor: 'var(--danger)', marginTop: '10px' }}
               >
-                Log Out
+                {t("logout")}
               </button>
             )}
           </div>

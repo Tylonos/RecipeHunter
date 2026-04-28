@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
-import { api } from '../api';
+import { useTranslation } from "react-i18next";
+
 
 function EditRecipePage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ function EditRecipePage() {
   };
 
   if (loading) {
-    return <h2>Loading recipe...</h2>;
+    return <h2>Loading recipe...{t("loadingRecipe")}</h2>;
   }
 
   return (
@@ -70,11 +72,11 @@ function EditRecipePage() {
 
       <div className="add-form-wrapper">
         <form className="add-form" onSubmit={handleSubmit}>
-          <h2>Edit Recipe</h2>
+          <h2>{t("editRecipe")}</h2>
 
           {error && <p>{error}</p>}
 
-          <label>Title</label>
+          <label>{t("title")}</label>
           <input
             type="text"
             value={title}
@@ -82,7 +84,7 @@ function EditRecipePage() {
             required
           />
 
-          <label>Description</label>
+          <label>{t("description")}</label>
           <textarea
             rows="5"
             value={description}
@@ -90,7 +92,7 @@ function EditRecipePage() {
             required
           />
 
-          <label>Ingredients (comma separated)</label>
+          <label>{t("ingredients")}</label>
           <input
             type="text"
             value={ingredients}
@@ -98,7 +100,7 @@ function EditRecipePage() {
             required
           />
 
-          <label>Cooking Time</label>
+          <label>{t("cookingTime")}</label>
           <input
             type="number"
             value={cookingTime}
@@ -106,21 +108,21 @@ function EditRecipePage() {
             required
           />
 
-          <label>Diet</label>
+          <label>{t("diet")}</label>
           <select value={diet} onChange={(event) => setDiet(event.target.value)}>
-            <option value="">None</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
+            <option value="">{t("none")}</option>
+            <option value="vegetarian">{t("vegetarian")}</option>
+            <option value="vegan">{t("vegan")}</option>
           </select>
 
-          <label>Image URL</label>
+          <label>{t("image")}</label>
           <input
             type="text"
             value={image}
             onChange={(event) => setImage(event.target.value)}
           />
 
-          <button type="submit" className="small-btn">Save Changes</button>
+          <button type="submit" className="small-btn">{t("saveChanges")}</button>
         </form>
       </div>
     </div>

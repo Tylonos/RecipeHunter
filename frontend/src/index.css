@@ -1,23 +1,35 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
+  --bg: #f6f1e8;
+  --surface: #ffffff;
+  --surface-2: #f1ede4;
+  --surface-3: #ebe6dc;
+
+  --text: #4a4540;
+  --text-h: #1f1d1a;
+  --muted: #6b6560;
+
+  --border: rgba(31, 29, 26, 0.12);
+  --code-bg: #f1ede4;
+
+  --accent: #0a7a3f;
+  --accent-bg: rgba(10, 122, 63, 0.14);
+  --accent-border: rgba(10, 122, 63, 0.45);
+  --danger: #d93025;
+
+  --social-bg: rgba(241, 237, 228, 0.85);
+  --btn-bg: var(--text-h);
+  --btn-text: #fff;
+  --btn-hover: color-mix(in srgb, var(--btn-bg) 88%, #fff);
   --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    rgba(31, 29, 26, 0.10) 0 14px 30px -18px,
+    rgba(31, 29, 26, 0.08) 0 6px 16px -12px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -30,24 +42,75 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* Manual override for dark theme */
+:root[data-theme='dark'] {
+    --bg: #141312;
+    --surface: #1d1b18;
+    --surface-2: #23201c;
+    --surface-3: #2a2621;
 
+    --text: #c9c3bc;
+    --text-h: #f5f2ee;
+    --muted: #a8a099;
+
+    --border: rgba(245, 242, 238, 0.14);
+    --code-bg: #23201c;
+
+    --accent: #2fc46d;
+    --accent-bg: rgba(47, 196, 109, 0.16);
+    --accent-border: rgba(47, 196, 109, 0.45);
+    --social-bg: rgba(35, 32, 28, 0.8);
+  --btn-bg: var(--text-h);
+  --btn-text: #1f1d1a;
+  --btn-hover: color-mix(in srgb, var(--btn-bg) 92%, #000);
+    --shadow:
+      rgba(0, 0, 0, 0.55) 0 14px 30px -18px,
+      rgba(0, 0, 0, 0.35) 0 6px 16px -12px;
+  color-scheme: dark;
+}
+
+/* System dark mode when no manual override is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #141312;
+    --surface: #1d1b18;
+    --surface-2: #23201c;
+    --surface-3: #2a2621;
+
+    --text: #c9c3bc;
+    --text-h: #f5f2ee;
+    --muted: #a8a099;
+
+    --border: rgba(245, 242, 238, 0.14);
+    --code-bg: #23201c;
+
+    --accent: #2fc46d;
+    --accent-bg: rgba(47, 196, 109, 0.16);
+    --accent-border: rgba(47, 196, 109, 0.45);
+    --social-bg: rgba(35, 32, 28, 0.8);
+    --btn-bg: var(--text-h);
+    --btn-text: #1f1d1a;
+    --btn-hover: color-mix(in srgb, var(--btn-bg) 92%, #000);
+    --shadow:
+      rgba(0, 0, 0, 0.55) 0 14px 30px -18px,
+      rgba(0, 0, 0, 0.35) 0 6px 16px -12px;
+    color-scheme: dark;
+  }
+}
+
+/* Force light when explicitly selected */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
   #social .button-icon {
     filter: invert(1) brightness(2);
   }
+}
+
+:root[data-theme='dark'] #social .button-icon {
+  filter: invert(1) brightness(2);
 }
 
 body {
@@ -69,7 +132,7 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 650;
   color: var(--text-h);
 }
 
@@ -116,9 +179,9 @@ code {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f3f3f3;
-  color: #222;
+  font-family: var(--sans);
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 a {
@@ -126,16 +189,43 @@ a {
   text-decoration: none;
 }
 
+.page-fade {
+  animation: pageFadeIn 320ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-fade {
+    animation: none;
+  }
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .page-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
   min-height: 100vh;
+  height: 100svh;
+  overflow: hidden;
 }
 
 .sidebar {
-  background-color: #efefef;
-  border-right: 2px solid #cfcfcf;
+  background-color: var(--surface-3);
+  border-right: 1px solid var(--border);
   padding: 20px;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100svh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .sidebar-header h2 {
@@ -157,12 +247,70 @@ a {
 .add-form textarea {
   width: 100%;
   padding: 14px 16px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 30px;
-  background-color: #dcdcdc;
+  background-color: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
   font-size: 16px;
   margin-bottom: 14px;
   outline: none;
+}
+
+.sidebar-section select,
+.controls select,
+.add-form select,
+.auth-page select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, color-mix(in srgb, var(--accent) 88%, #000) 50%),
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 88%, #000) 50%, transparent 50%);
+  background-position: calc(100% - 22px) 52%, calc(100% - 16px) 52%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.sidebar-section select:hover,
+.controls select:hover,
+.add-form select:hover,
+.auth-page select:hover {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--text-h) 16%, var(--border)),
+    rgba(31, 29, 26, 0.06) 0 10px 20px -16px;
+}
+
+.sidebar-section select:disabled,
+.controls select:disabled,
+.add-form select:disabled,
+.auth-page select:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background-image: none;
+}
+
+/* Best-effort styling for the opened native menu */
+select option {
+  background: var(--surface);
+  color: var(--text-h);
+}
+
+.sidebar-section input:focus,
+.sidebar-section select:focus,
+.controls input:focus,
+.controls select:focus,
+.add-form input:focus,
+.add-form select:focus,
+.add-form textarea:focus {
+  box-shadow:
+    inset 0 0 0 1px var(--accent-border),
+    0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
 }
 
 .sidebar-section h3 {
@@ -174,8 +322,10 @@ a {
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
 }
 
 .ingredient-list-scroll {
@@ -189,7 +339,7 @@ a {
 
 .ingredient-list-selectable li:hover,
 .ingredient-list-selectable li:focus {
-  background-color: #f3f3f3;
+  background-color: var(--surface-2);
 }
 
 .ingredient-actions {
@@ -200,15 +350,16 @@ a {
 
 .ingredient-remove-btn {
   padding: 6px 10px;
-  border: 1px solid #bbb;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: #f3f3f3;
+  background: var(--surface-2);
   cursor: pointer;
   font-size: 13px;
+  color: var(--text-h);
 }
 
 .ingredient-remove-btn:hover {
-  background: #e9e9e9;
+  background: var(--surface-3);
 }
 
 .sidebar-btn {
@@ -220,7 +371,7 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border);
   font-size: 16px;
 }
 
@@ -230,6 +381,9 @@ a {
 
 .main-content {
   padding: 0;
+  height: 100svh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .topbar,
@@ -237,9 +391,15 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  background-color: #efefef;
-  border-bottom: 2px solid #cfcfcf;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
   padding: 16px 24px;
+}
+
+.main-content > .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .topbar-left,
@@ -275,13 +435,32 @@ a {
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 20px;
-  background-color: #d9d9d9;
+  background-color: var(--btn-bg);
   cursor: pointer;
   text-decoration: none;
-  color: #222;
+  color: var(--btn-text);
   line-height: 1;
+  box-shadow: rgba(31, 29, 26, 0.12) 0 1px 0;
+  transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.small-btn:hover,
+.add-link:hover {
+  background-color: var(--btn-hover);
+  box-shadow: var(--shadow);
+}
+
+.small-btn:active,
+.add-link:active {
+  transform: translateY(0.5px);
+}
+
+.small-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .topbar-right .small-btn,
@@ -293,15 +472,16 @@ a {
 
 .topbar-right .add-link,
 .detail-topbar-right .add-link {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .profile-circle {
   width: 44px;
   height: 44px;
-  border: 2px solid #222;
+  border: 2px solid var(--text-h);
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
 }
 
 .controls {
@@ -309,7 +489,7 @@ a {
   grid-template-columns: 1.3fr 1fr 1fr;
   gap: 20px;
   padding: 18px 24px;
-  background-color: #f3f3f3;
+  background-color: var(--bg);
 }
 
 .recipe-grid {
@@ -322,11 +502,12 @@ a {
 .recipe-card {
   display: grid;
   grid-template-columns: 35% 65%;
-  background-color: #d9d9d9;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 28px;
   overflow: hidden;
   min-height: 235px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
 }
 
 .recipe-card-image img,
@@ -335,7 +516,7 @@ a {
   height: 100%;
   object-fit: cover;
   display: block;
-  background-color: #f78181;
+  background-color: var(--surface-2);
 }
 
 .recipe-card-content {
@@ -355,6 +536,7 @@ a {
 .recipe-card-top h2 {
   margin: 0;
   font-size: 22px;
+  font-weight: 800;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -362,31 +544,34 @@ a {
 }
 
 .time-badge {
-  background-color: white;
+  background-color: var(--surface-2);
   border-radius: 999px;
   padding: 8px 12px;
-  font-weight: bold;
+  font-weight: 800;
   white-space: nowrap;
+  color: var(--text-h);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .recipe-status {
   font-weight: bold;
   margin: 4px 0 8px 0;
+  color: var(--accent);
 }
 
 .recipe-description {
-  background-color: white;
+  background-color: color-mix(in srgb, var(--surface) 70%, var(--surface-2));
   padding: 10px 12px;
   border-radius: 16px;
   line-height: 1.4;
   margin: 0;
   width: 100%;
   box-sizing: border-box;
-  flex: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: block;
   overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .recipe-card-content .small-btn {
@@ -396,15 +581,17 @@ a {
 
 .empty-message {
   grid-column: 1 / -1;
-  background-color: white;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   padding: 24px;
   border-radius: 20px;
   text-align: center;
+  box-shadow: var(--shadow);
 }
 
 .detail-page {
   min-height: 100vh;
-  background-color: #f3f3f3;
+  background-color: var(--bg);
 }
 
 .detail-hero {
@@ -422,7 +609,9 @@ a {
   margin: 0 auto;
   border-radius: 24px;
   overflow: hidden;
-  background: #ddd;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 
 .detail-main-image,
@@ -431,7 +620,7 @@ a {
   max-height: 420px;
   object-fit: cover;
   display: block;
-  background: #f78181;
+  background: var(--surface-2);
 }
 
 .detail-content-grid {
@@ -442,9 +631,11 @@ a {
 }
 
 .detail-panel {
-  background: #e3e3e3;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 24px;
   padding: 20px;
+  box-shadow: var(--shadow);
 }
 
 .detail-list {
@@ -452,7 +643,8 @@ a {
 }
 
 .instruction-step {
-  background: white;
+  background: color-mix(in srgb, var(--surface) 75%, var(--surface-2));
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 14px;
   margin-bottom: 14px;
@@ -466,7 +658,8 @@ a {
 
 .info-box,
 .history-box {
-  background: white;
+  background: color-mix(in srgb, var(--surface) 75%, var(--surface-2));
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 14px;
   margin-bottom: 14px;
@@ -478,7 +671,7 @@ a {
 
 .add-page {
   min-height: 100vh;
-  background: #f3f3f3;
+  background: var(--bg);
 }
 
 .add-form-wrapper {
@@ -488,9 +681,11 @@ a {
 }
 
 .add-form {
-  background: #e3e3e3;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 24px;
   padding: 24px;
+  box-shadow: var(--shadow);
 }
 
 .add-form h2 {
@@ -500,11 +695,18 @@ a {
 @media (max-width: 1100px) {
   .page-layout {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
   }
 
   .sidebar {
+    position: static;
+    top: auto;
+    align-self: stretch;
+    height: auto;
+    overflow: visible;
     border-right: none;
-    border-bottom: 2px solid #cfcfcf;
+    border-bottom: 1px solid var(--border);
   }
 
   .recipe-grid {
@@ -515,27 +717,37 @@ a {
   .detail-content-grid {
     grid-template-columns: 1fr;
   }
+
+  .main-content {
+    height: auto;
+    overflow: visible;
+  }
 }
 
 
 .dark-text-input {
   color: #000 !important;
-  background-color: #fff !important;
-  border: 1px solid #ccc;
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border);
   padding: 10px;
   font-size: 16px;
+  border-radius: 12px;
 }
 
 .main-title {
   font-size: 2.5rem;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-weight: 800;
-  color: #222;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  color: var(--text-h);
+}
+
+.brand-link {
+  text-decoration: none;
+  color: var(--text-h);
 }
 
 .auth-form label {
-  color: #333;
+  color: var(--text-h);
   font-weight: 600;
   margin-top: 10px;
 }
@@ -544,14 +756,14 @@ a {
 .auth-page input, 
 .auth-page select, 
 .auth-page textarea {
-  color: #222 !important;
-  background-color: #fff !important;
-  border: 1px solid #aaa;
+  color: var(--text-h) !important;
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border);
   padding: 12px;
   width: 100%;
   margin-bottom: 15px;
   font-size: 16px;
-  border-radius: 4px;
+  border-radius: 12px;
 }
 
 input[type="file"] {
@@ -561,10 +773,10 @@ input[type="file"] {
 }
 
 .auth-error {
-  color: #d93025;
-  background: #fbe9e7;
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 12px;
   margin-bottom: 10px;
   font-weight: bold;
   text-align: center;
@@ -580,19 +792,19 @@ input[type="file"] {
 
 .auth-footer {
   margin-top: 20px;
-  color: #444;
+  color: var(--muted);
   text-align: center;
 }
 
 .auth-footer a {
-  color: #ff7f7f;
+  color: var(--accent);
   font-weight: bold;
   text-decoration: none;
 }
 
 .auth-error {
   color: white;
-  background-color: #ff4d4d;
+  background-color: var(--danger);
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -600,12 +812,12 @@ input[type="file"] {
 }
 
 .profile-data-box {
-  color: #222;
-  background: #f9f9f9;
+  color: var(--text-h);
+  background: color-mix(in srgb, var(--surface) 78%, var(--surface-2));
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 12px;
   min-height: 40px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border);
   margin-top: 5px;
 }
 
@@ -619,4 +831,9 @@ input[type="file"] {
   display: flex;
   align-items: center;
   gap: 15px;   
+}
+
+/* Ensure avatar accents match the new theme even when inline styles exist */
+.topbar-right .profile-circle {
+  border-color: var(--accent) !important;
 }

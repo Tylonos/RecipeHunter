@@ -1,10 +1,12 @@
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
-import { API_BASE_URL } from "../api";
+import { useTranslation } from "react-i18next";
+
 
 export default function Home() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const goToRandomRecipe = async () => {
     try {
@@ -27,25 +29,25 @@ export default function Home() {
 
       <div className="home-container">
         <h1 className="home-title">
-          Just tell us what’s in your fridge, we got you!
+          {t("homeTitle")}
         </h1>
 
         <button className="btn main-btn" onClick={() => navigate("/recipes")}>
-          GO HUNTING
+          {t("mainBtn")}
         </button>
 
-        <p className="or-text">Or you can either</p>
+        <p className="or-text">{t("orEither")}</p>
 
         <div className="options">
           <button className="btn green" onClick={goToRandomRecipe}>
-            Try out a random dish!
+            {t("randomBtn")}
           </button>
 
           <button
             className="btn orange"
             onClick={() => navigate("/recipes/69de72f97869f80ade485353")}
           >
-            Go with the dish of the day!
+          {t("dailyBtn")}
           </button>
         </div>
       </div>
