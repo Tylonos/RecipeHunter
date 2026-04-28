@@ -1,19 +1,24 @@
 import { useContext, useState, useEffect, useRef } from 'react'; 
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { useTranslation } from "react-i18next";
+import Footer from '../components/Footer'; // Import the new footer
 import api from '../api';
 
 function ProfilePage() {
-  const { user, login, logout } = useContext(AuthContext); 
-  const navigate = useNavigate();
+  const { user, login } = useContext(AuthContext); 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({}); 
-  const { t } = useTranslation();
+  const [msg, setMsg] = useState({ text: '', type: '' }); // Custom Alert State
   const fileInputRef = useRef(null);
 
-  const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+  // Restricted Colors
+  const colors = [
+    { name: 'Purple', hex: '#8e44ad' },
+    { name: 'Green', hex: '#0a7a3f' },
+    { name: 'Blue', hex: '#2980b9' },
+    { name: 'Red', hex: '#c0392b' },
+    { name: 'Yellow', hex: '#f1c40f' }
+  ];
 
   useEffect(() => {
     if (user && !isEditing) {
@@ -24,23 +29,31 @@ function ProfilePage() {
         cookingExpUnit: expParts[1] || 'years',
         themeColor: user.themeColor || '#0a7a3f'
       });
-      //user's theme color
       document.documentElement.style.setProperty('--accent', user.themeColor || '#0a7a3f');
     }
   }, [user, isEditing]);
 
-  if (!user) return <div className="page-layout"><Navbar /><h2>Please log in.</h2></div>;
+  const showNotification = (text, type = 'success') => {
+    setMsg({ text, type });
+    setTimeout(() => setMsg({ text: '', type: '' }), 3000);
+  };
 
   const handleSave = async () => {
-    
-    const ageNum = Number(formData.age);
-    if (ageNum < 14 || ageNum > 99) { alert("Age must be 14-99."); return; }
-    const occRegex = /^[a-zA-Z\s]*$/;
-    if (formData.occupation && !occRegex.test(formData.occupation)) { alert("Occupation: Letters only."); return; }
+    // 1. Email Verification Fix
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
+    if (!emailRegex.test(formData.email)) {
+      showNotification("Error: Only @gmail or @yahoo allowed", "error");
+      return;
+    }
+
+    // 2. Age Check
+    if (Number(formData.age) < 14 || Number(formData.age) > 99) {
+      showNotification("Error: Age must be 14-99", "error");
+      return;
+    }
 
     const finalData = {
       ...formData,
-      age: ageNum,
       cookingExp: `${formData.cookingExpValue || 0} ${formData.cookingExpUnit || 'years'}`
     };
 
@@ -48,80 +61,76 @@ function ProfilePage() {
       const res = await api.put(`/api/users/update/${user.id || user._id}`, finalData);
       login(res.data); 
       setIsEditing(false);
-      // CLEAN ALERT: Just the text you wanted
-      alert("Profile updated successfully!");
+      showNotification("Profile updated successfully!"); // Clean notification
     } catch (err) {
-      alert("Update failed.");
+      showNotification("Save failed", "error");
     }
   };
+
+  if (!user) return <div className="page-layout"><Navbar /><h2>Please log in.</h2></div>;
 
   return (
     <div className="profile-page">
       <Navbar />
-      <div className="profile-container">
+      
+      {/* Custom Notification Box (Replaces Browser Alert) */}
+      {msg.text && (
+        <div className={`custom-alert ${msg.type}`}>
+          {msg.text}
+        </div>
+      )}
+
+      <div className="profile-container" style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px' }}>
         <div className="profile-card">
-          <div style={{ textAlign: 'center', marginBottom: '30px', position: 'relative' }}>
+          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
             
-            {/* Color Picker Button (Top Right of Card) */}
+            {/* 5-Color Picker Buttons */}
             {isEditing && (
-              <div style={{ position: 'absolute', right: '10px', top: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <label style={{ fontSize: '10px', fontWeight: 'bold' }}>THEME</label>
-                <input 
-                  type="color" 
-                  value={formData.themeColor || '#0a7a3f'} 
-                  onChange={(e) => {
-                    setFormData({...formData, themeColor: e.target.value});
-                    document.documentElement.style.setProperty('--accent', e.target.value);
-                  }}
-                  style={{ width: '30px', height: '30px', border: 'none', cursor: 'pointer', background: 'none' }}
-                />
+              <div className="color-selector">
+                {colors.map(c => (
+                  <button 
+                    key={c.hex} 
+                    className="color-dot" 
+                    style={{ backgroundColor: c.hex, border: formData.themeColor === c.hex ? '3px solid black' : 'none' }}
+                    onClick={() => {
+                      setFormData({...formData, themeColor: c.hex});
+                      document.documentElement.style.setProperty('--accent', c.hex);
+                    }}
+                  />
+                ))}
               </div>
             )}
 
-            <div 
-              className="avatar-container" 
-              onClick={() => isEditing && fileInputRef.current.click()}
-              style={{ 
-                cursor: isEditing ? 'pointer' : 'default', 
-                border: `5px solid var(--accent)`, // Follows the chosen color
-                borderRadius: '50%',
-                display: 'inline-block',
-                overflow: 'hidden'
-              }}
-            >
-              <img src={formData.profilePicture || DEFAULT_AVATAR} alt="Profile" className="profile-img" style={{ width: '150px', height: '150px', objectFit: 'cover' }} />
-              {isEditing && <div className="avatar-overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.3)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Edit</div>}
+            <div className="avatar-container" onClick={() => isEditing && fileInputRef.current.click()} style={{ border: `5px solid var(--accent)` }}>
+              <img src={formData.profilePicture || "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="Profile" className="profile-img" />
             </div>
             <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={(e) => {
-              const file = e.target.files[0];
               const reader = new FileReader();
               reader.onloadend = () => setFormData({ ...formData, profilePicture: reader.result });
-              reader.readAsDataURL(file);
+              reader.readAsDataURL(e.target.files[0]);
             }} />
-            <h2 style={{ color: 'var(--text-h)' }}>{user.username}</h2>
           </div>
 
-          {/* GRID: Sit in 2 Columns */}
-          <div className="profile-info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <div className="profile-info-grid">
             {['email', 'age', 'occupation', 'cookingExp', 'allergies', 'appliances'].map((field) => (
               <div key={field} className="info-group">
-                <label>{field === 'cookingExp' ? "Experience" : field.charAt(0).toUpperCase() + field.slice(1)}:</label>
+                <label>{field.charAt(0).toUpperCase() + field.slice(1)}:</label>
                 {isEditing ? (
-                  field === 'cookingExp' ? (
+                  field === 'occupation' ? (
+                    <input 
+                      className="profile-input" 
+                      value={formData.occupation || ''} 
+                      onChange={(e) => setFormData({...formData, occupation: e.target.value.replace(/[0-9]/g, '')})} 
+                    />
+                  ) : field === 'cookingExp' ? (
                     <div style={{ display: 'flex', gap: '5px' }}>
-                      <input type="number" style={{ width: '50px' }} value={formData.cookingExpValue || ''} onChange={(e) => setFormData({...formData, cookingExpValue: e.target.value})} className="profile-input" />
+                      <input type="number" style={{width: '60px'}} value={formData.cookingExpValue || ''} onChange={(e) => setFormData({...formData, cookingExpValue: e.target.value})} className="profile-input" />
                       <select value={formData.cookingExpUnit || 'years'} onChange={(e) => setFormData({...formData, cookingExpUnit: e.target.value})} className="profile-input">
                         <option value="days">days</option><option value="months">months</option><option value="years">years</option>
                       </select>
                     </div>
                   ) : (
-                    <input 
-                      type={field === 'age' ? 'number' : 'text'} 
-                      value={formData[field] || ''} 
-                      onChange={(e) => setFormData({...formData, [field]: e.target.value})} 
-                      className="profile-input"
-                      style={{ borderColor: 'var(--accent)' }} // Input boxes follow theme color
-                    />
+                    <input className="profile-input" value={formData[field] || ''} onChange={(e) => setFormData({...formData, [field]: e.target.value})} />
                   )
                 ) : (
                   <p className="profile-data-box">{user[field] || "Not set"}</p>
@@ -130,18 +139,14 @@ function ProfilePage() {
             ))}
           </div>
 
-          <div style={{ marginTop: '30px', textAlign: 'center' }}>
-            {isEditing ? (
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                <button onClick={handleSave} className="small-btn">Save</button>
-                <button onClick={() => setIsEditing(false)} className="small-btn" style={{ background: '#666' }}>Cancel</button>
-              </div>
-            ) : (
-              <button onClick={() => setIsEditing(true)} className="small-btn">Edit Profile</button>
-            )}
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <button onClick={isEditing ? handleSave : () => setIsEditing(true)} className="small-btn">
+              {isEditing ? "Save" : "Edit Profile"}
+            </button>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
