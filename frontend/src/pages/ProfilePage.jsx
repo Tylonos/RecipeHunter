@@ -69,10 +69,10 @@ function ProfilePage() {
                 <label style={{ fontWeight: 'bold', textTransform: 'capitalize', color: 'var(--muted)' }}>{field.replace(/([A-Z])/g, ' $1')}:</label>
                 {isEditing ? (
                   <input 
-                    className="dark-text-input"
                     type="text" 
                     value={formData[field] || ''} 
                     onChange={(e) => setFormData({...formData, [field]: e.target.value})}
+                    className="profile-input"
                   />
                 ) : (
                   <p className="profile-data-box">
