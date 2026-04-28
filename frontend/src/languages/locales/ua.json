@@ -61,5 +61,7 @@
   "profilePicture": "Profile Picture",
   "selectImage": "Select a square image for best results.",
   "register": "Register",
-  "allreadyHaveAnAccount": "Already have an account?"
+  "allreadyHaveAnAccount": "Already have an account?",
+  "searchForIngredients" : "Search for ingredients",
+  "searchForRecipes" : "Search for recipes"
 }

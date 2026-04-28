@@ -184,7 +184,7 @@ function RecipeListPage() {
         <div className="sidebar-section">
           <input
             type="text"
-            placeholder="Search for ingredients..."
+            placeholder={t("searchForIngredients")}
             value={ingredientSearch}
             onChange={(event) => setIngredientSearch(event.target.value)}
           />
@@ -239,7 +239,7 @@ function RecipeListPage() {
           <h3>{t("addedIngredients")}</h3>
           <input
             type="text"
-            placeholder="Search for ingredients..."
+            placeholder={t("searchForIngredients")}
             value={addedIngredientSearch}
             onChange={(event) => setAddedIngredientSearch(event.target.value)}
           />
@@ -287,7 +287,7 @@ function RecipeListPage() {
         <section className="controls">
           <input
             type="text"
-            placeholder="Search for the recipes..."
+            placeholder={t("searchForRecipes")}
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
           />
