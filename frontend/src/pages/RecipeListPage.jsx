@@ -4,6 +4,7 @@ import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredient
 import { api } from '../api';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
+import Footer from '../components/Footer';
 
 
 function RecipeListPage() {
@@ -365,6 +366,7 @@ function RecipeListPage() {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

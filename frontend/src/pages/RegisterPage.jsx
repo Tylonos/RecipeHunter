@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
 import { api } from '../api';
+import Footer from '../components/Footer';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', profilePicture: '' });
@@ -85,6 +86,7 @@ function RegisterPage() {
           </p>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

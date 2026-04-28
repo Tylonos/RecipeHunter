@@ -4,6 +4,7 @@ import { splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
 import { api } from '../api';
+import Footer from '../components/Footer';
 
 function EditRecipePage() {
   const { t } = useTranslation();
@@ -125,6 +126,7 @@ function EditRecipePage() {
           <button type="submit" className="small-btn">{t("saveChanges")}</button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

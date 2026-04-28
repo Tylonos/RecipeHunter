@@ -70,51 +70,51 @@ function ProfilePage() {
   if (!user) return <div className="page-layout"><Navbar /><h2>Please log in.</h2></div>;
 
   return (
-    <div className="profile-page">
+    <div className="page-layout">
       <Navbar />
-      
-      {/* Custom Clean Notification (No Browser "Says" link) */}
+
       {notification.show && (
-        <div className={`custom-banner ${notification.type}`}>
+        <div className={`custom-alert ${notification.type}`}>
           {notification.msg}
         </div>
       )}
 
-      <div className="profile-wrapper">
-        <div className="profile-card">
+      <div className="profile-centering-container">
+        <div className="profile-card themed-card" style={{ borderTop: `8px solid ${formData.themeColor}` }}>
+          
           <div className="profile-header">
-            {isEditing && (
-              <div className="theme-picker">
-                {themeOptions.map(c => (
-                  <div 
-                    key={c.hex} 
-                    className="color-circle" 
-                    style={{ backgroundColor: c.hex, outline: formData.themeColor === c.hex ? '3px solid var(--text-h)' : 'none' }}
-                    onClick={() => {
-                      setFormData({...formData, themeColor: c.hex});
-                      document.documentElement.style.setProperty('--accent', c.hex);
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-
-            <div className="avatar-box" onClick={() => isEditing && fileInputRef.current.click()} style={{ borderColor: 'var(--accent)' }}>
-              <img src={formData.profilePicture || "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="User" />
-              {isEditing && <div className="avatar-edit-label">Change</div>}
+            <div className="avatar-container" onClick={() => isEditing && fileInputRef.current.click()}>
+              <img 
+                src={user.profilePicture || DEFAULT_AVATAR} 
+                alt="Avatar" 
+                className="profile-img-circle" 
+              />
+              {isEditing && (
+                <div className="avatar-overlay">
+                  <span>Change</span>
+                </div>
+              )}
             </div>
-            <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={(e) => {
-              const reader = new FileReader();
-              reader.onloadend = () => setFormData({ ...formData, profilePicture: reader.result });
-              reader.readAsDataURL(e.target.files[0]);
-            }} />
+            <input type="file" ref={fileInputRef} onChange={handleFileUpload} style={{ display: 'none' }} accept="image/*" />
+            
             <h2 className="profile-username">{user.username}</h2>
+
+            <div className="color-selector">
+              {themeOptions.map(c => (
+                <div 
+                  key={c.name}
+                  className={`color-dot ${formData.themeColor === c.hex ? 'active' : ''}`}
+                  style={{ backgroundColor: c.hex }}
+                  onClick={() => isEditing && setFormData({...formData, themeColor: c.hex})}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="profile-info-grid">
-            {['email', 'age', 'occupation', 'cookingExp', 'allergies', 'appliances'].map((field) => (
+            {['username', 'email', 'age', 'occupation', 'cookingExp'].map((field) => (
               <div key={field} className="info-item">
-                <label>{field.toUpperCase()}:</label>
+                <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
                 {isEditing ? (
                   field === 'occupation' ? (
                     <input 
@@ -146,6 +146,7 @@ function ProfilePage() {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
 import api from '../api';
+import Footer from '../components/Footer';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -49,6 +50,7 @@ function LoginPage() {
           </p>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }
