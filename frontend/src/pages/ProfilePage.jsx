@@ -69,6 +69,28 @@ function ProfilePage() {
 
   if (!user) return <div className="page-layout"><Navbar /><h2>Please log in.</h2></div>;
 
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
+        const base64Image = reader.result;
+        // Update the user profile with the new image string
+        await api.put(`/users/update/${user._id}`, { profilePicture: base64Image });
+        
+        // Update local context so the UI changes immediately
+        login({ ...user, profilePicture: base64Image });
+        setNotification({ show: true, msg: 'Profile picture updated!', type: 'success' });
+      } catch (err) {
+        console.error("Upload error:", err);
+        setNotification({ show: true, msg: 'Failed to upload image.', type: 'error' });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="page-layout">
       <Navbar />
