@@ -73,84 +73,128 @@ function ProfilePage() {
       <Navbar />
       <div className="profile-container">
         <div className="profile-card">
-          <div className="profile-header">
-            {/* HOVER EDITABLE AVATAR */}
-            <div className={`avatar-wrapper ${isEditing ? 'editable' : ''}`} 
-                 onClick={() => isEditing && fileInputRef.current.click()}>
+          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+            {/*Profile Picture */}
+            <div 
+              className="avatar-container" 
+              onClick={() => isEditing && fileInputRef.current.click()}
+              style={{ position: 'relative', display: 'inline-block', cursor: isEditing ? 'pointer' : 'default' }}
+            >
               <img 
                 src={formData.profilePicture || DEFAULT_AVATAR} 
                 alt="Profile" 
-                className={`profile-img ${isEditing ? 'profile-img-clickable' : ''}`} 
-                onClick={() => isEditing && fileInputRef.current.click()} 
+                className="profile-img" 
+                style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', border: '5px solid var(--accent)' }}
               />
-              {isEditing && <div className="avatar-overlay">Click to Change</div>}
+              {isEditing && (
+                <div className="avatar-overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '50%', background: 'rgba(0,0,0,0.4)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem' }}>
+                  {t("editPhoto") || "Change"}
+                </div>
+              )}
             </div>
-            <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleFileUpload} />
-            <h2>{user.username}</h2>
+            
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              style={{ display: 'none' }} 
+              accept="image/*" 
+              onChange={handleFileUpload} 
+            />
+            <h2 style={{ color: 'var(--text-h)', marginTop: '10px' }}>{user.username}</h2>
           </div>
 
           <div className="profile-info-grid">
-            <div className="info-item">
-              <label>Age:</label>
-              {isEditing ? (
-                <input 
-                  type="number" 
-                  value={formData.age || ''} 
-                  onChange={(e) => setFormData({...formData, age: e.target.value})}
-                  className="profile-input"
-                />
-              ) : <p className="profile-data-box">{user.age}</p>}
-            </div>
-
-            <div className="info-item">
-              <label>Occupation:</label>
-              {isEditing ? (
-                <input 
-                  type="text" 
-                  className="profile-input"
-                  value={formData.occupation || ''} 
-                  onChange={(e) => {
-                    // This line removes any numbers as the user types
-                    const cleanValue = e.target.value.replace(/[0-9]/g, '');
-                    setFormData({...formData, occupation: cleanValue});
-                  }}
-                />
-              ) : <p className="profile-data-box">{user.occupation}</p>}
-            </div>
-
-            <div className="info-item">
-              <label>Cooking Experience:</label> 
-              {isEditing ? (
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input 
-                    type="number" 
-                    className="profile-input"
-                    style={{ width: '80px' }}
-                    value={formData.cookingExpValue || ''} 
-                    onChange={(e) => setFormData({...formData, cookingExpValue: e.target.value})}
-                  />
-                  <select 
-                    className="profile-input"
-                    value={formData.cookingExpUnit || 'years'}
-                    onChange={(e) => setFormData({...formData, cookingExpUnit: e.target.value})}
-                  >
-                    <option value="days">days</option>
-                    <option value="months">months</option>
-                    <option value="years">years</option>
-                  </select>
-                </div>
-              ) : <p className="profile-data-box">{user.cookingExp}</p>}
-            </div>
+            {['email', 'age', 'occupation', 'cookingExp', 'allergies', 'appliances'].map((field) => (
+              <div key={field} className="info-group">
+                <label>
+                  {field === 'cookingExp' ? "Cooking Experience" : field.charAt(0).toUpperCase() + field.slice(1)}:
+                </label>
+                
+                {isEditing ? (
+                  <>
+                    {/*AGE*/}
+                    {field === 'age' ? (
+                      <input 
+                        type="number" 
+                        value={formData.age || ''} 
+                        onChange={(e) => setFormData({...formData, age: e.target.value})} 
+                        className="profile-input" 
+                      />
+                    ) : 
+                    /*OCCUPATION*/
+                    field === 'occupation' ? (
+                      <input 
+                        type="text" 
+                        value={formData.occupation || ''} 
+                        onChange={(e) => setFormData({...formData, occupation: e.target.value.replace(/[0-9]/g, '')})} 
+                        className="profile-input" 
+                      />
+                    ) : 
+                    /*COOKING EXPERIENCE*/
+                    field === 'cookingExp' ? (
+                      <div style={{ display: 'flex', gap: '5px' }}>
+                        <input 
+                          type="number" 
+                          style={{ width: '70px' }} 
+                          value={formData.cookingExpValue || ''} 
+                          onChange={(e) => setFormData({...formData, cookingExpValue: e.target.value})} 
+                          className="profile-input" 
+                        />
+                        <select 
+                          value={formData.cookingExpUnit || 'years'} 
+                          onChange={(e) => setFormData({...formData, cookingExpUnit: e.target.value})} 
+                          className="profile-input"
+                          style={{ flex: 1 }}
+                        >
+                          <option value="days">days</option>
+                          <option value="months">months</option>
+                          <option value="years">years</option>
+                        </select>
+                      </div>
+                    ) : (
+                      /*ALL OTHER FIELDS*/
+                      <input 
+                        type="text" 
+                        value={formData[field] || ''} 
+                        onChange={(e) => setFormData({...formData, [field]: e.target.value})} 
+                        className="profile-input" 
+                      />
+                    )}
+                  </>
+                ) : (
+                  
+                  <p className="profile-data-box">
+                    {user[field] || <span style={{ color: 'var(--muted)', fontStyle: 'italic' }}>Not specified</span>}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
-          <div className="profile-actions">
+          <div style={{ marginTop: '30px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             {isEditing ? (
-              <>
-                <button onClick={handleSave} className="small-btn">Save</button>
-                <button onClick={() => setIsEditing(false)} className="small-btn cancel">Cancel</button>
-              </>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={handleSave} className="small-btn">{t("saveChanges")}</button>
+                <button 
+                  onClick={() => setIsEditing(false)} 
+                  className="small-btn" 
+                  style={{ backgroundColor: 'var(--surface)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
+                >
+                  {t("cancel")}
+                </button>
+              </div>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="small-btn">Edit Profile</button>
+              <button onClick={() => setIsEditing(true)} className="small-btn">{t("editProfile")}</button>
+            )}
+            
+            {!isEditing && (
+              <button 
+                onClick={handleLogoutClick} 
+                className="small-btn" 
+                style={{ backgroundColor: 'var(--danger)', marginTop: '10px' }}
+              >
+                {t("logout")}
+              </button>
             )}
           </div>
         </div>
