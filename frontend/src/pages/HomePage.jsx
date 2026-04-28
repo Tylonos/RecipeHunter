@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { useTranslation } from "react-i18next";
-
+import { api } from '../api';
 
 export default function Home() {
   const navigate = useNavigate();

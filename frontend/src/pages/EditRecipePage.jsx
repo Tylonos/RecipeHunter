@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
-
+import { api } from '../api';
 
 function EditRecipePage() {
   const { t } = useTranslation();

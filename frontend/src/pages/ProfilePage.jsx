@@ -18,13 +18,13 @@ function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
       const res = await api.put(`/users/update/${user.id || user._id}`, formData);
       login(res.data); 
       setIsEditing(false);
       alert("Profile Updated!");
     } catch (err) {
-      alert("Failed to update profile");
+      console.error("Update error:", err);
+      alert("Failed to update profile: " + (err.response?.data?.message || err.message));
     }
   };
 
