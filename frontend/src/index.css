@@ -837,3 +837,31 @@ input[type="file"] {
 .topbar-right .profile-circle {
   border-color: var(--accent) !important;
 }
+
+
+
+/* inputs on the Profile Page  */
+.profile-input {
+  background: var(--surface-2) !important; /*darker than the main surface */
+  border: 2px solid var(--border) !important;
+  color: var(--text-h); /* high-contrast text color */
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: var(--accent) !important; /* Glow green when clicking in */
+  background: var(--surface) !important;
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+/*better visibility for the labels above the boxes */
+.profile-item label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: block;
+}
