@@ -840,28 +840,28 @@ input[type="file"] {
 
 
 
-/* inputs on the Profile Page  */
+/* 1. Base style (Works for Light Mode) */
 .profile-input {
-  background: var(--surface-2) !important; /*darker than the main surface */
+  background: var(--surface-2) !important;
   border: 2px solid var(--border) !important;
-  color: var(--text-h); /* high-contrast text color */
+  color: var(--text-h) !important; /* This should be dark in light mode */
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  margin-bottom: 10px;
+}
+
+/* 2. Explicit Dark Mode Fix (Force visibility) */
+[data-theme='dark'] .profile-input {
+  background: #2a2a2a !important; /* Solid dark grey */
+  color: #ffffff !important;      /* FORCE white text */
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .profile-input:focus {
   outline: none;
-  border-color: var(--accent) !important; /* Glow green when clicking in */
+  border-color: var(--accent) !important;
   background: var(--surface) !important;
-  box-shadow: 0 0 0 3px var(--accent-bg);
-}
-
-/*better visibility for the labels above the boxes */
-.profile-item label {
-  color: var(--muted);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-  display: block;
 }
