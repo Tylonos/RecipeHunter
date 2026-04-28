@@ -16,26 +16,53 @@ function ProfilePage() {
 
   //Sync formData
   useEffect(() => {
-    if (user) {
-      setFormData({ ...user });
+    if (user && !isEditing) {
+      // this splits the "8 months" string into '8' and 'months' for the edit inputs
+      const expParts = user.cookingExp ? user.cookingExp.split(' ') : ['', 'years'];
+      
+      setFormData({ 
+        ...user, 
+        cookingExpValue: expParts[0], 
+        cookingExpUnit: expParts[1] || 'years' 
+      });
     }
   }, [user, isEditing]);
 
   if (!user) return <div className="page-layout"><Navbar /><h2>Please log in.</h2></div>;
 
   const handleSave = async () => {
-    //REGEX: Must end in @gmail.com or @yahoo.com
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
-
-    console.log("Attempting to save email:", formData.email);
-
     if (!formData.email || !emailRegex.test(formData.email)) {
-      alert("STOP: Only @gmail.com or @yahoo.com addresses are permitted.");
-      return; 
+      alert("Invalid Email: Only @gmail.com or @yahoo.com addresses are permitted.");
+      return;
     }
 
+    // 2. Age Validation (14 to 99)
+    const ageNum = parseInt(formData.age);
+    if (isNaN(ageNum) || ageNum < 14) {
+      alert("Minors are not allowed (Minimum age: 14).");
+      return;
+    }
+    if (ageNum > 99) {
+      alert("Please enter a valid age between 14 and 99.");
+      return;
+    }
+
+    // 3. Occupation Validation 
+    const occRegex = /^[a-zA-Z\s]*$/;
+    if (formData.occupation && !occRegex.test(formData.occupation)) {
+      alert("Occupation can only contain letters (no numbers or special characters).");
+      return;
+    }
+
+    const finalData = {
+      ...formData,
+      age: ageNum, 
+      cookingExp: `${formData.cookingExpValue || 0} ${formData.cookingExpUnit || 'years'}`
+    };
+
     try {
-      const res = await api.put(`/api/users/update/${user.id || user._id}`, formData);
+      const res = await api.put(`/api/users/update/${user.id || user._id}`, finalData);
       login(res.data); 
       setIsEditing(false);
       alert("Profile Updated Successfully!");
