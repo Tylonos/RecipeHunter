@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
 import api from '../api';
 
+
 function ProfilePage() {
   const { user, login, logout } = useContext(AuthContext); 
   const navigate = useNavigate();
@@ -38,12 +39,22 @@ function ProfilePage() {
   };
 
   const handleSave = async () => {
-    // Frontend Validations
-    if (formData.age < 14) return alert("Minors are not allowed.");
-    if (formData.age > 99) return alert("Age must be under 100.");
+    
+    const ageNum = parseInt(formData.age);
+    if (isNaN(ageNum) || ageNum < 14 || ageNum > 99) {
+      alert("Validation Error: Age must be between 14 and 99.");
+      return; 
+    }
+
+    const occRegex = /^[a-zA-Z\s]*$/;
+    if (formData.occupation && !occRegex.test(formData.occupation)) {
+      alert("Validation Error: Occupation can only contain letters and spaces.");
+      return; 
+    }
 
     const finalData = {
       ...formData,
+      age: ageNum,
       cookingExp: `${formData.cookingExpValue || 0} ${formData.cookingExpUnit || 'years'}`
     };
 
@@ -66,7 +77,12 @@ function ProfilePage() {
             {/* HOVER EDITABLE AVATAR */}
             <div className={`avatar-wrapper ${isEditing ? 'editable' : ''}`} 
                  onClick={() => isEditing && fileInputRef.current.click()}>
-              <img src={formData.profilePicture || DEFAULT_AVATAR} alt="Profile" className="profile-img" />
+              <img 
+                src={formData.profilePicture || DEFAULT_AVATAR} 
+                alt="Profile" 
+                className={`profile-img ${isEditing ? 'profile-img-clickable' : ''}`} 
+                onClick={() => isEditing && fileInputRef.current.click()} 
+              />
               {isEditing && <div className="avatar-overlay">Click to Change</div>}
             </div>
             <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleFileUpload} />
@@ -91,27 +107,27 @@ function ProfilePage() {
               {isEditing ? (
                 <input 
                   type="text" 
+                  className="profile-input"
                   value={formData.occupation || ''} 
                   onChange={(e) => {
-                    const val = e.target.value.replace(/[0-9]/g, ''); // Block numbers instantly
-                    setFormData({...formData, occupation: val});
+                    // This line removes any numbers as the user types
+                    const cleanValue = e.target.value.replace(/[0-9]/g, '');
+                    setFormData({...formData, occupation: cleanValue});
                   }}
-                  className="profile-input"
                 />
               ) : <p className="profile-data-box">{user.occupation}</p>}
             </div>
 
             <div className="info-item">
-              <label>Cooking Experience:</label>
+              <label>Cooking Experience:</label> 
               {isEditing ? (
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <input 
                     type="number" 
-                    placeholder="No."
-                    value={formData.cookingExpValue || ''} 
-                    onChange={(e) => setFormData({...formData, cookingExpValue: e.target.value})}
                     className="profile-input"
                     style={{ width: '80px' }}
+                    value={formData.cookingExpValue || ''} 
+                    onChange={(e) => setFormData({...formData, cookingExpValue: e.target.value})}
                   />
                   <select 
                     className="profile-input"
@@ -123,7 +139,7 @@ function ProfilePage() {
                     <option value="years">years</option>
                   </select>
                 </div>
-              ) : <p className="profile-data-box">{user.cookingExp || 'Not set'}</p>}
+              ) : <p className="profile-data-box">{user.cookingExp}</p>}
             </div>
           </div>
 

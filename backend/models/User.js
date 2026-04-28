@@ -16,14 +16,16 @@ const userSchema = new mongoose.Schema({
   //Age 14-99
   age: { 
     type: Number, 
-    min: [14, 'Minors are not allowed.'], 
-    max: [99, 'Invalid age.'] 
+    min: [14, 'Age must be at least 14'], 
+    max: [99, 'Age cannot exceed 99'],
+    default: 18 
   },
 
   // Forces Occupation to be letters only
   occupation: { 
     type: String, 
-    match: [/^[a-zA-Z\s]*$/, 'Occupation can only contain letters.'] 
+    match: [/^[a-zA-Z\s]*$/, 'Occupation must not contain numbers'],
+    default: '' 
   },
 
   // Stores the combined string (exp: "8 months")
