@@ -32,9 +32,9 @@ const Footer = () => {
         </div>
       </div>
       
-      <div className="footer-bottom">
-        &copy; 2026 RecipeApp - {t('footer_tagline') || 'All rights reserved'}
-      </div>
+        <div className="footer-bottom">
+            &copy; 2026 RecipeApp - {t('footer_tagline', 'All rights reserved')}
+        </div>
     </footer>
   );
 };
