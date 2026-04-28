@@ -26,20 +26,16 @@ function RegisterPage() {
     };
 
   const validate = () => {
-    if (formData.username.length < 3 || formData.username.length > 15) {
-      return "Username must be between 3-15 characters.";
-    }
+    if (formData.username.length < 3 || formData.username.length > 15) return "Username must be between 3-15 characters.";
     
-    //Email validation for Gmail and Yahoo
+    
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
     if (!emailRegex.test(formData.email)) {
-      return "You must register with a @gmail.com or @yahoo.com address.";
+      return "Registration is only allowed for @gmail.com or @yahoo.com addresses.";
     }
 
     const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!passRegex.test(formData.password)) {
-      return "Password is too weak. Min. 8 characters with letters and numbers.";
-    }
+    if (!passRegex.test(formData.password)) return "Password is too weak.";
     
     return null;
   };
@@ -50,10 +46,10 @@ function RegisterPage() {
     if (vError) return setError(vError);
 
     try {
-      const res = await api.post('/api/users/register', formData);
+      
+      const res = await api.post('/api/users/register', formData); 
       alert("Registration successful!");
       navigate('/login');
-
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
     }
