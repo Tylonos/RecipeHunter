@@ -17,6 +17,20 @@ function RecipeListPage() {
   const [addedIngredients, setAddedIngredients] = useState([]);
   const { t } = useTranslation();
 
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await api.get('/recipes');
+        setRecipes(response.data);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load recipes');
+      }
+    };
+
+    fetchRecipes();
+  }, []);
+
   const getRecipeIngredientKeySet = useCallback((recipe) => {
     const keys = new Set();
     const ingredientList = Array.isArray(recipe?.ingredients) ? recipe.ingredients : [];
