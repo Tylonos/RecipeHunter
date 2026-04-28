@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
+import { useTranslation } from "react-i18next";
 
 function ProfilePage() {
   const { user, login } = useContext(AuthContext); 
@@ -10,7 +11,9 @@ function ProfilePage() {
   const [formData, setFormData] = useState({}); 
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
   const fileInputRef = useRef(null);
+  const { t } = useTranslation();
 
+  
   //5 Colors
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },
