@@ -6,35 +6,34 @@ const Footer = () => {
 
   return (
     <footer className="main-footer">
-      <div className="footer-content">
-        <div className="footer-column brand-column">
-          <h2 className="footer-logo">RecipeApp</h2>
-          <p>{t('footer_tagline') || 'Your personal kitchen companion.'}</p>
-        </div>
+      <div className="footer-logo-section">
+        <h1 className="footer-brand">Recipe Hunter</h1>
+      </div>
 
+      <div className="footer-content">
         <div className="footer-column">
           <h3>Contact Us</h3>
-          <p>Griffith College</p>
-          <p>Dublin, Ireland</p>
+          <p>Griffith College, Dublin</p>
           <p>support@recipeapp.com</p>
         </div>
-
+        
         <div className="footer-column">
           <h3>Help & Support</h3>
           <ul>
             <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/profile">Change Profile</Link></li>
+            <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/faq">FAQ</Link></li>
           </ul>
         </div>
 
         <div className="footer-column">
           <h3>Community</h3>
-          <p>Join our newsletter for weekly recipes and tips from top chefs.</p>
+          <p>Join our newsletter for weekly tips!</p>
         </div>
       </div>
+      
       <div className="footer-bottom">
-        &copy; 2026 RecipeApp - All rights reserved
+        &copy; 2026 RecipeApp - {t('footer_tagline') || 'All rights reserved'}
       </div>
     </footer>
   );

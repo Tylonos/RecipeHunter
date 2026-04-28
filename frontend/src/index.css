@@ -1166,3 +1166,52 @@ input[type="file"] {
   gap: 10px;
   justify-content: center;
 }
+
+/* --- Footer Styling --- */
+.main-footer {
+  padding: 40px 20px;
+  margin-top: 50px;
+  background: var(--surface-2); /* Better for light mode than pure white */
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer-brand {
+  font-size: 2.5rem; /* Bigger size */
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 30px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: nowrap; /* Forces them to stay in one line */
+  max-width: 1000px;
+  margin: 0 auto 30px auto;
+  gap: 20px;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  text-align: left;
+}
+
+/*Dark Mode Footer Adjustment */
+[data-theme='dark'] .main-footer {
+  background: #1a1a1a;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/*Mobile Fix: If the screen is too small, they have to stack or they'll break */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .footer-column {
+    text-align: center;
+  }
+}

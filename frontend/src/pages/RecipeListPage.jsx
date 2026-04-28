@@ -365,8 +365,9 @@ function RecipeListPage() {
             ))
           )}
         </section>
+        <Footer />
       </main>
-      <Footer />
+      
     </div>
   );
 }

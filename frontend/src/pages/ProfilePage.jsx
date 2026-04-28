@@ -11,7 +11,7 @@ function ProfilePage() {
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
   const fileInputRef = useRef(null);
 
-  // Restricted 5 Colors
+  //5 Colors
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },
     { name: 'Green', hex: '#0a7a3f' },
