@@ -18,6 +18,15 @@ function ProfilePage() {
 
   const handleSave = async () => {
     try {
+      //Regex to check for a valid email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(formData.email)) {
+        alert("Please enter a valid email address.");
+        return; 
+      }
+
+
       const res = await api.put(`/api/users/update/${user.id || user._id}`, formData);
       login(res.data); 
       setIsEditing(false);

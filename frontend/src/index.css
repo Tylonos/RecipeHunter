@@ -840,7 +840,7 @@ input[type="file"] {
 
 
 
-/* 1. Base style (Works for Light Mode) */
+/*Light Mode */
 .profile-input {
   background: var(--surface-2) !important;
   border: 2px solid var(--border) !important;
@@ -853,10 +853,10 @@ input[type="file"] {
   margin-bottom: 10px;
 }
 
-/* 2. Explicit Dark Mode Fix (Force visibility) */
+/* 2.Dark mode fix */
 [data-theme='dark'] .profile-input {
-  background: #2a2a2a !important; /* Solid dark grey */
-  color: #ffffff !important;      /* FORCE white text */
+  background: #2a2a2a !important; 
+  color: #ffffff !important;      
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 

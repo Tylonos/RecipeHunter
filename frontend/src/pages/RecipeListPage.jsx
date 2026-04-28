@@ -22,6 +22,7 @@ function RecipeListPage() {
       try {
         const response = await api.get('/api/recipes');
         setRecipes(response.data);
+        setError('');
       } catch (err) {
         console.error(err);
         setError('Failed to load recipes');
