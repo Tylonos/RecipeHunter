@@ -837,3 +837,31 @@ input[type="file"] {
 .topbar-right .profile-circle {
   border-color: var(--accent) !important;
 }
+
+
+
+/* 1. Base style (Works for Light Mode) */
+.profile-input {
+  background: var(--surface-2) !important;
+  border: 2px solid var(--border) !important;
+  color: var(--text-h) !important; /* This should be dark in light mode */
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* 2. Explicit Dark Mode Fix (Force visibility) */
+[data-theme='dark'] .profile-input {
+  background: #2a2a2a !important; /* Solid dark grey */
+  color: #ffffff !important;      /* FORCE white text */
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+  background: var(--surface) !important;
+}
