@@ -20,7 +20,7 @@ function RecipeListPage() {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await api.get('/recipes');
+        const response = await api.get('api/recipes');
         setRecipes(response.data);
       } catch (err) {
         console.error(err);
