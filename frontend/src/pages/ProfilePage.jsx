@@ -19,10 +19,10 @@ function ProfilePage() {
   const handleSave = async () => {
     try {
       //Regex to check for a valid email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-      if (!emailRegex.test(formData.email)) {
-        alert("Please enter a valid email address.");
+      if (!formData.email || !emailRegex.test(formData.email)) {
+        alert("Please enter a valid email address (e.g., name@example.com).");
         return; 
       }
 
@@ -78,10 +78,11 @@ function ProfilePage() {
                 <label style={{ fontWeight: 'bold', textTransform: 'capitalize', color: 'var(--muted)' }}>{field.replace(/([A-Z])/g, ' $1')}:</label>
                 {isEditing ? (
                   <input 
-                    type="text" 
+                    type={field === 'email' ? "email" : "text"} 
                     value={formData[field] || ''} 
                     onChange={(e) => setFormData({...formData, [field]: e.target.value})}
                     className="profile-input"
+                    required={field === 'email'}
                   />
                 ) : (
                   <p className="profile-data-box">
