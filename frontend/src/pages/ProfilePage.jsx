@@ -19,7 +19,7 @@ function ProfilePage() {
   const handleSave = async () => {
     try {
       //Regex to check for a valid email
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
 
       if (!formData.email || !emailRegex.test(formData.email)) {
         alert("Please enter a valid email address (e.g., name@example.com).");
