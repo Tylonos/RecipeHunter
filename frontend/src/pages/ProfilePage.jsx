@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
-
+import api from '../api';
 
 function ProfilePage() {
   const { user, login, logout } = useContext(AuthContext); 
@@ -18,13 +18,13 @@ function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      const res = await api.put(`/users/update/${user.id || user._id}`, formData);
+      const res = await api.put(`/api/users/update/${user.id || user._id}`, formData);
       login(res.data); 
       setIsEditing(false);
       alert("Profile Updated!");
     } catch (err) {
       console.error("Update error:", err);
-      alert("Failed to update profile: " + (err.response?.data?.message || err.message));
+      alert("Failed to update profile");
     }
   };
 
