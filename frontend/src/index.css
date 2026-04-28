@@ -889,3 +889,28 @@ input[type="file"] {
 .avatar-container:hover .avatar-overlay {
   opacity: 1;
 }
+
+.avatar-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-wrapper.editable:hover {
+  cursor: pointer;
+  border: 3px solid var(--accent);
+}
+
+.avatar-overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  color: white;
+  padding: 5px 0;
+  font-size: 12px;
+  text-align: center;
+}
