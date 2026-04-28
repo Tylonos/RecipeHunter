@@ -955,3 +955,23 @@ input[type="file"] {
   height: 100%;
   object-fit: cover;
 }
+
+
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.profile-input {
+  border: 2px solid var(--accent) !important;
+  transition: border-color 0.3s ease;
+}
+
+
+@media (max-width: 600px) {
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
