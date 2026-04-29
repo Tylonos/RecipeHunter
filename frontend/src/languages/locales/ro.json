@@ -1,5 +1,5 @@
 {
-  "login": "Login",
+"login": "Login",
 "home": "Acasă",
 "addRecipe": "Adaugă Rețetă",
 "language": "Limbă",
@@ -63,5 +63,11 @@
 "register": "Înregistrare",
 "allreadyHaveAnAccount": "Deja ai un cont?",
 "searchForIngredients" : "Caută ingrediente",
-"searchForRecipes" : "Caută rețete"
+"searchForRecipes" : "Caută rețete",
+"joinNewsletter" : "Abonați-vă newsletter-ului nostru pentru sfaturi săptămânale!",
+"contactUs" : "Contactați-ne!",
+"helpSupport" : "Ajutor & Suport",
+"aboutUs" : "Despre noi",
+"profile" : "Profil",
+"community" : "Comunitate"
 }

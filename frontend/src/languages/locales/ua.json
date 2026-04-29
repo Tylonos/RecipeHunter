@@ -63,5 +63,11 @@
   "register": "Реєстрація",
   "allreadyHaveAnAccount": "Вже маєш акаунти?",
   "searchForIngredients" : "Пошук інгредієнтів",
-  "searchForRecipes" : "Пошук рецептів"
+  "searchForRecipes" : "Пошук рецептів",
+  "joinNewsletter" : "Join our newsletter for weekly tips!",
+  "contactUs" : "Contact Us!",
+  "helpSupport" : "Help & Support",
+  "aboutUs" : "About Us",
+  "profile" : "Profile",
+  "community" : "Community"
 }
