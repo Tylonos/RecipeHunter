@@ -80,10 +80,10 @@ function ProfilePage() {
     reader.onloadend = async () => {
       try {
         const base64Image = reader.result;
-        // Update the user profile with the new image string
+        
         await api.put(`/users/update/${user._id}`, { profilePicture: base64Image });
         
-        // Update local context so the UI changes immediately
+        
         login({ ...user, profilePicture: base64Image });
         setNotification({ show: true, msg: 'Profile picture updated!', type: 'success' });
       } catch (err) {
