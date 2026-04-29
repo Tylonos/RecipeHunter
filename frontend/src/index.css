@@ -1169,7 +1169,7 @@ input[type="file"] {
 
 /* --- Footer Styling --- */
 .main-footer {
-  padding: 40px 20px;
+  padding: 10px 10px 10px;
   margin-top: 50px;
   background: var(--surface-2); /* Better for light mode than pure white */
   border-top: 1px solid var(--border);
@@ -1177,19 +1177,19 @@ input[type="file"] {
 }
 
 .footer-brand {
-  font-size: 2.5rem; /* Bigger size */
+  font-size: 2.5rem; 
   font-weight: 800;
   color: var(--accent);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  flex-wrap: nowrap; /* Forces them to stay in one line */
+  flex-wrap: nowrap;
   max-width: 1000px;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 10px auto;
   gap: 20px;
 }
 
@@ -1291,4 +1291,9 @@ input[type="file"] {
   display: flex;
   justify-content: center;
   gap: 15px;
+}
+
+.footer-column ul {
+  padding: 0;
+  margin: 0;
 }
