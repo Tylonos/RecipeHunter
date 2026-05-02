@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
-
+import { api } from '../api';
+import Footer from '../components/Footer';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', profilePicture: '' });
@@ -27,8 +28,16 @@ function RegisterPage() {
 
   const validate = () => {
     if (formData.username.length < 3 || formData.username.length > 15) return "Username must be between 3-15 characters.";
+    
+    
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
+    if (!emailRegex.test(formData.email)) {
+      return "Registration is only allowed for @gmail.com or @yahoo.com addresses.";
+    }
+
     const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passRegex.test(formData.password)) return "Password is too weak.";
+    
     return null;
   };
 
@@ -38,8 +47,8 @@ function RegisterPage() {
     if (vError) return setError(vError);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
-      const res = await axios.post(`${API_URL}/api/users/register`, formData);
+      
+      const res = await api.post('/api/users/register', formData); 
       alert("Registration successful!");
       navigate('/login');
     } catch (err) {
@@ -77,6 +86,7 @@ function RegisterPage() {
           </p>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

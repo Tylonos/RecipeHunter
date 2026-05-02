@@ -3,7 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
-
+import api from '../api';
+import Footer from '../components/Footer';
 
 function RecipeDetailPage() {
   const { id } = useParams();
@@ -14,8 +15,7 @@ function RecipeDetailPage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
-        const response = await axios.get(`${API_URL}/api/recipes/${id}`);
+        const response = await api.get(`/api/recipes/${id}`);
         
         setRecipe(response.data);
       } catch (err) {
@@ -116,6 +116,7 @@ function RecipeDetailPage() {
           </div>
         </aside>
       </section>
+      <Footer />
     </div>
   );
 }

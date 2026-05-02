@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { splitIngredientEntries } from '../utils/ingredients';
 import { useTranslation } from "react-i18next";
-
+import { api } from '../api';
+import Footer from '../components/Footer';
 
 function AddRecipePage() {
   const { t } = useTranslation();
@@ -97,6 +98,7 @@ function AddRecipePage() {
           <button type="submit" className="small-btn">{t("saveRecipe")}</button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

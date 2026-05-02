@@ -4,6 +4,7 @@ import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredient
 import { api } from '../api';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
+import Footer from '../components/Footer';
 
 
 function RecipeListPage() {
@@ -16,6 +17,21 @@ function RecipeListPage() {
   const [addedIngredientSearch, setAddedIngredientSearch] = useState('');
   const [addedIngredients, setAddedIngredients] = useState([]);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await api.get('/api/recipes');
+        setRecipes(response.data);
+        setError('');
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load recipes');
+      }
+    };
+
+    fetchRecipes();
+  }, []);
 
   const getRecipeIngredientKeySet = useCallback((recipe) => {
     const keys = new Set();
@@ -349,7 +365,9 @@ function RecipeListPage() {
             ))
           )}
         </section>
+        <Footer />
       </main>
+      
     </div>
   );
 }

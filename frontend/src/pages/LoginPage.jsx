@@ -3,7 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
-
+import api from '../api';
+import Footer from '../components/Footer';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ function LoginPage() {
   const handleLogin = async (e) => {
   e.preventDefault();
   try {
-    const res = await api.post("/api/users/login", { email, password });
+    const res = await api.post("/users/login", { email, password });
     
     login(res.data.user);
     localStorage.setItem('token', res.data.token);
@@ -49,6 +50,7 @@ function LoginPage() {
           </p>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }
