@@ -189,7 +189,7 @@ function RecipeListPage() {
             onChange={(event) => setIngredientSearch(event.target.value)}
           />
           <select>
-            <option>{t("filterBy...")}</option>
+            <option>{t("filterBy")}</option>
             <option>{t("fruits")}</option>
             <option>{t("vegetables")}</option>
             <option>{t("meat")}</option>
@@ -295,7 +295,7 @@ function RecipeListPage() {
             value={recipeFilter}
             onChange={(event) => setRecipeFilter(event.target.value)}
           >
-            <option value="">{t("filterBy...")}</option>
+            <option value="">{t("filterBy")}</option>
             <optgroup label="Diet">
               <option value="vegetarian">{t("vegetarian")}</option>
               <option value="vegan">{t("vegan")}</option>
@@ -308,7 +308,7 @@ function RecipeListPage() {
             value={recipeSort}
             onChange={(event) => setRecipeSort(event.target.value)}
           >
-            <option value="">{t("sortBy...")}</option>
+            <option value="">{t("sortBy")}</option>
             <option value="time-asc">{t("cookingTimeAsc")}</option>
             <option value="time-desc">{t("cookingTimeDesc")}</option>
           </select>
