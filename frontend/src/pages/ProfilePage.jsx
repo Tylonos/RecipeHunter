@@ -4,9 +4,11 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
-  const { user, login } = useContext(AuthContext); 
+  const { user, login, logout} = useContext(AuthContext); 
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({}); 
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
@@ -57,12 +59,12 @@ function ProfilePage() {
     };
 
     try {
-      const res = await api.put(`/api/users/update/${user.id || user._id}`, finalData);
-      login(res.data); 
+      const res = await api.put(`/users/update/${user._id || user.id}`, finalData);
+      login(res.data.user || res.data);
       setIsEditing(false);
-      triggerNotify("Profile updated successfully!"); 
+      setNotification({ show: true, msg: "Profile updated!", type: 'success' });
     } catch (err) {
-      triggerNotify("Update failed", "error");
+      setNotification({ show: true, msg: "Update failed", type: 'error' });
     }
   };
 

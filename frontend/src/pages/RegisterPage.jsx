@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
-import { api } from '../api';
+import api from '../api';
 import Footer from '../components/Footer';
 
 function RegisterPage() {
@@ -48,7 +48,7 @@ function RegisterPage() {
 
     try {
       
-      const res = await api.post('/api/users/register', formData); 
+      const res = await api.post('/users/register', formData); 
       alert("Registration successful!");
       navigate('/login');
     } catch (err) {
