@@ -20,6 +20,8 @@ Upon pressing on any recipe card, user will go to the RecipeDetailPage.
 
 0. HEADER - Header is accessible from every page of the site and it has critical functionality embedded inside. It has 5 (excluding the add recipe button) interactive elements 3 of which are for the navigation (Home -> Homepage.jsx, RECIPEHUNTER -> RecipeListPage.jsx, Profile icon -> ProfilePage.jsx) and 2 are for accessibility (Language - English, Romanian, Ukrainian, Light/Dark - Light theme/ Dark theme).
 
+0. FOOTER - Footer is 
+
 
 The layout of the RecipeList page was influenced by the site supercook.com which has similar usage to our site. 
 Whereas when it came down to overall design, we decided to go with hellofresh.com, since it still strongly touches recipes topic, has modern fresh look and not difficult to implement.
