@@ -42,6 +42,7 @@
   }
 }
 
+/* Manual override for dark theme */
 :root[data-theme='dark'] {
     --bg: #141312;
     --surface: #1d1b18;
@@ -68,6 +69,7 @@
   color-scheme: dark;
 }
 
+/* System dark mode when no manual override is set */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --bg: #141312;
@@ -96,6 +98,7 @@
   }
 }
 
+/* Force light when explicitly selected */
 :root[data-theme='light'] {
   color-scheme: light;
 }
@@ -292,6 +295,7 @@ select::-ms-expand {
   background-image: none;
 }
 
+/* Best-effort styling for the opened native menu */
 select option {
   background: var(--surface);
   color: var(--text-h);
@@ -829,14 +833,18 @@ input[type="file"] {
   gap: 15px;   
 }
 
+/* Ensure avatar accents match the new theme even when inline styles exist */
 .topbar-right .profile-circle {
   border-color: var(--accent) !important;
 }
 
+
+
+/*Light Mode */
 .profile-input {
   background: var(--surface-2) !important;
   border: 2px solid var(--border) !important;
-  color: var(--text-h) !important; 
+  color: var(--text-h) !important; /* This should be dark in light mode */
   width: 100%;
   padding: 12px;
   border-radius: 12px;
@@ -845,6 +853,7 @@ input[type="file"] {
   margin-bottom: 10px;
 }
 
+/* 2.Dark mode fix */
 [data-theme='dark'] .profile-input {
   background: #2a2a2a !important; 
   color: #ffffff !important;      
@@ -857,6 +866,7 @@ input[type="file"] {
   background: var(--surface) !important;
 }
 
+/* profile pic change */
 .avatar-container {
   position: relative;
   display: inline-block;
@@ -982,6 +992,7 @@ input[type="file"] {
 }
 .custom-alert.error { background: var(--danger); }
 
+/* Color selector styles */
 .color-selector {
   display: flex;
   justify-content: center;
@@ -997,6 +1008,7 @@ input[type="file"] {
 }
 .color-dot:hover { transform: scale(1.2); }
 
+/* Footer style */
 .main-footer {
   background: var(--surface-2);
   border-top: 1px solid var(--border);
@@ -1020,12 +1032,21 @@ input[type="file"] {
   color: var(--muted);
 }
 
+/* Center the profile
+.profile-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 25px;
+}
+
+/* 2Column Grid */
 .profile-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
 
+/*Custom Notification Banner */
 .custom-banner {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -1039,10 +1060,12 @@ input[type="file"] {
 }
 .custom-banner.error { background: var(--danger); }
 
+/* Themed Inputs*/
 .profile-input.themed {
   border: 2px solid var(--accent) !important;
 }
 
+/*Color Picker */
 .theme-picker {
   display: flex;
   justify-content: center;
@@ -1055,6 +1078,7 @@ input[type="file"] {
   cursor: pointer;
 }
 
+/* Footer Styling */
 .main-footer {
   background: var(--surface-2);
   padding: 60px 20px 20px;
@@ -1080,6 +1104,7 @@ input[type="file"] {
   .profile-info-grid, .footer-content { grid-template-columns: 1fr; }
 }
 
+/* Centering the Profile*/
 .profile-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -1100,6 +1125,7 @@ input[type="file"] {
   text-align: center;
 }
 
+/*Circle Avatar */
 .avatar-container {
   width: 150px;
   height: 150px;
@@ -1116,6 +1142,7 @@ input[type="file"] {
   height: 100%;
   object-fit: cover; 
 }
+
 
 .profile-input.themed {
   width: 100%;
@@ -1140,10 +1167,11 @@ input[type="file"] {
   justify-content: center;
 }
 
+/* --- Footer Styling --- */
 .main-footer {
   padding: 10px 10px 10px;
   margin-top: 50px;
-  background: var(--surface-2);
+  background: var(--surface-2); /* Better for light mode than pure white */
   border-top: 1px solid var(--border);
   text-align: center;
 }
@@ -1171,11 +1199,13 @@ input[type="file"] {
   text-align: left;
 }
 
+/*Dark Mode Footer Adjustment */
 [data-theme='dark'] .main-footer {
   background: #1a1a1a;
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
+/*Mobile Fix: If the screen is too small, they have to stack or they'll break */
 @media (max-width: 768px) {
   .footer-content {
     flex-wrap: wrap;
@@ -1186,6 +1216,8 @@ input[type="file"] {
   }
 }
 
+
+/* fixing layout ProfilePage */
 .profile-container {
   display: flex;
   justify-content: center;

@@ -43,8 +43,6 @@ Whereas when it came down to overall design, we decided to go with hellofresh.co
 * Fix major critical bug in the database involving the recipes.
 * Fixed the footer.
 * Fixed all the bugs related with the page transfers.
-* Created the 1st page the user sees when it enters on the site.
-* Modified the navbar.
 
 # Radu Constantin Lupu
 * Fixed translation crashes by restoring useTranslation hooks.
