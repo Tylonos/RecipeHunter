@@ -27,6 +27,9 @@ The layout of the RecipeList page was influenced by the site supercook.com which
 Whereas when it came down to overall design, we decided to go with hellofresh.com, since it still strongly touches recipes topic, has modern fresh look and not difficult to implement.
 
 ## Contribtion of each member during 3rd iteration
+
+The work in the frontend was divided evenly between the group members.
+
 # Ivan Novik 
 * Implemented and fixed pantry filtering functionality
 * Added initial documentation for the 3rd iteration
