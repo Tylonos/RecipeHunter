@@ -4,10 +4,11 @@ export const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
+//JWT token to every request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); 
+  const token = localStorage.getItem('token'); //Retrieve the token from local storage
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`; 
+    config.headers.Authorization = `Bearer ${token}`; // Attaching it as a Bearer token
   }
   return config;
 }, (error) => {
