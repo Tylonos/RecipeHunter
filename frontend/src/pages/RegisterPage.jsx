@@ -44,7 +44,7 @@ function RegisterPage() {
 
     try {
       // Path must match router.post('/register', register) in userRoutes.js
-      const res = await api.post('/users/register', formData); 
+      const res = await api.post('/api/users/register', formData); 
       alert("Registration successful!");
       navigate('/login');
     } catch (err) {
