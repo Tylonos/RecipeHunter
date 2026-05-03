@@ -42,4 +42,15 @@ Whereas when it came down to overall design, we decided to go with hellofresh.co
 * Fixed the footer.
 * Fixed all the bugs related with the page transfers.
 
-
+# Radu Constantin Lupu
+* Fixed translation crashes by restoring useTranslation hooks.
+* Resolved Vite production build syntax errors.
+* Fixed logout/login function bugs.
+* Resolved api import crashes by standardizing on a single default export in the Axios configuration.
+* Synchronized frontend API request paths to match backend userRoutes for login, registration, and profile updates.
+* Standardized the authentication flow to use consistent endpoints across the application.
+* Overhauled the Profile Page layout to prevent content from overlapping with the Navbar.
+* Pinned the Footer to the bottom of the viewport using Flexbox layout logic.
+* Created features for the Profile page to make it user friendly.
+* Used regex verification.
+* Implemented data sanitization
