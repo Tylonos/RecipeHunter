@@ -12,4 +12,34 @@ Upon pressing on any recipe card, user will go to the RecipeDetailPage.
 
 4. ProfilePage.jsx - User profile page. Contains information which user entered about themselves upon regestration along with the photo. There are two buttons "edit profile" and "log out".
 
-5. 
+5. RegisterPage.jsx - Page where user can enter their details necessary to create an account on the site. Has limitations on the different information the user can enter.
+
+6. LoginPage.jsx - Page which user gets to when trying to enter their account after logging out.
+
+7. AddRecipePage.jsx/EditRecipe.jsx - Pages used to add/edit recipes. Later would be accessible only for users with specific roles.
+
+0. HEADER - Header is accessible from every page of the site and it has critical functionality embedded inside. It has 5 (excluding the add recipe button) interactive elements 3 of which are for the navigation (Home -> Homepage.jsx, RECIPEHUNTER -> RecipeListPage.jsx, Profile icon -> ProfilePage.jsx) and 2 are for accessibility (Language - English, Romanian, Ukrainian, Light/Dark - Light theme/ Dark theme).
+
+
+The layout of the RecipeList page was influenced by the site supercook.com which has similar usage to our site. 
+Whereas when it came down to overall design, we decided to go with hellofresh.com, since it still strongly touches recipes topic, has modern fresh look and not difficult to implement.
+
+## Contribtion of each member during 3rd iteration
+# Ivan Novik 
+* Implemented and fixed pantry filtering functionality
+* Added initial documentation for the 3rd iteration
+* Improved UI navigation (home button and logo behavior)
+* Added Ukrainian language support (translation + filtering/sorting updates)
+* Enhanced sorting and filtering features
+* Refactored and merged branches to keep the project up to date
+* Improved UI/UX with styling updates, sticky header/pantry, and dark mode
+
+# Andrei-Silviu Serianu
+* Implemented the language function on the site.
+* Continued to implement the translation functions on everything my colleagues did afterwards.
+* Created the english and romanian translation.
+* Fix major critical bug in the database involving the recipes.
+* Fixed the footer.
+* Fixed all the bugs related with the page transfers.
+
+
