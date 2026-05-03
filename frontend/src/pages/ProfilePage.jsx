@@ -13,8 +13,6 @@ function ProfilePage() {
   const fileInputRef = useRef(null);
   const { t } = useTranslation();
 
-  
-  //5 colors
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },
     { name: 'Green', hex: '#0a7a3f' },
@@ -42,14 +40,12 @@ function ProfilePage() {
   };
 
   const handleSave = async () => {
-    //Email Verification
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
     if (!emailRegex.test(formData.email)) {
       triggerNotify("Error: Only @gmail or @yahoo allowed", "error");
       return;
     }
 
-    //Age Verification
     if (Number(formData.age) < 14 || Number(formData.age) > 99) {
       triggerNotify("Error: Age must be 14-99", "error");
       return;
@@ -98,7 +94,6 @@ function ProfilePage() {
     <div className="page-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
 
-      {/* Custom Notification Alert */}
       {notification.show && (
         <div className={`custom-alert ${notification.type}`}>
           {notification.msg}
