@@ -14,9 +14,92 @@ function RecipeListPage() {
   const [recipeFilter, setRecipeFilter] = useState('');
   const [recipeSort, setRecipeSort] = useState('');
   const [ingredientSearch, setIngredientSearch] = useState('');
+  const [ingredientCategoryFilter, setIngredientCategoryFilter] = useState('');
   const [addedIngredientSearch, setAddedIngredientSearch] = useState('');
   const [addedIngredients, setAddedIngredients] = useState([]);
   const { t } = useTranslation();
+
+  const matchesIngredientCategory = useCallback((ingredientKey, category) => {
+    if (!category) {
+      return true;
+    }
+
+    const key = String(ingredientKey ?? '').toLowerCase();
+    if (!key) {
+      return false;
+    }
+
+    const CATEGORY_KEYWORDS = {
+      fruits: [
+        'apple',
+        'banana',
+        'orange',
+        'lemon',
+        'lime',
+        'grape',
+        'pear',
+        'peach',
+        'plum',
+        'mango',
+        'pineapple',
+        'strawberry',
+        'blueberry',
+        'raspberry',
+        'cherry',
+        'kiwi',
+        'melon',
+      ],
+      vegetables: [
+        'tomato',
+        'onion',
+        'garlic',
+        'carrot',
+        'potato',
+        'pepper',
+        'cucumber',
+        'lettuce',
+        'spinach',
+        'broccoli',
+        'cauliflower',
+        'zucchini',
+        'aubergine',
+        'eggplant',
+        'celery',
+        'mushroom',
+        'cabbage',
+        'corn',
+        'bean',
+        'peas',
+      ],
+      meat: [
+        'beef',
+        'chicken',
+        'pork',
+        'lamb',
+        'turkey',
+        'bacon',
+        'ham',
+        'sausage',
+        'steak',
+        'venison',
+      ],
+      nuts: [
+        'nut',
+        'almond',
+        'walnut',
+        'peanut',
+        'cashew',
+        'pecan',
+        'hazelnut',
+        'pistachio',
+        'macadamia',
+      ],
+      oils: ['oil', 'olive oil', 'canola', 'sunflower', 'sesame oil', 'coconut oil'],
+    };
+
+    const needles = CATEGORY_KEYWORDS[category] ?? [];
+    return needles.some((needle) => key.includes(needle));
+  }, []);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -204,13 +287,16 @@ function RecipeListPage() {
             value={ingredientSearch}
             onChange={(event) => setIngredientSearch(event.target.value)}
           />
-          <select>
-            <option>{t("filterBy")}</option>
-            <option>{t("fruits")}</option>
-            <option>{t("vegetables")}</option>
-            <option>{t("meat")}</option>
-            <option>{t("nuts")}</option>
-            <option>{t("oils")}</option>
+          <select
+            value={ingredientCategoryFilter}
+            onChange={(event) => setIngredientCategoryFilter(event.target.value)}
+          >
+            <option value="">{t("filterBy")}</option>
+            <option value="fruits">{t("fruits")}</option>
+            <option value="vegetables">{t("vegetables")}</option>
+            <option value="meat">{t("meat")}</option>
+            <option value="nuts">{t("nuts")}</option>
+            <option value="oils">{t("oils")}</option>
           </select>
         </div>
 
@@ -225,6 +311,15 @@ function RecipeListPage() {
               allIngredients
                 .filter((ingredient) => {
                   const needle = ingredientSearch.trim().toLowerCase();
+                  const matchesCategory = matchesIngredientCategory(
+                    ingredient.key,
+                    ingredientCategoryFilter
+                  );
+
+                  if (!matchesCategory) {
+                    return false;
+                  }
+
                   if (!needle) {
                     return true;
                   }
