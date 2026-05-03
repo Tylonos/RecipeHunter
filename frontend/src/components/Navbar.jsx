@@ -42,7 +42,7 @@ function Navbar() {
           <Link to="/login" className="small-btn">{t("login")}</Link>
         )}
 
-        <Link to="/" className="small-btn">{t("home")}</Link>
+        <Link to="/recipes" className="small-btn">{t("home")}</Link>
 
         {!isAuthPage && (
           <Link to="/add-recipe" className="small-btn add-link">{t("addRecipe")}</Link>
@@ -51,7 +51,7 @@ function Navbar() {
 
       <div className="topbar-center">
         <h1 className="main-title">
-          <Link to="/recipes" className="brand-link">
+          <Link to="/" className="brand-link">
             RECIPE HUNTER
           </Link>
         </h1>

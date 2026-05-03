@@ -190,7 +190,7 @@ a {
 }
 
 .page-fade {
-  animation: pageFadeIn 320ms ease-out both;
+  animation: pageFadeIn 1000ms ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
