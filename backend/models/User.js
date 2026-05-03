@@ -7,13 +7,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    // Forces Gmail/Yahoo only at the database level
     match: [/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/, 'Only @gmail.com or @yahoo.com addresses are allowed']
   },
   password: { type: String, required: true },
   profilePicture: { type: String, default: '' },
   
-  //Age 14-99
   age: { 
     type: Number, 
     min: [14, 'Age must be at least 14'], 
@@ -21,20 +19,18 @@ const userSchema = new mongoose.Schema({
     default: 18 
   },
 
-  // Forces Occupation to be letters only
   occupation: { 
     type: String, 
     match: [/^[a-zA-Z\s]*$/, 'Occupation must not contain numbers'],
     default: '' 
   },
 
-  // Stores the combined string (exp: "8 months")
   cookingExp: { type: String, default: '' },
   
   allergies: { type: [String], default: [] },
   appliances: { type: [String], default: [] },
 
-  themeColor: { type: String, default: '#0a7a3f' }, // Default green
+  themeColor: { type: String, default: '#0a7a3f' }, 
 
 }, { timestamps: true });
 

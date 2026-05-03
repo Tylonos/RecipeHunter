@@ -11,7 +11,6 @@ const ensureDbConnected = (res) => {
   return true;
 };
 
-// Fetch all recipes from the database, newest ones first
 const getRecipes = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
@@ -21,8 +20,6 @@ const getRecipes = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Fetch just ONE specific recipe based on its unique ID
 const getRecipeById = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
@@ -34,7 +31,6 @@ const getRecipeById = async (req, res) => {
   }
 };
 
-// Create a brand new recipe
 const createRecipe = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
@@ -43,7 +39,6 @@ const createRecipe = async (req, res) => {
     const recipe = new Recipe({
       title,
       description,
-      // We run the ingredients through a helper to clean up messy text
       ingredients: normalizeIngredientsInput(ingredients), 
       cooking_time,
       diet,
@@ -57,13 +52,10 @@ const createRecipe = async (req, res) => {
   }
 };
 
-// Update an existing recipe
 const updateRecipe = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
     const { title, description, ingredients, cooking_time, image, diet } = req.body;
-    
-    // Find it by ID and replace its data with the newly typed stuff
     const updatedRecipe = await Recipe.findByIdAndUpdate(
       req.params.id,
       {
