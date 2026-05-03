@@ -2,7 +2,7 @@
 In this iteration we greatly improved existing interface, enhancing user experience and making visuals more pleasant to look at. 
 
 ## Page list
-## *Each of the pages has header and footer. Their functionality will be listed at the end of this section.
+## * Each of the pages has header and footer. Their functionality will be listed at the end of this section.
 1. HomePage.jsx - The landing page of the site. Provides interactions for a new user who is not familiar with the site. Gives the main idea with a simple phrase and allows to pick a random dish/dish of the day or proceed to the recipe list page.
 
 2. RecipeListPage.jsx - The center of the site. Has a big scrollable list of interactive recipes with each of them containing a list of ingredients required to cook it, along with the time needed to complete the recipe and a picture. Above the list are search field, filter (Diet/Added ingredients), and sort (Cooking time) options. On the left side of the page there is a "pantry" sidebar- it contains the list of all the ingredients available on the site with filters and search field for them. Pressing any ingredient will add it to the added ingredients section, there user can look through, delete one-by-one, or clear all ingredients at once. If user chose "Matches added ingredients" option, the list will show only recipes which are possible to cook using the ingredients user added to their pantry. 
@@ -20,7 +20,7 @@ Upon pressing on any recipe card, user will go to the RecipeDetailPage.
 
 0. HEADER - Header is accessible from every page of the site and it has critical functionality embedded inside. It has 5 (excluding the add recipe button) interactive elements 3 of which are for the navigation (Home -> Homepage.jsx, RECIPEHUNTER -> RecipeListPage.jsx, Profile icon -> ProfilePage.jsx) and 2 are for accessibility (Language - English, Romanian, Ukrainian, Light/Dark - Light theme/ Dark theme).
 
-0. FOOTER - Footer is 
+0. FOOTER - Footer contains some information about the complany with the ways to contact us, information about us, FAQ, community and profile hyperlinks.
 
 
 The layout of the RecipeList page was influenced by the site supercook.com which has similar usage to our site. 
