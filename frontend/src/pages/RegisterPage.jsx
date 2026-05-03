@@ -43,12 +43,10 @@ function RegisterPage() {
     if (vError) return setError(vError);
 
     try {
-      // Path must match router.post('/register', register) in userRoutes.js
-      const res = await api.post('/api/users/register', formData); 
+      const res = await api.post('/users/register', formData);
       alert("Registration successful!");
       navigate('/login');
     } catch (err) {
-      // Improved error handling to catch exact backend messages
       setError(err.response?.data?.message || err.response?.data?.error || "Registration failed");
     }
   };
