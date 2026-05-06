@@ -4,15 +4,20 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
-  const { user, login } = useContext(AuthContext); 
+  const { user, login, logout } = useContext(AuthContext); 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({}); 
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
   const fileInputRef = useRef(null);
   const { t } = useTranslation();
+
+  const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   const navigate = useNavigate();
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },
@@ -202,7 +207,10 @@ function ProfilePage() {
             
             {!isEditing && (
               <button 
-                onClick={() => { logout(); navigate('/login'); }} 
+                onClick={() => { 
+                  logout(); 
+                  navigate('/login'); 
+                }} 
                 className="small-btn" 
                 style={{ background: 'var(--danger)', marginLeft: '10px' }}
               >
