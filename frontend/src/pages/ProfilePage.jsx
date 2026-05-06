@@ -4,14 +4,39 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
-  const { user, login } = useContext(AuthContext); 
+  const { user, login, logout } = useContext(AuthContext); 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({}); 
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
   const fileInputRef = useRef(null);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+  const ALLERGY_OPTIONS = [
+    { key: 'peanuts', labelKey: 'allergyPeanuts' },
+    { key: 'tree_nuts', labelKey: 'allergyTreeNuts' },
+    { key: 'milk', labelKey: 'allergyMilk' },
+    { key: 'eggs', labelKey: 'allergyEggs' },
+    { key: 'wheat', labelKey: 'allergyWheat' },
+    { key: 'soy', labelKey: 'allergySoy' },
+    { key: 'fish', labelKey: 'allergyFish' },
+    { key: 'shellfish', labelKey: 'allergyShellfish' },
+    { key: 'sesame', labelKey: 'allergySesame' },
+  ];
+
+  const DIET_OPTIONS = [
+    { key: 'vegetarian', labelKey: 'dietVegetarian' },
+    { key: 'vegan', labelKey: 'dietVegan' },
+    { key: 'pescatarian', labelKey: 'dietPescatarian' },
+    { key: 'keto', labelKey: 'dietKeto' },
+    { key: 'gluten_free', labelKey: 'dietGlutenFree' },
+    { key: 'dairy_free', labelKey: 'dietDairyFree' },
+  ];
 
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },
@@ -28,6 +53,8 @@ function ProfilePage() {
         ...user, 
         cookingExpValue: expParts[0], 
         cookingExpUnit: expParts[1] || 'years',
+        allergies: Array.isArray(user.allergies) ? user.allergies : [],
+        diets: Array.isArray(user.diets) ? user.diets : [],
         themeColor: user.themeColor || '#0a7a3f'
       });
       document.documentElement.style.setProperty('--accent', user.themeColor || '#0a7a3f');
@@ -53,8 +80,13 @@ function ProfilePage() {
 
     const finalData = {
       ...formData,
+      allergies: Array.isArray(formData.allergies) ? formData.allergies : [],
+      diets: Array.isArray(formData.diets) ? formData.diets : [],
       cookingExp: `${formData.cookingExpValue || 0} ${formData.cookingExpUnit || 'years'}`
     };
+
+    delete finalData.cookingExpValue;
+    delete finalData.cookingExpUnit;
 
     try {
       const res = await api.put(`/api/users/update/${user.id || user._id}`, finalData);
@@ -91,7 +123,7 @@ function ProfilePage() {
   };
 
   return (
-    <div className="page-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="profile-page-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
 
       {notification.show && (
@@ -141,7 +173,7 @@ function ProfilePage() {
 
           
           <div className="profile-info-grid">
-            {['email', 'age', 'occupation', 'cookingExp'].map((field) => (
+            {['email', 'age', 'occupation', 'cookingExp', 'allergies', 'diets'].map((field) => (
               <div key={field} className="info-item">
                 <label className="info-label">{t(field)}</label>
                 
@@ -154,6 +186,62 @@ function ProfilePage() {
                         value={formData.age || ''} 
                         onChange={(e) => setFormData({...formData, age: e.target.value})} 
                       />
+                    ) : field === 'allergies' ? (
+                      <div className="allergies-grid">
+                        {ALLERGY_OPTIONS.map((option) => {
+                          const selected = Array.isArray(formData.allergies)
+                            ? formData.allergies.includes(option.key)
+                            : false;
+
+                          return (
+                            <label key={option.key} className="allergy-option">
+                              <input
+                                type="checkbox"
+                                checked={selected}
+                                onChange={(e) => {
+                                  const nextChecked = e.target.checked;
+                                  setFormData((prev) => {
+                                    const prevAllergies = Array.isArray(prev.allergies) ? prev.allergies : [];
+                                    const nextAllergies = nextChecked
+                                      ? Array.from(new Set([...prevAllergies, option.key]))
+                                      : prevAllergies.filter((item) => item !== option.key);
+                                    return { ...prev, allergies: nextAllergies };
+                                  });
+                                }}
+                              />
+                              <span>{t(option.labelKey)}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    ) : field === 'diets' ? (
+                      <div className="allergies-grid">
+                        {DIET_OPTIONS.map((option) => {
+                          const selected = Array.isArray(formData.diets)
+                            ? formData.diets.includes(option.key)
+                            : false;
+
+                          return (
+                            <label key={option.key} className="allergy-option">
+                              <input
+                                type="checkbox"
+                                checked={selected}
+                                onChange={(e) => {
+                                  const nextChecked = e.target.checked;
+                                  setFormData((prev) => {
+                                    const prevDiets = Array.isArray(prev.diets) ? prev.diets : [];
+                                    const nextDiets = nextChecked
+                                      ? Array.from(new Set([...prevDiets, option.key]))
+                                      : prevDiets.filter((item) => item !== option.key);
+                                    return { ...prev, diets: nextDiets };
+                                  });
+                                }}
+                              />
+                              <span>{t(option.labelKey)}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
                     ) : field === 'occupation' ? (
                       <input 
                         className="profile-input themed"
@@ -187,7 +275,51 @@ function ProfilePage() {
                     )}
                   </>
                 ) : (
-                  <div className="data-display">{user[field] || "Not set"}</div>
+                  <div className="data-display">
+                    {field === 'allergies'
+                      ? (() => {
+                          const existing = Array.isArray(user.allergies) ? user.allergies : [];
+                          if (existing.length === 0) {
+                            return "Not set";
+                          }
+
+                          const labelByKey = new Map(
+                            ALLERGY_OPTIONS.map((option) => [option.key, t(option.labelKey)])
+                          );
+
+                          return (
+                            <div className="allergy-badges" role="list">
+                              {existing.map((key) => (
+                                <span key={key} className="allergy-badge" role="listitem">
+                                  {labelByKey.get(key) || key}
+                                </span>
+                              ))}
+                            </div>
+                          );
+                        })()
+                      : field === 'diets'
+                        ? (() => {
+                            const existing = Array.isArray(user.diets) ? user.diets : [];
+                            if (existing.length === 0) {
+                              return "Not set";
+                            }
+
+                            const labelByKey = new Map(
+                              DIET_OPTIONS.map((option) => [option.key, t(option.labelKey)])
+                            );
+
+                            return (
+                              <div className="allergy-badges" role="list">
+                                {existing.map((key) => (
+                                  <span key={key} className="allergy-badge" role="listitem">
+                                    {labelByKey.get(key) || key}
+                                  </span>
+                                ))}
+                              </div>
+                            );
+                          })()
+                      : (user[field] || "Not set")}
+                  </div>
                 )}
               </div>
             ))}

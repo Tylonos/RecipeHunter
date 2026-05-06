@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 import { api } from '../api';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
 import Footer from '../components/Footer';
+import { AuthContext } from '../context/AuthContext';
 
 
 function RecipeListPage() {
@@ -13,11 +14,35 @@ function RecipeListPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [recipeFilter, setRecipeFilter] = useState('');
   const [recipeSort, setRecipeSort] = useState('');
+  const [useProfileFilters, setUseProfileFilters] = useState(false);
   const [ingredientSearch, setIngredientSearch] = useState('');
   const [ingredientCategoryFilter, setIngredientCategoryFilter] = useState('');
   const [addedIngredientSearch, setAddedIngredientSearch] = useState('');
   const [addedIngredients, setAddedIngredients] = useState([]);
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
+
+  const matchesAllergen = useCallback((ingredientKey, allergenKey) => {
+    const ingredient = String(ingredientKey ?? '').toLowerCase();
+    if (!ingredient) {
+      return false;
+    }
+
+    const ALLERGEN_KEYWORDS = {
+      peanuts: ['peanut'],
+      tree_nuts: ['almond', 'walnut', 'cashew', 'pecan', 'hazelnut', 'pistachio', 'macadamia', 'nut'],
+      milk: ['milk', 'cheese', 'butter', 'cream', 'yogurt'],
+      eggs: ['egg'],
+      wheat: ['wheat', 'flour', 'bread', 'pasta'],
+      soy: ['soy', 'soya', 'tofu', 'edamame'],
+      fish: ['fish', 'salmon', 'tuna', 'cod'],
+      shellfish: ['shrimp', 'prawn', 'crab', 'lobster', 'clam', 'mussel', 'oyster', 'shellfish'],
+      sesame: ['sesame', 'tahini'],
+    };
+
+    const needles = ALLERGEN_KEYWORDS[allergenKey] ?? [];
+    return needles.some((needle) => ingredient.includes(needle));
+  }, []);
 
   const matchesIngredientCategory = useCallback((ingredientKey, category) => {
     if (!category) {
@@ -131,6 +156,36 @@ function RecipeListPage() {
 
     return keys;
   }, []);
+
+  const isRecipeAllowedByProfile = useCallback((recipe) => {
+    if (!useProfileFilters || !user) {
+      return true;
+    }
+
+    const activeAllergies = Array.isArray(user.allergies) ? user.allergies : [];
+    const activeDiets = Array.isArray(user.diets) ? user.diets : [];
+
+    if (activeAllergies.length > 0) {
+      const recipeKeys = getRecipeIngredientKeySet(recipe);
+      for (const key of recipeKeys) {
+        if (activeAllergies.some((allergen) => matchesAllergen(key, allergen))) {
+          return false;
+        }
+      }
+    }
+
+    const wantsVegan = activeDiets.includes('vegan');
+    const wantsVegetarian = activeDiets.includes('vegetarian');
+    if (wantsVegan) {
+      return recipe?.diet === 'vegan';
+    }
+
+    if (wantsVegetarian) {
+      return recipe?.diet === 'vegetarian' || recipe?.diet === 'vegan';
+    }
+
+    return true;
+  }, [getRecipeIngredientKeySet, matchesAllergen, useProfileFilters, user]);
 
   const allIngredients = useMemo(() => {
     const ingredientByKey = new Map();
@@ -248,6 +303,10 @@ function RecipeListPage() {
       list = list.filter((recipe) => recipe.diet === recipeFilter);
     }
 
+    if (useProfileFilters && user) {
+      list = list.filter((recipe) => isRecipeAllowedByProfile(recipe));
+    }
+
     if (recipeSort === 'time-asc') {
       list = [...list].sort((a, b) => (a.cooking_time || 0) - (b.cooking_time || 0));
     } else if (recipeSort === 'time-desc') {
@@ -255,7 +314,7 @@ function RecipeListPage() {
     }
 
     return list;
-  }, [recipes, addedIngredients, searchTerm, recipeFilter, recipeSort, getRecipeIngredientKeySet]);
+  }, [recipes, addedIngredients, searchTerm, recipeFilter, recipeSort, getRecipeIngredientKeySet, isRecipeAllowedByProfile, useProfileFilters, user]);
 
   const getRecipeIngredientPreview = useCallback((recipe) => {
     const ingredientList = Array.isArray(recipe?.ingredients) ? recipe.ingredients : [];
@@ -423,6 +482,17 @@ function RecipeListPage() {
             <option value="time-asc">{t("cookingTimeAsc")}</option>
             <option value="time-desc">{t("cookingTimeDesc")}</option>
           </select>
+
+          {user && (
+            <label className="profile-filter-toggle">
+              <input
+                type="checkbox"
+                checked={useProfileFilters}
+                onChange={(event) => setUseProfileFilters(event.target.checked)}
+              />
+              <span>{t("useProfileFilters")}</span>
+            </label>
+          )}
         </section>
 
         {error && <p className="empty-message">{error}</p>}

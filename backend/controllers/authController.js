@@ -42,14 +42,16 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1d' });
     
+    const safeUserDoc = await User.findById(user._id).select('-password');
+    const safeUser = safeUserDoc?.toObject ? safeUserDoc.toObject() : safeUserDoc;
+    if (safeUser) {
+      if (!Array.isArray(safeUser.allergies)) safeUser.allergies = [];
+      if (!Array.isArray(safeUser.diets)) safeUser.diets = [];
+    }
+
     res.json({ 
       token, 
-      user: { 
-        id: user._id, 
-        email: user.email, 
-        username: user.username, 
-        profilePicture: user.profilePicture 
-      } 
+      user: safeUser,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -61,10 +63,16 @@ exports.updateProfile = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id, 
       { $set: req.body }, 
-      { new: true }
+      { new: true, runValidators: true }
     ).select('-password');
 
-    res.json(updatedUser);
+    const normalizedUser = updatedUser?.toObject ? updatedUser.toObject() : updatedUser;
+    if (normalizedUser) {
+      if (!Array.isArray(normalizedUser.allergies)) normalizedUser.allergies = [];
+      if (!Array.isArray(normalizedUser.diets)) normalizedUser.diets = [];
+    }
+
+    res.json(normalizedUser);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

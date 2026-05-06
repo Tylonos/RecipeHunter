@@ -213,6 +213,11 @@ a {
   overflow: hidden;
 }
 
+.profile-page-layout {
+  min-height: 100vh;
+  overflow: visible;
+}
+
 .sidebar {
   background-color: var(--surface-3);
   border-right: 1px solid var(--border);
@@ -488,6 +493,25 @@ select option {
   background-color: var(--bg);
 }
 
+.profile-filter-toggle {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+.profile-filter-toggle input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(420px, 1fr));
@@ -717,6 +741,89 @@ select option {
   .main-content {
     height: auto;
     overflow: visible;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar,
+  .detail-topbar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .topbar-left,
+  .detail-topbar-left,
+  .topbar-center,
+  .detail-topbar-center,
+  .topbar-right,
+  .detail-topbar-right {
+    justify-content: center;
+  }
+
+  .topbar-right,
+  .detail-topbar-right {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .topbar-center h1,
+  .detail-topbar-center h1 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .small-btn,
+  .add-link {
+    padding: 9px 14px;
+    border-radius: 16px;
+    font-size: 12px;
+  }
+
+  .sidebar {
+    padding: 14px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 28px;
+  }
+
+  .controls {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .recipe-grid {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .recipe-card {
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+  }
+
+  .recipe-card-image {
+    height: 180px;
+  }
+
+  .recipe-card-image img,
+  .image-placeholder {
+    height: 100%;
+  }
+
+  .detail-content-grid {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .detail-panel {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .profile-card {
+    padding: 24px;
   }
 }
 
@@ -1259,6 +1366,57 @@ input[type="file"] {
   display: flex;
   justify-content: center;
   gap: 15px;
+}
+
+.allergies-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  .allergies-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.allergy-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-h);
+  cursor: pointer;
+  user-select: none;
+}
+
+.allergy-option input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.allergy-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.allergy-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-h);
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .footer-column ul {
