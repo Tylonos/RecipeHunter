@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function ProfilePage() {
   const { user, login, logout } = useContext(AuthContext); 
