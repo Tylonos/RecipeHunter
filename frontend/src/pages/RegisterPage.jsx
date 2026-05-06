@@ -4,12 +4,15 @@ import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
 import { api } from '../api';
 import Footer from '../components/Footer';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', profilePicture: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { login } = useContext(AuthContext);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -47,12 +50,19 @@ function RegisterPage() {
     if (vError) return setError(vError);
 
     try {
+      await api.post('/api/users/register', formData); 
       
-      const res = await api.post('/api/users/register', formData); 
-      alert("Registration successful!");
-      navigate('/login');
+      const res = await api.post('/api/users/login', { 
+        email: formData.email, 
+        password: formData.password 
+      });
+      
+      login(res.data.user);
+      localStorage.setItem('token', res.data.token);
+      
+      navigate('/recipes');
     } catch (err) {
-      setError(err.response?.data?.error || "Registration failed");
+      setError(err.response?.data?.error || err.response?.data?.message || "Registration/Login failed");
     }
   };
 
