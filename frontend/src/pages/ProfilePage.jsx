@@ -18,7 +18,6 @@ function ProfilePage() {
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   const navigate = useNavigate();
 
-  const [isEditing, setIsEditing] = useState(false);
 
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },
