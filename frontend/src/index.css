@@ -205,12 +205,12 @@ a {
   }
 }
 
+
 .page-layout {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  min-height: 100vh;
-  height: 100svh;
-  overflow: hidden;
+  display: flex;             
+  flex-direction: column;
+  min-height: 100vh;        
+  overflow-y: auto;      
 }
 
 .sidebar {
