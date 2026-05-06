@@ -12,6 +12,7 @@ function ProfilePage() {
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
   const fileInputRef = useRef(null);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const themeOptions = [
     { name: 'Purple', hex: '#8e44ad' },

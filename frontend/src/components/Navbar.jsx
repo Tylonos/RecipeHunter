@@ -3,12 +3,14 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { applyTheme, getEffectiveTheme, getStoredTheme, setStoredTheme } from '../utils/theme';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const [storedTheme, setStoredThemeState] = useState(null);
+  const navigate = useNavigate();
 
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
@@ -67,22 +69,15 @@ function Navbar() {
         </button>
 
         {user && (
-          <Link to="/profile" title={t("goToProfile")}>
-            <div className="profile-circle" style={{ 
-                width: '40px', 
-                height: '40px', 
-                borderRadius: '50%', 
-                overflow: 'hidden', 
-                border: '2px solid #ff7f7f',
-                marginLeft: '15px'
-            }}>
-              <img 
-                src={user.profilePicture || DEFAULT_AVATAR} 
-                alt="Profile" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-          </Link>
+          <div className="nav-profile-section" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+            <img 
+              src={user.profilePicture || DEFAULT_AVATAR} 
+              alt="Profile" 
+              className="nav-avatar"
+              style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} 
+            />
+            <span className="nav-username">{user.username}</span>
+          </div>
         )}
       </div>
     </header>
