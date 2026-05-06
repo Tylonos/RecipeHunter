@@ -72,8 +72,17 @@ function ProfilePage() {
     }
   };
 
-  if (!user) return <div className="page-layout"><Navbar /><h2>Please log in.</h2></div>;
-
+  if (!user) {
+    return (
+      <div className="page-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <main style={{ flex: '1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <h2>Please log in to view your profile.</h2>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
