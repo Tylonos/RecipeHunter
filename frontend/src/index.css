@@ -205,13 +205,14 @@ a {
   }
 }
 
-
 .page-layout {
-  display: flex;             
-  flex-direction: column;
-  min-height: 100vh;        
-  overflow-y: auto;      
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: 100vh;
+  height: 100svh;
+  overflow: hidden;
 }
+
 
 .sidebar {
   background-color: var(--surface-3);
