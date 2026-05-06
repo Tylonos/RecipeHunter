@@ -106,8 +106,8 @@ function ProfilePage() {
   };
 
   return (
-    <div className="page-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Navbar />
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Navbar />  
 
       {notification.show && (
         <div className={`custom-alert ${notification.type}`}>
