@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
   cookingExp: { type: String, default: '' },
   
   allergies: { type: [String], default: [] },
+  diets: { type: [String], default: [] },
   appliances: { type: [String], default: [] },
 
   themeColor: { type: String, default: '#0a7a3f' }, 
