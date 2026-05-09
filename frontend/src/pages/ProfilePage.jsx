@@ -114,15 +114,25 @@ function ProfilePage() {
     const file = e.target.files[0];
     if (!file) return;
 
+    if(file.size > 5 * 1024* 1024) {
+      triggerNotify("Image is too large! Please choose an image under 5MB.", "error");
+      e.target.value = null;
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = async () => {
       try {
         const base64Image = reader.result;
         
-        setFormData(prev => ({ ...prev, profilePicture: base64Image }));
+        setFormData(prev => ({ 
+          ...prev, 
+          profilePicture: base64Image 
+        }));
 
         login({ ...user, profilePicture: base64Image });
-        setNotification({ show: true, msg: 'Profile picture updated!', type: 'success' });
+        
+        setNotification({ show: true, msg: "Photo preview updated! Click 'Save Profile' to apply.", type: 'success' });
       } catch (err) {
         console.error("Upload error:", err);
         setNotification({ show: true, msg: 'Failed to upload image.', type: 'error' });
