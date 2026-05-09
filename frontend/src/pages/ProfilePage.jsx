@@ -119,8 +119,7 @@ function ProfilePage() {
       try {
         const base64Image = reader.result;
         
-        await api.put(`/users/update/${user._id}`, { profilePicture: base64Image });
-        
+        await api.put(`/api/users/update/${user.id || user._id}`, { profilePicture: base64Image });
         
         login({ ...user, profilePicture: base64Image });
         setNotification({ show: true, msg: 'Profile picture updated!', type: 'success' });
