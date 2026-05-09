@@ -1457,10 +1457,8 @@ input[type="file"] {
 }
 
 .profile-page {
-  background-color: #e8e4da; 
+  background-color: #dcd7cc;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .dark-theme .profile-page {
