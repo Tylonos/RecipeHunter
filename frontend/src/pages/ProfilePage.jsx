@@ -56,7 +56,8 @@ function ProfilePage() {
         cookingExpUnit: expParts[1] || 'years',
         allergies: Array.isArray(user.allergies) ? user.allergies : [],
         diets: Array.isArray(user.diets) ? user.diets : [],
-        themeColor: user.themeColor || '#0a7a3f'
+        themeColor: user.themeColor || '#0a7a3f',
+        profilePicture: user.profilePicture || ''
       });
       document.documentElement.style.setProperty('--accent', user.themeColor || '#0a7a3f');
     }
@@ -65,6 +66,48 @@ function ProfilePage() {
   const triggerNotify = (msg, type = 'success') => {
     setNotification({ show: true, msg, type });
     setTimeout(() => setNotification({ show: false, msg: '', type: '' }), 4000);
+  };
+
+  if (!user) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <main style={{ flex: '1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <h2>Please log in to view your profile.</h2>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if(file.size > 5 * 1024* 1024) {
+      triggerNotify("Image is too large! Please choose an image under 5MB.", "error");
+      e.target.value = null;
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
+        const base64Image = reader.result;
+        
+        setFormData(prev => ({ 
+          ...prev, 
+          profilePicture: reader.result
+        }));
+
+        login({ ...user, profilePicture: base64Image });
+
+        setNotification({ show: true, msg: "Photo preview updated! Click 'Save Profile' to apply.", type: 'success' });
+      } catch (err) {
+        console.error("Upload error:", err);
+        setNotification({ show: true, msg: 'Failed to upload image.', type: 'error' });
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = async () => {
@@ -97,48 +140,6 @@ function ProfilePage() {
     } catch (err) {
       triggerNotify("Update failed", "error");
     }
-  };
-
-  if (!user) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Navbar />
-        <main style={{ flex: '1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <h2>Please log in to view your profile.</h2>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if(file.size > 5 * 1024* 1024) {
-      triggerNotify("Image is too large! Please choose an image under 5MB.", "error");
-      e.target.value = null;
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      try {
-        const base64Image = reader.result;
-        
-        setFormData(prev => ({ 
-          ...prev, 
-          profilePicture: base64Image 
-        }));
-
-        login({ ...user, profilePicture: base64Image });
-        
-        setNotification({ show: true, msg: "Photo preview updated! Click 'Save Profile' to apply.", type: 'success' });
-      } catch (err) {
-        console.error("Upload error:", err);
-        setNotification({ show: true, msg: 'Failed to upload image.', type: 'error' });
-      }
-    };
-    reader.readAsDataURL(file);
   };
 
   return (
