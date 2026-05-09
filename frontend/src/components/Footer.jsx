@@ -21,9 +21,9 @@ const { t } = useTranslation();
         <div className="footer-column">
           <h3>{t("helpSupport")}</h3>
           <ul>
-            <li><Link to="/about">{t("aboutUs")}</Link></li>
-            <li><Link to="/profile">{t("profile")}</Link></li>
-            <li><Link to="/faq">FAQ</Link></li>
+            <li><Link to="/about" onClick={() => window.scrollTo(0, 0)}>{t("aboutUs")}</Link></li>
+            <li><Link to="/profile" onClick={() => window.scrollTo(0, 0)}>{t("profile")}</Link></li>
+            <li><Link to="/faq" onClick={() => window.scrollTo(0, 0)}>FAQ</Link></li>
           </ul>
         </div>
 

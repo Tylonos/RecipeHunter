@@ -56,7 +56,8 @@ function ProfilePage() {
         cookingExpUnit: expParts[1] || 'years',
         allergies: Array.isArray(user.allergies) ? user.allergies : [],
         diets: Array.isArray(user.diets) ? user.diets : [],
-        themeColor: user.themeColor || '#0a7a3f'
+        themeColor: user.themeColor || '#0a7a3f',
+        profilePicture: user.profilePicture || ''
       });
       document.documentElement.style.setProperty('--accent', user.themeColor || '#0a7a3f');
     }
@@ -67,7 +68,19 @@ function ProfilePage() {
     setTimeout(() => setNotification({ show: false, msg: '', type: '' }), 4000);
   };
 
-  const handleSave = async () => {
+  if (!user) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <main style={{ flex: '1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <h2>Please log in to view your profile.</h2>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+const handleSave = async () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
     if (!emailRegex.test(formData.email)) {
       triggerNotify("Error: Only @gmail or @yahoo allowed", "error");
@@ -99,31 +112,29 @@ function ProfilePage() {
     }
   };
 
-  if (!user) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Navbar />
-        <main style={{ flex: '1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <h2>Please log in to view your profile.</h2>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    if(file.size > 5 * 1024* 1024) {
+      triggerNotify("Image is too large! Please choose an image under 5MB.", "error");
+      e.target.value = null;
+      return;
+    }
 
     const reader = new FileReader();
     reader.onloadend = async () => {
       try {
         const base64Image = reader.result;
         
-        await api.put(`/users/update/${user._id}`, { profilePicture: base64Image });
-        
-        
+        setFormData(prev => ({ 
+          ...prev, 
+          profilePicture: reader.result
+        }));
+
         login({ ...user, profilePicture: base64Image });
-        setNotification({ show: true, msg: 'Profile picture updated!', type: 'success' });
+
+        setNotification({ show: true, msg: "Photo preview updated! Click 'Save Profile' to apply.", type: 'success' });
       } catch (err) {
         console.error("Upload error:", err);
         setNotification({ show: true, msg: 'Failed to upload image.', type: 'error' });
@@ -131,6 +142,8 @@ function ProfilePage() {
     };
     reader.readAsDataURL(file);
   };
+
+  
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -149,7 +162,7 @@ function ProfilePage() {
           <div className="profile-header">
             <div className="avatar-container" onClick={() => isEditing && fileInputRef.current.click()}>
               <img 
-                src={user.profilePicture || DEFAULT_AVATAR} 
+                src={formData.profilePicture || user.profilePicture || DEFAULT_AVATAR} 
                 alt="Profile" 
                 className="profile-img-main"
                 style={{ borderColor: formData.themeColor }}

@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema({
   age: { 
     type: Number, 
     min: [14, 'Age must be at least 14'], 
-    max: [99, 'Age cannot exceed 99'],
-    default: 18 
+    max: [99, 'Age cannot exceed 99']
   },
 
   occupation: { 
