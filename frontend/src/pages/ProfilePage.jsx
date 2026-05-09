@@ -119,8 +119,8 @@ function ProfilePage() {
       try {
         const base64Image = reader.result;
         
-        await api.put(`/api/users/update/${user.id || user._id}`, { profilePicture: base64Image });
-        
+        setFormData(prev => ({ ...prev, profilePicture: base64Image }));
+
         login({ ...user, profilePicture: base64Image });
         setNotification({ show: true, msg: 'Profile picture updated!', type: 'success' });
       } catch (err) {
@@ -148,7 +148,7 @@ function ProfilePage() {
           <div className="profile-header">
             <div className="avatar-container" onClick={() => isEditing && fileInputRef.current.click()}>
               <img 
-                src={user.profilePicture || DEFAULT_AVATAR} 
+                src={formData.profilePicture || user.profilePicture || DEFAULT_AVATAR} 
                 alt="Profile" 
                 className="profile-img-main"
                 style={{ borderColor: formData.themeColor }}
