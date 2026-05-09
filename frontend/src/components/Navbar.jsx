@@ -10,6 +10,7 @@ function Navbar() {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const [storedTheme, setStoredThemeState] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
@@ -20,6 +21,10 @@ function Navbar() {
     setStoredThemeState(initial);
     applyTheme(initial);
   }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
   const handleThemeToggle = () => {
     const effective = getEffectiveTheme(storedTheme);
@@ -38,7 +43,7 @@ function Navbar() {
   };
 
   return (
-    <header className="topbar">
+    <header className={`topbar ${isMenuOpen ? 'menu-open' : ''}`}>
       <div className="topbar-left">
         {!user && !isAuthPage && (
           <Link to="/login" className="small-btn">{t("login")}</Link>
@@ -59,6 +64,18 @@ function Navbar() {
         </h1>
       </div>
 
+      <button
+        className="mobile-menu-toggle"
+        type="button"
+        aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={isMenuOpen}
+        onClick={() => setIsMenuOpen((open) => !open)}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       <div className="topbar-right">
         <button className="small-btn" onClick={cycleLanguage}>
           {t("language")}
@@ -69,7 +86,14 @@ function Navbar() {
         </button>
 
         {user && (
-          <div className="nav-profile-section" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+          <div
+            className="nav-profile-section"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIsMenuOpen(false);
+              navigate('/profile');
+            }}
+          >
             <img 
               src={user.profilePicture || DEFAULT_AVATAR} 
               alt="Profile" 
