@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { applyTheme, getEffectiveTheme, getStoredTheme, setStoredTheme } from '../utils/theme';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
+import logoCACAW from '../assets/LogoCACAW.png';
 
 function Navbar() {
   const { user } = useContext(AuthContext);
@@ -59,7 +60,7 @@ function Navbar() {
       <div className="topbar-center">
         <h1 className="main-title">
           <Link to="/recipes" className="brand-link">
-            RECIPE HUNTER
+            <img className="brand-logo" src={logoCACAW} alt="Recipe Hunter" />
           </Link>
         </h1>
       </div>
