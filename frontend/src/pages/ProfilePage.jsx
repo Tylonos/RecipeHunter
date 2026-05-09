@@ -79,6 +79,39 @@ function ProfilePage() {
       </div>
     );
   }
+
+const handleSave = async () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
+    if (!emailRegex.test(formData.email)) {
+      triggerNotify("Error: Only @gmail or @yahoo allowed", "error");
+      return;
+    }
+
+    if (Number(formData.age) < 14 || Number(formData.age) > 99) {
+      triggerNotify("Error: Age must be 14-99", "error");
+      return;
+    }
+
+    const finalData = {
+      ...formData,
+      allergies: Array.isArray(formData.allergies) ? formData.allergies : [],
+      diets: Array.isArray(formData.diets) ? formData.diets : [],
+      cookingExp: `${formData.cookingExpValue || 0} ${formData.cookingExpUnit || 'years'}`
+    };
+
+    delete finalData.cookingExpValue;
+    delete finalData.cookingExpUnit;
+
+    try {
+      const res = await api.put(`/api/users/update/${user.id || user._id}`, finalData);
+      login(res.data); 
+      setIsEditing(false);
+      triggerNotify("Profile updated successfully!"); 
+    } catch (err) {
+      triggerNotify("Update failed", "error");
+    }
+  };
+
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -110,37 +143,7 @@ function ProfilePage() {
     reader.readAsDataURL(file);
   };
 
-  const handleSave = async () => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
-    if (!emailRegex.test(formData.email)) {
-      triggerNotify("Error: Only @gmail or @yahoo allowed", "error");
-      return;
-    }
-
-    if (Number(formData.age) < 14 || Number(formData.age) > 99) {
-      triggerNotify("Error: Age must be 14-99", "error");
-      return;
-    }
-
-    const finalData = {
-      ...formData,
-      allergies: Array.isArray(formData.allergies) ? formData.allergies : [],
-      diets: Array.isArray(formData.diets) ? formData.diets : [],
-      cookingExp: `${formData.cookingExpValue || 0} ${formData.cookingExpUnit || 'years'}`
-    };
-
-    delete finalData.cookingExpValue;
-    delete finalData.cookingExpUnit;
-
-    try {
-      const res = await api.put(`/api/users/update/${user.id || user._id}`, finalData);
-      login(res.data); 
-      setIsEditing(false);
-      triggerNotify("Profile updated successfully!"); 
-    } catch (err) {
-      triggerNotify("Update failed", "error");
-    }
-  };
+  
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
