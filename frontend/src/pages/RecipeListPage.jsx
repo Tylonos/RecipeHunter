@@ -145,17 +145,32 @@ function RecipeListPage() {
 
   //listening for scrolling so scroll button works
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
+    const handleScroll = (e) => {
+      const target = e.target.scrollingElement || e.target;
+      const scrollTop = target.scrollTop || window.scrollY || 0;
+
+      if (scrollTop > 300) {
         setShowScrollTop(true);
       } else {
         setShowScrollTop(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, true);
+    
+    return () => window.removeEventListener('scroll', handleScroll, true);
   }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    const scrollableElements = document.querySelectorAll('body, #root, main, .recipe-page-container, .App');
+    scrollableElements.forEach(el => {
+      if (el.scrollTop > 0) {
+        el.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  };
 
   const getRecipeIngredientKeySet = useCallback((recipe) => {
     const keys = new Set();
