@@ -1455,3 +1455,14 @@ input[type="file"] {
   opacity: 1;
   background: var(--btn-hover);
 }
+
+.profile-page {
+  background-color: #e8e4da; 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark-theme .profile-page {
+  background-color: var(--bg); 
+}
