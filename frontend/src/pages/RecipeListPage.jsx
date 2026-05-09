@@ -21,6 +21,8 @@ function RecipeListPage() {
   const [addedIngredients, setAddedIngredients] = useState([]);
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
 
   const matchesAllergen = useCallback((ingredientKey, allergenKey) => {
     const ingredient = String(ingredientKey ?? '').toLowerCase();
@@ -139,6 +141,20 @@ function RecipeListPage() {
     };
 
     fetchRecipes();
+  }, []);
+
+  //listening for scrolling so scroll button works
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const getRecipeIngredientKeySet = useCallback((recipe) => {
@@ -532,6 +548,16 @@ function RecipeListPage() {
         </section>
         <Footer />
       </main>
+
+      {showScrollTop && (
+        <button 
+          className="scroll-top-btn" 
+          onClick={scrollToTop} 
+          aria-label="Scroll to top"
+        >
+          ↑
+        </button>
+      )}
       
     </div>
   );

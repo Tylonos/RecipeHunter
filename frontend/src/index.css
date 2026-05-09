@@ -1404,6 +1404,7 @@ input[type="file"] {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: center;
 }
 
 .allergy-badge {
@@ -1422,4 +1423,34 @@ input[type="file"] {
 .footer-column ul {
   padding: 0;
   margin: 0;
+}
+
+
+
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--accent);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-4px);
+  opacity: 1;
+  background: var(--btn-hover);
 }
