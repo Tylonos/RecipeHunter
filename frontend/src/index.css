@@ -1398,7 +1398,7 @@ input[type="file"] {
 
 .profile-card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid rgb(43, 42, 40);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
@@ -1558,4 +1558,8 @@ input[type="file"] {
 
 .dark-theme .profile-page {
   background-color: var(--bg); 
+}
+
+.profile-card{
+
 }
