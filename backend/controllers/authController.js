@@ -81,3 +81,20 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getProfile = async (req, res) => {
+  try {
+    const userDoc = await User.findById(req.user.id).select('-password');
+    if (!userDoc) return res.status(404).json({ message: 'User not found' });
+
+    const user = userDoc.toObject ? userDoc.toObject() : userDoc;
+    if (user) {
+      if (!Array.isArray(user.allergies)) user.allergies = [];
+      if (!Array.isArray(user.diets)) user.diets = [];
+    }
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
