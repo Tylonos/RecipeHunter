@@ -48,7 +48,7 @@ function EditRecipePage() {
     event.preventDefault();
 
     try {
-      await api.put(`/api/recipes/${id}`, {
+      const res = await api.put(`/api/recipes/${id}`, {
         title,
         description,
         ingredients: splitIngredientEntries(ingredients),
@@ -56,6 +56,13 @@ function EditRecipePage() {
         image,
         diet
       });
+
+      // If edit caused the recipe to become pending (owner edit), notify and send user to profile
+      if (res && res.data && res.data.status === 'pending') {
+        alert(t('changesPending') || 'Your changes were saved and are pending admin approval.');
+        navigate('/profile');
+        return;
+      }
 
       navigate(`/recipes/${id}`);
     } catch (err) {

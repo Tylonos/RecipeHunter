@@ -102,4 +102,6 @@
   "rejectedRecipes": "Rejected Recipes",
   "noRejectedRecipes": "No rejected recipes.",
   "approvedRecipes": "Approved Recipes"
+  ,
+  "changesPending": "Your changes were saved and are pending admin approval."
 }
