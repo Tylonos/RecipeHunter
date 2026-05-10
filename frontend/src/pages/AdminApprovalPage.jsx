@@ -47,11 +47,11 @@ export default function AdminApprovalPage() {
     <div className="admin-approvals-page">
       <Navbar />
       <main style={{ padding: '40px 20px' }}>
-        <h2 style={{ marginBottom: 16 }}>{t('approvals') || 'Recipe Approvals'}</h2>
+        <h2 style={{ marginBottom: 16 }}>{t('Recipe Approvals') || 'Recipe Approvals'}</h2>
 
         <div className="admin-columns" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
           <section className="approval-panel">
-            <h3 style={{ marginBottom: 12 }}>{t('waitingApproval') || 'Waiting Approval'}</h3>
+            <h3 style={{ marginBottom: 12 }}>{t('Waiting Approval') || 'Waiting Approval'}</h3>
             {loading ? (
               <p>Loading…</p>
             ) : pending.length === 0 ? (
@@ -71,7 +71,7 @@ export default function AdminApprovalPage() {
 
                     <div>
                       <button className="small-btn" disabled={processing[r._id]} onClick={() => handleApprove(r._id)}>
-                        {processing[r._id] ? '...' : t('approve') || 'Approve'}
+                        {processing[r._id] ? '...' : t('Approve') || 'Approve'}
                       </button>
                     </div>
                   </div>
@@ -81,7 +81,7 @@ export default function AdminApprovalPage() {
           </section>
 
           <section className="approval-panel">
-            <h3 style={{ marginBottom: 12 }}>{t('approved') || 'Approved Recipes'}</h3>
+            <h3 style={{ marginBottom: 12 }}>{t('Approved Recipes') || 'Approved Recipes'}</h3>
             {approved.length === 0 ? (
               <p>No approved recipes yet.</p>
             ) : (
