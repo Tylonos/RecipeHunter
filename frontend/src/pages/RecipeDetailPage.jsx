@@ -11,6 +11,8 @@ function RecipeDetailPage() {
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState('');
   const { t } = useTranslation();
+  const isOwner = user?._id === recipe.createdBy;
+  const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -116,6 +118,13 @@ function RecipeDetailPage() {
           </div>
         </aside>
       </section>
+
+      { (isOwner || isAdmin) && (
+        <button onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>
+          Edit Recipe
+        </button>
+      )}
+
       <Footer />
     </div>
   );

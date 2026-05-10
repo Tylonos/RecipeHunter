@@ -47,7 +47,7 @@ const createRecipe = async (req, res) => {
       cooking_time,
       diet,
       image,
-      author: req.user.id, 
+      createdBy: req.user.id, 
       status
     });
 
