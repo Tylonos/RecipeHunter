@@ -118,6 +118,26 @@ const updateRecipeStatus = async (req, res) => {
   }
 };
 
+const debugDb = async (req, res) => {
+  try {
+    if (!ensureDbConnected(res)) return;
+    const total = await Recipe.countDocuments();
+    const approved = await Recipe.countDocuments({ status: 'approved' });
+    const pending = await Recipe.countDocuments({ status: 'pending' });
+    const sample = await Recipe.find().limit(5).select('title status createdBy ingredients').lean();
+
+    res.json({
+      connected: mongoose.connection.readyState === 1,
+      total,
+      approved,
+      pending,
+      sample
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports ={ 
   getRecipes, 
   getRecipeById, 
@@ -126,5 +146,6 @@ module.exports ={
   getMyRecipes,
   getPendingRecipes,
   updateRecipeStatus
+  ,debugDb
 };
 

@@ -9,11 +9,13 @@ const {
   updateRecipe,
   getMyRecipes,
   getPendingRecipes,
-  updateRecipeStatus
+  updateRecipeStatus,
+  debugDb
 } = require('../controllers/recipeController');
 
 //so anyone can see approved recipes
 router.get('/', getRecipes);
+router.get('/debug', debugDb);
 router.get('/:id', getRecipeById);
 
 router.post('/', verifyToken, createRecipe);
