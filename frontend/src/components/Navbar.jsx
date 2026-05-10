@@ -52,6 +52,10 @@ function Navbar() {
 
         <Link to="/" className="small-btn">{t("home")}</Link>
 
+        {user && user.role === 'admin' && !isAuthPage && (
+          <Link to="/admin/approvals" className="small-btn" style={{ marginLeft: '8px' }}>Approve Recipes</Link>
+        )}
+
         {!isAuthPage && (
           <Link to="/add-recipe" className="small-btn add-link">{t("addRecipe")}</Link>
         )}

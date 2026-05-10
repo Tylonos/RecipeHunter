@@ -143,6 +143,27 @@ const handleSave = async () => {
     reader.readAsDataURL(file);
   };
 
+  // --- My recipes list (profile) ---
+  const [myRecipes, setMyRecipes] = useState([]);
+  const [recipesPage, setRecipesPage] = useState(1);
+  const RECIPES_PER_PAGE = 5;
+
+  useEffect(() => {
+    const fetchMy = async () => {
+      try {
+        const res = await api.get('/api/recipes/user/my-recipes');
+        setMyRecipes(res.data || []);
+      } catch (err) {
+        console.error('Failed to load user recipes', err);
+      }
+    };
+
+    if (user) fetchMy();
+  }, [user]);
+
+  const totalRecipePages = Math.max(1, Math.ceil((myRecipes?.length || 0) / RECIPES_PER_PAGE));
+  const pagedRecipes = myRecipes.slice((recipesPage - 1) * RECIPES_PER_PAGE, recipesPage * RECIPES_PER_PAGE);
+
   
 
   return (
@@ -368,6 +389,43 @@ const handleSave = async () => {
             )}
           </div>
         </div>
+
+        <section className="profile-recipes-section">
+          <h3 style={{ marginBottom: 12 }}>{t('myRecipes') || 'My Recipes'}</h3>
+
+          <div className="recipe-list">
+            {pagedRecipes && pagedRecipes.length > 0 ? (
+              pagedRecipes.map((r) => (
+                <div key={r._id} className="recipe-list-item">
+                  <div className="recipe-thumb">
+                    {r.image ? (
+                      <img src={r.image} alt={r.title} />
+                    ) : (
+                      <div className="image-placeholder" style={{ width: 72, height: 72 }} />
+                    )}
+                  </div>
+
+                  <div className="recipe-meta">
+                    <h4>{r.title}</h4>
+                    <p className="muted">{r.description ? r.description.slice(0, 120) + (r.description.length > 120 ? '...' : '') : ''}</p>
+                  </div>
+
+                  <div className="recipe-actions">
+                    <span className={`status-badge ${r.status || 'pending'}`}>{r.status === 'approved' ? (t('approved') || 'Approved') : (r.status === 'pending' ? (t('waitingApproval') || 'Waiting') : r.status)}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p style={{ color: 'var(--muted)' }}>No recipes yet.</p>
+            )}
+          </div>
+
+          <div className="pagination-controls">
+            <button className="small-btn" disabled={recipesPage <= 1} onClick={() => setRecipesPage((p) => Math.max(1, p - 1))}>Prev</button>
+            <span style={{ margin: '0 8px' }}>{recipesPage} / {totalRecipePages}</span>
+            <button className="small-btn" disabled={recipesPage >= totalRecipePages} onClick={() => setRecipesPage((p) => Math.min(totalRecipePages, p + 1))}>Next</button>
+          </div>
+        </section>
       </main>
 
       <Footer />
