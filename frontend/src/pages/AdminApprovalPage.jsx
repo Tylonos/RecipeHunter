@@ -28,7 +28,6 @@ export default function AdminApprovalPage() {
         api.get('/api/recipes')
       ]);
 
-      // pending
       if (results[0].status === 'fulfilled') {
         setPending(results[0].value.data || []);
       } else {
@@ -37,7 +36,6 @@ export default function AdminApprovalPage() {
         setFetchError((s) => s || `Failed to load pending: ${reason}`);
       }
 
-      // rejected
       if (results[1].status === 'fulfilled') {
         setRejected(results[1].value.data || []);
       } else {
@@ -46,7 +44,6 @@ export default function AdminApprovalPage() {
         setFetchError((s) => s || `Failed to load rejected: ${reason}`);
       }
 
-      // approved
       if (results[2].status === 'fulfilled') {
         setApproved(results[2].value.data || []);
       } else {

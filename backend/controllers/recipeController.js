@@ -37,7 +37,7 @@ const createRecipe = async (req, res) => {
     if (!ensureDbConnected(res)) return;
     const { title, description, ingredients, cooking_time, image, diet } = req.body;
     
-    // approved if created by an admin, otherwise pending
+    
     const status = req.user.role === 'admin' ? 'approved' : 'pending';
 
     const recipe = new Recipe({
@@ -77,7 +77,6 @@ const updateRecipe = async (req, res) => {
     if (typeof image !== 'undefined') recipe.image = image;
     if (typeof diet !== 'undefined') recipe.diet = diet;
 
-    // If a non-admin owner edits a recipe, mark it pending for admin approval
     if (!isAdmin) {
       recipe.status = 'pending';
     } else if (typeof status !== 'undefined') {

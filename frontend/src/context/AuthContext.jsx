@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
             return;
           }
         } catch (err) {
-          // fallback to stored user if fetch fails
           if (savedUser) setUser(JSON.parse(savedUser));
           return;
         }

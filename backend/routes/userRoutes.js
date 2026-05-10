@@ -9,8 +9,6 @@ router.post('/register', register);
 router.post('/login', login);
 
 router.put('/update/:id', require('../controllers/authController').updateProfile);
-
-// return current user (requires Authorization header)
 router.get('/me', verifyToken, require('../controllers/authController').getProfile);
 
 module.exports = router;

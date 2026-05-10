@@ -143,7 +143,6 @@ function RecipeListPage() {
     fetchRecipes();
   }, []);
 
-  //listening for scrolling so scroll button works
   useEffect(() => {
     const handleScroll = (e) => {
       const target = e.target.scrollingElement || e.target;

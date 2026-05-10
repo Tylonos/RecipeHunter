@@ -57,7 +57,6 @@ function EditRecipePage() {
         diet
       });
 
-      // If edit caused the recipe to become pending (owner edit), notify and send user to profile
       if (res && res.data && res.data.status === 'pending') {
         alert(t('changesPending') || 'Your changes were saved and are pending admin approval.');
         navigate('/profile');

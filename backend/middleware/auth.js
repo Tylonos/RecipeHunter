@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-//checks if the user is logged in
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; //is expecting "Bearer <token>"
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) return res.status(401).json({ message: 'Access Denied. No token provided.' });
 
@@ -16,7 +15,6 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-//Checks if the user is an admin
 const verifyAdmin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
