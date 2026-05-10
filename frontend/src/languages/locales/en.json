@@ -106,5 +106,6 @@
   "changesPending": "Your changes were saved and are pending admin approval."
   ,
   "myRecipes": "My Recipes",
-  "noRecipesYet": "No recipes yet."
+  "noRecipesYet": "No recipes yet.",
+  "delete": "Delete"
 }
