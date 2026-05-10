@@ -23,8 +23,7 @@ function EditRecipePage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
-        const response = await axios.get(`${API_URL}/api/recipes/${id}`);
+        const response = await api.get(`/api/recipes/${id}`);
         const recipe = response.data;
         setTitle(recipe.title || '');
         setDescription(recipe.description || '');

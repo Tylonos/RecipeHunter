@@ -14,7 +14,8 @@ function RecipeDetailPage() {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const isOwner = user?._id === recipe?.createdBy;
+  const recipeOwnerId = recipe?.createdBy?._id || recipe?.createdBy;
+  const isOwner = !!user && (user._id === recipeOwnerId || user.id === recipeOwnerId);
   const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
@@ -122,9 +123,9 @@ function RecipeDetailPage() {
         </aside>
       </section>
 
-      { user?.role === 'admin' && (
+      {(isAdmin || isOwner) && (
         <div style={{ textAlign: 'center', margin: '20px 0' }}>
-          <button className="small-btn" onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>
+          <button className="small-btn" onClick={() => navigate(`/recipes/${recipe._id}/edit`)}>
             {t('editRecipe') || 'Edit Recipe'}
           </button>
         </div>

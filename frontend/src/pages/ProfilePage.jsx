@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from "react-i18next";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 function ProfilePage() {
@@ -397,15 +397,31 @@ const handleSave = async () => {
               pagedRecipes.map((r) => (
                 <div key={r._id} className="recipe-list-item">
                   <div className="recipe-thumb">
-                    {r.image ? (
-                      <img src={r.image} alt={r.title} />
+                    {r.status !== 'rejected' ? (
+                      <Link to={`/recipes/${r._id}`} className="profile-thumb-link" aria-label={r.title}>
+                        {r.image ? (
+                          <img src={r.image} alt={r.title} />
+                        ) : (
+                          <div className="image-placeholder" style={{ width: 72, height: 72 }} />
+                        )}
+                      </Link>
                     ) : (
-                      <div className="image-placeholder" style={{ width: 72, height: 72 }} />
+                      r.image ? (
+                        <img src={r.image} alt={r.title} />
+                      ) : (
+                        <div className="image-placeholder" style={{ width: 72, height: 72 }} />
+                      )
                     )}
                   </div>
 
                   <div className="recipe-meta">
-                    <h4>{r.title}</h4>
+                    <h4>
+                      {r.status !== 'rejected' ? (
+                        <Link to={`/recipes/${r._id}`} className="recipe-title-link">{r.title}</Link>
+                      ) : (
+                        r.title
+                      )}
+                    </h4>
                     <p className="muted">{r.description ? r.description.slice(0, 120) + (r.description.length > 120 ? '...' : '') : ''}</p>
                   </div>
 

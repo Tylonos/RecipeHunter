@@ -14,7 +14,7 @@ const ensureDbConnected = (res) => {
 const getRecipes = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
-    const recipes = await Recipe.find({ status: 'approved' }).sort({ createdAt: -1 });
+    const recipes = await Recipe.find({ status: 'approved' }).populate('createdBy', 'username').sort({ createdAt: -1 });
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });
