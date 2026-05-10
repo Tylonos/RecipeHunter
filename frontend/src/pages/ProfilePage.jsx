@@ -14,6 +14,9 @@ function ProfilePage() {
   const [notification, setNotification] = useState({ show: false, msg: '', type: '' });
   const fileInputRef = useRef(null);
   const { t } = useTranslation();
+  const [myRecipes, setMyRecipes] = useState([]);
+  const [recipesPage, setRecipesPage] = useState(1);
+  const RECIPES_PER_PAGE = 5;
 
   const navigate = useNavigate();
   const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
@@ -143,10 +146,6 @@ const handleSave = async () => {
     reader.readAsDataURL(file);
   };
 
-  // --- My recipes list (profile) ---
-  const [myRecipes, setMyRecipes] = useState([]);
-  const [recipesPage, setRecipesPage] = useState(1);
-  const RECIPES_PER_PAGE = 5;
 
   useEffect(() => {
     const fetchMy = async () => {
