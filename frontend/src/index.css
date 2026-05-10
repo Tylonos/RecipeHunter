@@ -401,7 +401,6 @@ select option {
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
   padding: 16px 24px;
-  position: relative;
 }
 
 .main-content > .topbar {
@@ -422,18 +421,6 @@ select option {
   grid-area: brand;
   display: flex;
   justify-content: center;
-}
-
-@media (min-width: 1100px) {
-  .topbar-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-  .topbar-center .brand-link {
-    pointer-events: auto;
-  }
 }
 
 .topbar-center h1,
