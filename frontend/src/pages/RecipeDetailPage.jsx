@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { normalizeIngredient, splitIngredientEntries } from '../utils/ingredients';
 import Navbar from '../components/Navbar';
 import { useTranslation } from "react-i18next";
@@ -11,7 +12,9 @@ function RecipeDetailPage() {
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState('');
   const { t } = useTranslation();
-  const isOwner = user?._id === recipe.createdBy;
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const isOwner = user?._id === recipe?.createdBy;
   const isAdmin = user?.role === 'admin';
 
   useEffect(() => {

@@ -85,7 +85,7 @@ const updateRecipe = async (req, res) => {
 const getMyRecipes = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
-    const recipes = await Recipe.find({ author: req.user.id }).sort({ createdAt: -1 });
+    const recipes = await Recipe.find({ createdBy: req.user.id }).sort({ createdAt: -1 });
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -95,7 +95,7 @@ const getMyRecipes = async (req, res) => {
 const getPendingRecipes = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
-    const recipes = await Recipe.find({ status: 'pending' }).populate('author', 'username').sort({ createdAt: -1 });
+    const recipes = await Recipe.find({ status: 'pending' }).populate('createdBy', 'username').sort({ createdAt: -1 });
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });
