@@ -64,7 +64,7 @@ export default function AdminApprovalPage() {
     <div className="admin-approvals-page">
       <Navbar />
       <main style={{ padding: '40px 20px' }}>
-        <h2 style={{ marginBottom: 16 }}>{t('Recipe Approvals') || 'Recipe Approvals'}</h2>
+        <h2 style={{ marginBottom: 16 }}>{t('approvals') || 'Recipe Approvals'}</h2>
 
         <div className="admin-columns" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
           <div>
