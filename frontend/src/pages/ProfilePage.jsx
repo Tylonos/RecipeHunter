@@ -390,7 +390,7 @@ const handleSave = async () => {
         </div>
 
         <section className="profile-recipes-section">
-          <h3 style={{ marginBottom: 12 }}>{t('My Recipes') || 'My Recipes'}</h3>
+          <h3 style={{ marginBottom: 12 }}>{t('myRecipes') || 'My Recipes'}</h3>
 
           <div className="recipe-list">
             {pagedRecipes && pagedRecipes.length > 0 ? (
@@ -431,7 +431,7 @@ const handleSave = async () => {
                 </div>
               ))
             ) : (
-              <p style={{ color: 'var(--muted)' }}>No recipes yet.</p>
+              <p style={{ color: 'var(--muted)' }}>{t('noRecipesYet') || 'No recipes yet.'}</p>
             )}
           </div>
 

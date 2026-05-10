@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 export default function AdminApprovalPage() {
   const { t } = useTranslation();
@@ -13,20 +14,49 @@ export default function AdminApprovalPage() {
   const [approved, setApproved] = useState([]);
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState({});
+  const [fetchError, setFetchError] = useState('');
+  const [showDebug, setShowDebug] = useState(false);
+  const { user: ctxUser } = useContext(AuthContext);
 
   const fetchLists = async () => {
     setLoading(true);
+    setFetchError('');
     try {
-      const [pRes, rRes, aRes] = await Promise.all([
+      const results = await Promise.allSettled([
         api.get('/api/recipes/admin/pending'),
         api.get('/api/recipes/admin/rejected'),
         api.get('/api/recipes')
       ]);
-      setPending(pRes.data || []);
-      setRejected(rRes.data || []);
-      setApproved(aRes.data || []);
+
+      // pending
+      if (results[0].status === 'fulfilled') {
+        setPending(results[0].value.data || []);
+      } else {
+        setPending([]);
+        const reason = results[0].reason?.response?.data?.message || results[0].reason?.message || 'Unknown error';
+        setFetchError((s) => s || `Failed to load pending: ${reason}`);
+      }
+
+      // rejected
+      if (results[1].status === 'fulfilled') {
+        setRejected(results[1].value.data || []);
+      } else {
+        setRejected([]);
+        const reason = results[1].reason?.response?.data?.message || results[1].reason?.message || 'Unknown error';
+        setFetchError((s) => s || `Failed to load rejected: ${reason}`);
+      }
+
+      // approved
+      if (results[2].status === 'fulfilled') {
+        setApproved(results[2].value.data || []);
+      } else {
+        setApproved([]);
+        const reason = results[2].reason?.response?.data?.message || results[2].reason?.message || 'Unknown error';
+        setFetchError((s) => s || `Failed to load approved: ${reason}`);
+      }
     } catch (err) {
       console.error('Failed to fetch admin lists', err);
+      setFetchError(err.message || 'Failed to fetch lists');
     } finally {
       setLoading(false);
     }

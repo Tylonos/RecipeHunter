@@ -104,4 +104,7 @@
 "approvedRecipes": "Rețete Aprobate"
 ,
 "changesPending": "Modificările au fost salvate şi sunt în aşteptarea aprobării de către administrator."
+,
+"myRecipes": "Rețetele mele",
+"noRecipesYet": "Nu există încă rețete."
 }
