@@ -177,7 +177,7 @@ export default function AdminApprovalPage() {
                     </div>
                     <div>
                       <button className="small-btn" style={{ marginLeft: 8, background: 'var(--danger)' }} onClick={(e) => { e.stopPropagation(); handleReject(r._id); }}>
-                        {t('reject') || 'Reject'}
+                        {t('delete') || 'Delete'}
                       </button>
                     </div>
                   </div>

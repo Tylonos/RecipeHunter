@@ -106,5 +106,6 @@
 "changesPending": "Modificările au fost salvate şi sunt în aşteptarea aprobării de către administrator."
 ,
 "myRecipes": "Rețetele mele",
-"noRecipesYet": "Nu există încă rețete."
+"noRecipesYet": "Nu există încă rețete.",
+"delete": "Șterge"
 }
