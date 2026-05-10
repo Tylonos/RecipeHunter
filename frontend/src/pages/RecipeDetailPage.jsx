@@ -122,10 +122,12 @@ function RecipeDetailPage() {
         </aside>
       </section>
 
-      { (isOwner || isAdmin) && (
-        <button onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>
-          Edit Recipe
-        </button>
+      { user?.role === 'admin' && (
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <button className="small-btn" onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>
+            {t('editRecipe') || 'Edit Recipe'}
+          </button>
+        </div>
       )}
 
       <Footer />
