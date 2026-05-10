@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../api';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminApprovalPage() {
   const { t } = useTranslation();
@@ -31,6 +32,18 @@ export default function AdminApprovalPage() {
     fetchLists();
   }, []);
 
+  const handleReject = async (id) => {
+    try {
+      setProcessing((s) => ({ ...s, [id]: true }));
+      await api.put(`/api/recipes/admin/status/${id}`, { status: 'rejected' });
+      await fetchLists();
+    } catch (err) {
+      console.error('Reject failed', err);
+    } finally {
+      setProcessing((s) => ({ ...s, [id]: false }));
+    }
+  };
+
   const handleApprove = async (id) => {
     try {
       setProcessing((s) => ({ ...s, [id]: true }));
@@ -53,12 +66,12 @@ export default function AdminApprovalPage() {
           <section className="approval-panel">
             <h3 style={{ marginBottom: 12 }}>{t('Waiting Approval') || 'Waiting Approval'}</h3>
             {loading ? (
-              <p>Loading…</p>
+              <p>{t('Loading') || 'Loading…'}</p>
             ) : pending.length === 0 ? (
-              <p>No pending recipes.</p>
+              <p>{t('No Pending Recipes') || 'No pending recipes.'}</p>
             ) : (
               pending.map((r) => (
-                <div key={r._id} className="approval-card">
+                <div key={r._id} className="approval-card" style={{ cursor: 'pointer' }} onClick={() => navigate(`/recipes/${r._id}`)}>
                   <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                     <div style={{ width: 80, height: 64, borderRadius: 8, overflow: 'hidden', background: '#f3f3f3' }}>
                       {r.image ? <img src={r.image} alt={r.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
@@ -70,8 +83,11 @@ export default function AdminApprovalPage() {
                     </div>
 
                     <div>
-                      <button className="small-btn" disabled={processing[r._id]} onClick={() => handleApprove(r._id)}>
+                      <button className="small-btn" disabled={processing[r._id]} onClick={(e) => { e.stopPropagation(); handleApprove(r._id); }}>
                         {processing[r._id] ? '...' : t('Approve') || 'Approve'}
+                      </button>
+                      <button className="small-btn" style={{ marginLeft: 8, background: 'var(--danger)' }} disabled={processing[r._id]} onClick={(e) => { e.stopPropagation(); handleReject(r._id); }}>
+                        {t('reject') || 'Reject'}
                       </button>
                     </div>
                   </div>
@@ -83,10 +99,10 @@ export default function AdminApprovalPage() {
           <section className="approval-panel">
             <h3 style={{ marginBottom: 12 }}>{t('Approved Recipes') || 'Approved Recipes'}</h3>
             {approved.length === 0 ? (
-              <p>No approved recipes yet.</p>
+              <p>{t('noApprovedRecipes') || 'No approved recipes yet.'}</p>
             ) : (
               approved.slice(0, 20).map((r) => (
-                <div key={r._id} className="approval-card">
+                <div key={r._id} className="approval-card" style={{ cursor: 'pointer' }} onClick={() => navigate(`/recipes/${r._id}`)}>
                   <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                     <div style={{ width: 72, height: 54, borderRadius: 8, overflow: 'hidden', background: '#f3f3f3' }}>
                       {r.image ? <img src={r.image} alt={r.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
@@ -94,6 +110,11 @@ export default function AdminApprovalPage() {
                     <div style={{ flex: 1 }}>
                       <strong>{r.title}</strong>
                       <div style={{ fontSize: 13, color: 'var(--muted)' }}>{r.createdBy?.username || r.createdBy || ''}</div>
+                    </div>
+                    <div>
+                      <button className="small-btn" style={{ marginLeft: 8, background: 'var(--danger)' }} onClick={(e) => { e.stopPropagation(); handleReject(r._id); }}>
+                        {t('reject') || 'Reject'}
+                      </button>
                     </div>
                   </div>
                 </div>

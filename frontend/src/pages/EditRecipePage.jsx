@@ -16,6 +16,7 @@ function EditRecipePage() {
   const [ingredients, setIngredients] = useState('');
   const [cookingTime, setCookingTime] = useState('');
   const [image, setImage] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
   const [diet, setDiet] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -30,6 +31,7 @@ function EditRecipePage() {
         setIngredients(Array.isArray(recipe.ingredients) ? recipe.ingredients.join(', ') : '');
         setCookingTime(recipe.cooking_time ?? '');
         setImage(recipe.image || '');
+        setImagePreview(recipe.image || '');
         setDiet(recipe.diet || '');
       } catch (err) {
         console.error(err);
@@ -60,6 +62,23 @@ function EditRecipePage() {
       console.error(err);
       setError('Failed to update recipe');
     }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image must be smaller than 5MB');
+      e.target.value = null;
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   if (loading) {
@@ -117,10 +136,15 @@ function EditRecipePage() {
 
           <label>{t("image")}</label>
           <input
-            type="text"
-            value={image}
-            onChange={(event) => setImage(event.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
           />
+          {imagePreview && (
+            <div style={{ marginTop: 10 }}>
+              <img src={imagePreview} alt="preview" style={{ width: 140, height: 100, objectFit: 'cover', borderRadius: 8 }} />
+            </div>
+          )}
 
           <button type="submit" className="small-btn">{t("saveChanges")}</button>
         </form>

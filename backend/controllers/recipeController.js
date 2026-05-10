@@ -61,22 +61,31 @@ const createRecipe = async (req, res) => {
 const updateRecipe = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
-    const { title, description, ingredients, cooking_time, image, diet } = req.body;
-    const updatedRecipe = await Recipe.findByIdAndUpdate(
-      req.params.id,
-      {
-        title,
-        description,
-        ingredients: normalizeIngredientsInput(ingredients),
-        cooking_time,
-        image,
-        diet
-      },
-      { new: true, runValidators: true }
-    );
+    const { title, description, ingredients, cooking_time, image, diet, status } = req.body;
 
-    if (!updatedRecipe) return res.status(404).json({ message: 'Recipe not found' });
-    res.status(200).json(updatedRecipe);
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+
+    const isAdmin = req.user && req.user.role === 'admin';
+    const isOwner = req.user && String(recipe.createdBy) === String(req.user.id);
+    if (!isAdmin && !isOwner) return res.status(403).json({ message: 'Not authorized to edit this recipe' });
+
+    if (typeof title !== 'undefined') recipe.title = title;
+    if (typeof description !== 'undefined') recipe.description = description;
+    if (typeof ingredients !== 'undefined') recipe.ingredients = normalizeIngredientsInput(ingredients);
+    if (typeof cooking_time !== 'undefined') recipe.cooking_time = cooking_time;
+    if (typeof image !== 'undefined') recipe.image = image;
+    if (typeof diet !== 'undefined') recipe.diet = diet;
+
+    // If a non-admin owner edits a recipe, mark it pending for admin approval
+    if (!isAdmin) {
+      recipe.status = 'pending';
+    } else if (typeof status !== 'undefined') {
+      recipe.status = status;
+    }
+
+    const saved = await recipe.save();
+    res.status(200).json(saved);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

@@ -88,4 +88,13 @@
 "aboutUs" : "Despre noi",
 "profile" : "Profil",
 "community" : "Comunitate"
+,
+"approvals": "Aprobări Rețete",
+"waitingApproval": "În așteptare",
+"approved": "Aprobate",
+"reject": "Respinge",
+"noPendingRecipes": "Nu există rețete în așteptare.",
+"noApprovedRecipes": "Nu există rețete aprobate încă.",
+"loading": "Se încarcă…",
+"imageUpload": "Imagine (încărcare)"
 }

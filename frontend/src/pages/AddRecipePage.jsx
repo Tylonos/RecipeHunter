@@ -15,8 +15,26 @@ function AddRecipePage() {
   const [ingredients, setIngredients] = useState('');
   const [cookingTime, setCookingTime] = useState('');
   const [image, setImage] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
   const [diet, setDiet] = useState('');
   const [error, setError] = useState('');
+
+  const handleImageChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image must be smaller than 5MB');
+      e.target.value = null;
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,10 +107,15 @@ function AddRecipePage() {
 
           <label>{t("image")}</label>
           <input
-            type="text"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
           />
+          {imagePreview && (
+            <div style={{ marginTop: 10 }}>
+              <img src={imagePreview} alt="preview" style={{ width: 140, height: 100, objectFit: 'cover', borderRadius: 8 }} />
+            </div>
+          )}
 
           <button type="submit" className="small-btn">{t("saveRecipe")}</button>
         </form>

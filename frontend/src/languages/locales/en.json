@@ -88,4 +88,13 @@
   "aboutUs" : "About Us",
   "profile" : "Profile",
   "community" : "Community"
+  ,
+  "approvals": "Recipe Approvals",
+  "waitingApproval": "Waiting Approval",
+  "approved": "Approved",
+  "reject": "Reject",
+  "noPendingRecipes": "No pending recipes.",
+  "noApprovedRecipes": "No approved recipes yet.",
+  "loading": "Loading…",
+  "imageUpload": "Image (upload)"
 }

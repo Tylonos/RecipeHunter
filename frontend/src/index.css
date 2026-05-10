@@ -1026,8 +1026,9 @@ input[type="file"] {
   align-items: center;
   padding: 10px;
   border-radius: 10px;
-  background: color-mix(in srgb, var(--surface) 92%, var(--surface-2));
+  background: var(--surface);
   border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 
 .recipe-list-item img {
@@ -1134,12 +1135,13 @@ input[type="file"] {
 
 .profile-data-box {
   color: var(--text-h);
-  background: color-mix(in srgb, var(--surface) 78%, var(--surface-2));
+  background: var(--surface);
   padding: 10px;
   border-radius: 12px;
   min-height: 40px;
   border: 1px solid var(--border);
   margin-top: 5px;
+  box-shadow: var(--shadow);
 }
 
 .profile-circle:hover {
