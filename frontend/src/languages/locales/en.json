@@ -97,4 +97,9 @@
   "noApprovedRecipes": "No approved recipes yet.",
   "loading": "Loading…",
   "imageUpload": "Image (upload)"
+  ,
+  "approve": "Approve",
+  "rejectedRecipes": "Rejected Recipes",
+  "noRejectedRecipes": "No rejected recipes.",
+  "approvedRecipes": "Approved Recipes"
 }

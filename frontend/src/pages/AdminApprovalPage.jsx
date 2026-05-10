@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AdminApprovalPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [pending, setPending] = useState([]);
+  const [rejected, setRejected] = useState([]);
   const [approved, setApproved] = useState([]);
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState({});
@@ -15,11 +17,13 @@ export default function AdminApprovalPage() {
   const fetchLists = async () => {
     setLoading(true);
     try {
-      const [pRes, aRes] = await Promise.all([
+      const [pRes, rRes, aRes] = await Promise.all([
         api.get('/api/recipes/admin/pending'),
+        api.get('/api/recipes/admin/rejected'),
         api.get('/api/recipes')
       ]);
       setPending(pRes.data || []);
+      setRejected(rRes.data || []);
       setApproved(aRes.data || []);
     } catch (err) {
       console.error('Failed to fetch admin lists', err);
@@ -63,12 +67,13 @@ export default function AdminApprovalPage() {
         <h2 style={{ marginBottom: 16 }}>{t('Recipe Approvals') || 'Recipe Approvals'}</h2>
 
         <div className="admin-columns" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-          <section className="approval-panel">
-            <h3 style={{ marginBottom: 12 }}>{t('Waiting Approval') || 'Waiting Approval'}</h3>
+          <div>
+            <section className="approval-panel">
+              <h3 style={{ marginBottom: 12 }}>{t('waitingApproval') || 'Waiting Approval'}</h3>
             {loading ? (
-              <p>{t('Loading') || 'Loading…'}</p>
+              <p>{t('loading') || 'Loading…'}</p>
             ) : pending.length === 0 ? (
-              <p>{t('No Pending Recipes') || 'No pending recipes.'}</p>
+              <p>{t('noPendingRecipes') || 'No pending recipes.'}</p>
             ) : (
               pending.map((r) => (
                 <div key={r._id} className="approval-card" style={{ cursor: 'pointer' }} onClick={() => navigate(`/recipes/${r._id}`)}>
@@ -84,7 +89,7 @@ export default function AdminApprovalPage() {
 
                     <div>
                       <button className="small-btn" disabled={processing[r._id]} onClick={(e) => { e.stopPropagation(); handleApprove(r._id); }}>
-                        {processing[r._id] ? '...' : t('Approve') || 'Approve'}
+                        {processing[r._id] ? '...' : t('approve') || 'Approve'}
                       </button>
                       <button className="small-btn" style={{ marginLeft: 8, background: 'var(--danger)' }} disabled={processing[r._id]} onClick={(e) => { e.stopPropagation(); handleReject(r._id); }}>
                         {t('reject') || 'Reject'}
@@ -94,10 +99,39 @@ export default function AdminApprovalPage() {
                 </div>
               ))
             )}
-          </section>
+            </section>
+
+            <section className="approval-panel" style={{ marginTop: 20 }}>
+              <h3 style={{ marginBottom: 12 }}>{t('rejectedRecipes') || 'Rejected Recipes'}</h3>
+              {loading ? (
+                <p>{t('loading') || 'Loading…'}</p>
+              ) : rejected.length === 0 ? (
+                <p>{t('noRejectedRecipes') || 'No rejected recipes.'}</p>
+              ) : (
+                rejected.map((r) => (
+                  <div key={r._id} className="approval-card" style={{ cursor: 'pointer' }} onClick={() => navigate(`/recipes/${r._id}`)}>
+                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                      <div style={{ width: 72, height: 54, borderRadius: 8, overflow: 'hidden', background: '#f3f3f3' }}>
+                        {r.image ? <img src={r.image} alt={r.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <strong>{r.title}</strong>
+                        <div style={{ fontSize: 13, color: 'var(--muted)' }}>{r.createdBy?.username || r.createdBy || ''}</div>
+                      </div>
+                      <div>
+                        <button className="small-btn" disabled={processing[r._id]} onClick={(e) => { e.stopPropagation(); handleApprove(r._id); }}>
+                          {processing[r._id] ? '...' : t('approve') || 'Approve'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </section>
+          </div>
 
           <section className="approval-panel">
-            <h3 style={{ marginBottom: 12 }}>{t('Approved Recipes') || 'Approved Recipes'}</h3>
+            <h3 style={{ marginBottom: 12 }}>{t('approvedRecipes') || 'Approved Recipes'}</h3>
             {approved.length === 0 ? (
               <p>{t('noApprovedRecipes') || 'No approved recipes yet.'}</p>
             ) : (

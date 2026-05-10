@@ -97,4 +97,9 @@
   "noApprovedRecipes": "Поки немає підтверджених рецептів.",
   "loading": "Завантаження…",
   "imageUpload": "Зображення (завантажити)"
+  ,
+  "approve": "Підтвердити",
+  "rejectedRecipes": "Відхилені рецепти",
+  "noRejectedRecipes": "Немає відхилених рецептів.",
+  "approvedRecipes": "Підтверджені рецепти"
 }

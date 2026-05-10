@@ -111,6 +111,16 @@ const getPendingRecipes = async (req, res) => {
   }
 };
 
+const getRejectedRecipes = async (req, res) => {
+  try {
+    if (!ensureDbConnected(res)) return;
+    const recipes = await Recipe.find({ status: 'rejected' }).populate('createdBy', 'username').sort({ createdAt: -1 });
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const updateRecipeStatus = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
@@ -154,6 +164,7 @@ module.exports ={
   updateRecipe,
   getMyRecipes,
   getPendingRecipes,
+  getRejectedRecipes,
   updateRecipeStatus
   ,debugDb
 };

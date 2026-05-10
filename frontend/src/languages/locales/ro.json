@@ -97,4 +97,9 @@
 "noApprovedRecipes": "Nu există rețete aprobate încă.",
 "loading": "Se încarcă…",
 "imageUpload": "Imagine (încărcare)"
+,
+"approve": "Aprobă",
+"rejectedRecipes": "Rețete Respise",
+"noRejectedRecipes": "Nu există rețete respinse.",
+"approvedRecipes": "Rețete Aprobate"
 }
