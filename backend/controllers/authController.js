@@ -40,7 +40,11 @@ exports.login = async (req, res) => {
       return res.status(500).json({ message: 'JWT_SECRET is not configured on the server' });
     }
 
-    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1d' });
+    const token = jwt.sign(
+      { id: user._id, role: user.role || 'user' }, 
+      jwtSecret, 
+      { expiresIn: '1d' }
+    );
     
     const safeUserDoc = await User.findById(user._id).select('-password');
     const safeUser = safeUserDoc?.toObject ? safeUserDoc.toObject() : safeUserDoc;

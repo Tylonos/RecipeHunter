@@ -26,6 +26,16 @@ const recipeSchema = new mongoose.Schema(
       enum: ['vegetarian', 'vegan', ''],
       default: ''
     },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     image: {
       type: String,
       default: ''

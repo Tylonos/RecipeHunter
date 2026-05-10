@@ -14,12 +14,13 @@ const ensureDbConnected = (res) => {
 const getRecipes = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
-    const recipes = await Recipe.find().sort({ createdAt: -1 });
+    const recipes = await Recipe.find({ status: 'approved' }).sort({ createdAt: -1 });
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getRecipeById = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
@@ -35,6 +36,9 @@ const createRecipe = async (req, res) => {
   try {
     if (!ensureDbConnected(res)) return;
     const { title, description, ingredients, cooking_time, image, diet } = req.body;
+    
+    // approved if created by an admin, otherwise pending
+    const status = req.user.role === 'admin' ? 'approved' : 'pending';
 
     const recipe = new Recipe({
       title,
@@ -42,7 +46,9 @@ const createRecipe = async (req, res) => {
       ingredients: normalizeIngredientsInput(ingredients), 
       cooking_time,
       diet,
-      image
+      image,
+      author: req.user.id, 
+      status
     });
 
     const savedRecipe = await recipe.save();
@@ -76,4 +82,49 @@ const updateRecipe = async (req, res) => {
   }
 };
 
-module.exports = { getRecipes, getRecipeById, createRecipe, updateRecipe };
+const getMyRecipes = async (req, res) => {
+  try {
+    if (!ensureDbConnected(res)) return;
+    const recipes = await Recipe.find({ author: req.user.id }).sort({ createdAt: -1 });
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getPendingRecipes = async (req, res) => {
+  try {
+    if (!ensureDbConnected(res)) return;
+    const recipes = await Recipe.find({ status: 'pending' }).populate('author', 'username').sort({ createdAt: -1 });
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateRecipeStatus = async (req, res) => {
+  try {
+    if (!ensureDbConnected(res)) return;
+    const { status } = req.body; 
+    
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    res.status(200).json(updatedRecipe);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+module.exports ={ 
+  getRecipes, 
+  getRecipeById, 
+  createRecipe, 
+  updateRecipe,
+  getMyRecipes,
+  getPendingRecipes,
+  updateRecipeStatus
+};
+

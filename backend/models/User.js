@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
   allergies: { type: [String], default: [] },
   diets: { type: [String], default: [] },
   appliances: { type: [String], default: [] },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
 
   themeColor: { type: String, default: '#0a7a3f' }, 
 
